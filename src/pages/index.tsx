@@ -1,11 +1,12 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 import { api } from "@/utils/api";
-import { Navbar } from "@/components";
+import { useSession } from "next-auth/react";
+import { AuthNavbar, Navbar } from "@/components";
 
 const Home: NextPage = () => {
-  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { data: sessionData } = useSession();
+
   return (
     <>
       <Head>
@@ -14,7 +15,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col bg-white">
-        <Navbar />
+        {sessionData ? <AuthNavbar sessionData={sessionData} /> : <Navbar />}
         <AuthShowcase />
       </main>
     </>

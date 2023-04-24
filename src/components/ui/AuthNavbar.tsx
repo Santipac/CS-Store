@@ -1,11 +1,17 @@
 import React from "react";
 import NextLink from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { VscAccount } from "react-icons/vsc";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
-export const Navbar = () => {
-  const { data: sessionData } = useSession();
-
+import type { Session } from "next-auth";
+import { api } from "@/utils/api";
+interface Props {
+  sessionData: Session;
+}
+export const AuthNavbar: React.FC<Props> = ({ sessionData }) => {
+  const { data: isAdmin } = api.example.userIsAdmin.useQuery({
+    id: sessionData.user.id,
+  });
+  console.log({ isAdmin });
   return (
     <div className="flex w-full items-center justify-around px-4 py-6">
       <NextLink href="/" className="font-semibold text-gray-900">
@@ -17,17 +23,13 @@ export const Navbar = () => {
       <div className="dropdown-end dropdown">
         <label tabIndex={0}>
           <div className="w-10 cursor-pointer rounded-full">
-            {sessionData?.user ? (
-              <Image
-                className="rounded-full"
-                src={`${sessionData?.user.image || ""}`}
-                width={30}
-                height={30}
-                alt="Profile avatar image"
-              />
-            ) : (
-              <VscAccount size="30px" />
-            )}
+            <Image
+              className="rounded-full"
+              src={`${sessionData?.user.image || ""}`}
+              width={30}
+              height={30}
+              alt="Profile avatar image"
+            />
           </div>
         </label>
         <ul
@@ -43,10 +45,21 @@ export const Navbar = () => {
           <li>
             <a>Account</a>
           </li>
-          <li
-            className="text-center"
-            onClick={sessionData ? () => signOut() : () => signIn()}
-          >
+
+          {isAdmin && (
+            <>
+              <li>
+                <a>Users</a>
+              </li>
+              <li>
+                <a>Orders</a>
+              </li>
+              <li>
+                <a>Products</a>
+              </li>
+            </>
+          )}
+          <li className="text-center" onClick={() => signOut()}>
             <a>{sessionData ? "Sign out" : "Sign in"}</a>
           </li>
         </ul>
