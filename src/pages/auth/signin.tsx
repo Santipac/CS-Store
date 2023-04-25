@@ -23,6 +23,9 @@ const SignIn = () => {
   const signInWithGoogle = useCallback(async () => {
     await signIn("google");
   }, []);
+  const signInWithFacebook = useCallback(async () => {
+    await signIn("facebook");
+  }, []);
 
   return (
     <div
@@ -84,7 +87,7 @@ const SignIn = () => {
         </button>
         <button
           className="btn-block btn border-none bg-blue-500 text-white hover:bg-slate-200 "
-          onClick={signInWithGoogle}
+          onClick={signInWithFacebook}
         >
           <IoLogoFacebook className="mr-2" size="24px" />
           Sign in With Facebook
