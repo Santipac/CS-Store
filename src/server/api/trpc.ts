@@ -107,16 +107,40 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
-const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+// const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
+//   if (!ctx.session || !ctx.session.user) {
+//     throw new TRPCError({ code: "UNAUTHORIZED" });
+//   }
+//   return next({
+//     ctx: {
+//       // infers the `session` as non-nullable
+//       session: { ...ctx.session, user: ctx.session.user },
+//     },
+//   });
+// });
+
+const isAdmin = t.middleware(async ({ ctx, next }) => {
+  const session = ctx.session;
+  if (!session) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Session is missed or invalid",
+    });
   }
-  return next({
-    ctx: {
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
-    },
-  });
+  const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+  if (!user) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "User does not exist",
+    });
+  }
+  if (user.role !== "admin") {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "User is not an administrator",
+    });
+  }
+  return next();
 });
 
 /**
@@ -127,4 +151,4 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+export const protectedProcedure = t.procedure.use(isAdmin);

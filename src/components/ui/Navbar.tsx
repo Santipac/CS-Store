@@ -5,7 +5,7 @@ import { VscAccount } from "react-icons/vsc";
 
 export const Navbar: React.FC = () => {
   return (
-    <div className="flex w-full items-center justify-around px-4 py-6">
+    <div className="flex w-full items-center justify-between py-6">
       <NextLink href="/" className="font-semibold text-gray-900">
         CS Store
       </NextLink>

@@ -6,11 +6,12 @@ import {
 } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
-import FacebookProvider from "next-auth/providers/facebook";
-
+// import FacebookProvider from "next-auth/providers/facebook";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
-
+import Credentials from "next-auth/providers/credentials";
+import { verify } from "argon2";
+import { loginSchema } from "@/common/validation/auth";
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -39,13 +40,20 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, token }) => {
+      if (token) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
+
+      return token;
+    },
   },
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -53,11 +61,47 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
-    FacebookProvider({
-      clientId: env.FACEBOOK_CLIENT_ID,
-      clientSecret: env.FACEBOOK_CLIENT_SECRET,
-    }),
+    Credentials({
+      name: "credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "jsmith@gmail.com",
+        },
+        password: { label: "Password", type: "password" },
+      },
+      authorize: async (credentials, _req) => {
+        const creds = await loginSchema.parseAsync(credentials);
 
+        const user = await prisma.user.findFirst({
+          where: { email: creds.email },
+        });
+        if (!user) {
+          return null;
+        }
+        const account = await prisma.account.findFirst({
+          where: { id: user.id },
+        });
+        if (account) {
+          return null;
+        }
+        const isValidPassword = await verify(
+          user.password as string,
+          creds.password
+        );
+
+        if (!isValidPassword) {
+          return null;
+        }
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        };
+      },
+    }),
     /**
      * ...add more providers here.
      *
@@ -70,7 +114,15 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/auth/signin",
+    newUser: "/auth/signup",
   },
+  jwt: {
+    maxAge: 60 * 60,
+  },
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.JWT_SECRET,
 };
 
 /**

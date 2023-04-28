@@ -1,29 +1,34 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import React, { useCallback } from "react";
 import NextLink from "next/link";
-import { signIn } from "next-auth/react";
-import { useForm } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorMessage } from "@hookform/error-message";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import type { GetServerSideProps } from "next";
 import { getServerAuthSession } from "@/server/auth";
-import { type ILogin, loginSchema } from "@/common/validation/auth";
+import { api } from "@/utils/api";
+import { useRouter } from "next/router";
+import { type ISignUp, signUpSchema } from "@/common/validation/auth";
 
-const SignIn = () => {
+const RegisterPage = () => {
+  const router = useRouter();
+  const { mutateAsync: createUser } = api.users.createUser.useMutation();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILogin>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<ISignUp>({
+    resolver: zodResolver(signUpSchema),
   });
-  const signInWithGoogle = useCallback(async () => {
-    await signIn("google");
-  }, []);
-
-  const onSubmit = useCallback(async (data: ILogin) => {
-    await signIn("credentials", data);
-  }, []);
+  const onSubmit = useCallback(
+    async (data: ISignUp) => {
+      const result = await createUser(data);
+      if (result.status === 201) {
+        router.push("/auth/login");
+      }
+    },
+    [createUser, router]
+  );
   return (
     <div
       className="grid h-screen place-content-center bg-slate-200"
@@ -34,6 +39,32 @@ const SignIn = () => {
           CS Store
         </h2>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">
+                Full Name <span className="text-red-500">*</span>
+              </span>
+            </label>
+            <input
+              type="text"
+              placeholder="Jhon Doe"
+              className="input-bordered input w-full"
+              {...register("name")}
+            />
+            <div className="mt-1">
+              {errors["name"] && (
+                <ErrorMessage
+                  errors={errors}
+                  name="name"
+                  render={({ message }) => (
+                    <span className="text-xs font-semibold text-error">
+                      {message}
+                    </span>
+                  )}
+                />
+              )}
+            </div>
+          </div>
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text">
@@ -89,22 +120,16 @@ const SignIn = () => {
             type="submit"
             className="btn-block btn border-none bg-arg text-white shadow-md hover:bg-[#67adce]"
           >
-            Sign in
+            Sign up
           </button>
         </form>
         <hr />
-        <button
-          className="btn-block btn border-none bg-slate-100 text-gray-500 hover:bg-slate-200 "
-          onClick={signInWithGoogle}
-        >
-          <FcGoogle className="mr-2" size="24px" />
-          Sign in With Google
-        </button>
+
         <NextLink
           className="link text-end font-normal text-gray-400"
-          href="/auth/signup"
+          href="/auth/signin"
         >
-          Don&apos;t have an account ?
+          Have an account ?
         </NextLink>
       </div>
     </div>
@@ -128,4 +153,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default SignIn;
+export default RegisterPage;

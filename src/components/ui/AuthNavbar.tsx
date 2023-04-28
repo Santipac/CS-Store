@@ -4,16 +4,17 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 import type { Session } from "next-auth";
 import { api } from "@/utils/api";
+import { VscAccount } from "react-icons/vsc";
 interface Props {
   sessionData: Session;
 }
 export const AuthNavbar: React.FC<Props> = ({ sessionData }) => {
-  const { data: isAdmin } = api.example.userIsAdmin.useQuery({
+  const { data: isAdmin } = api.admin.userIsAdmin.useQuery({
     id: sessionData.user.id,
   });
-  console.log({ isAdmin });
+
   return (
-    <div className="flex w-full items-center justify-around px-4 py-6">
+    <div className="flex w-full items-center justify-between px-4 py-6">
       <NextLink href="/" className="font-semibold text-gray-900">
         CS Store
       </NextLink>
@@ -23,13 +24,17 @@ export const AuthNavbar: React.FC<Props> = ({ sessionData }) => {
       <div className="dropdown-end dropdown">
         <label tabIndex={0}>
           <div className="w-10 cursor-pointer rounded-full">
-            <Image
-              className="rounded-full"
-              src={`${sessionData?.user.image || ""}`}
-              width={30}
-              height={30}
-              alt="Profile avatar image"
-            />
+            {sessionData?.user.image ? (
+              <Image
+                className="rounded-full"
+                src={`${sessionData.user.image}`}
+                width={30}
+                height={30}
+                alt="Profile avatar image"
+              />
+            ) : (
+              <VscAccount size="30px" />
+            )}
           </div>
         </label>
         <ul
@@ -55,7 +60,7 @@ export const AuthNavbar: React.FC<Props> = ({ sessionData }) => {
                 <a>Orders</a>
               </li>
               <li>
-                <a>Products</a>
+                <NextLink href="/admin/products">Products</NextLink>
               </li>
             </>
           )}

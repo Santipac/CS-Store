@@ -49,8 +49,9 @@ model Session {
 
 model User {
     id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
+    name          String
+    email         String    @unique
+    password      String?
     emailVerified DateTime?
     role          String    @default("client") // "client" or "admin"
     image         String?
@@ -73,11 +74,11 @@ model VerificationToken {
 model Product {
     id          String      @id @default(cuid())
     name        String
-    wear        String
+    wear        String?
     type        String
-    description String
-    float       Float
-    statTrak    Boolean     @default(false)
+    description String?
+    float       Float?
+    statTrak    Boolean?    @default(false)
     images      String[]
     price       Float
     inStock     Float
