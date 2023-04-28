@@ -47,13 +47,18 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum UserRole {
+    ADMIN
+    CLIENT
+}
+
 model User {
     id            String    @id @default(cuid())
     name          String
     email         String    @unique
     password      String?
     emailVerified DateTime?
-    role          String    @default("client") // "client" or "admin"
+    role          UserRole  @default(CLIENT)
     image         String?
     accounts      Account[]
     sessions      Session[]
@@ -79,7 +84,7 @@ model Product {
     description String?
     float       Float?
     statTrak    Boolean?    @default(false)
-    images      String[]
+    image       String
     price       Float
     inStock     Float
     tradelock   String

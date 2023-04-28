@@ -1,15 +1,26 @@
 import React from "react";
-import type { Option } from "@/interfaces/form";
-import type { FieldValues, UseFormRegister } from "react-hook-form";
+import type { Option, ProductForm } from "@/interfaces/form";
+import type { UseFormRegister } from "react-hook-form";
 
 interface Props {
   required: boolean;
-  name: string;
+  name:
+    | "name"
+    | "type"
+    | "tradelock"
+    | "description"
+    | "price"
+    | "inStock"
+    | "float"
+    | "statTrak"
+    | "wear";
+  label: string;
   listOptions: Option[];
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<ProductForm>;
 }
 
 export const Select: React.FC<Props> = ({
+  label,
   name,
   listOptions,
   required,
@@ -18,7 +29,7 @@ export const Select: React.FC<Props> = ({
   return (
     <div className="form-control w-full">
       <label className="label">
-        <span className="label-text text-gray-600">{name}</span>
+        <span className="label-text text-gray-600">{label}</span>
         {required && (
           <span className="label-text text-red-500">Required *</span>
         )}

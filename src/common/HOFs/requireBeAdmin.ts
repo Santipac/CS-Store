@@ -1,5 +1,6 @@
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
+import { UserRole } from "@prisma/client";
 import type { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 export const requireBeAdmin =
@@ -25,7 +26,7 @@ export const requireBeAdmin =
         },
       };
     }
-    if (user.role !== "admin") {
+    if (user.role !== UserRole.ADMIN) {
       return {
         redirect: {
           destination: "/",

@@ -1,23 +1,23 @@
 import type { Option } from "@/interfaces/form";
 
 export const statTrak: Option[] = [
-  { value: "yes", description: "Yes" },
-  { value: "no", description: "No" },
+  { value: "YES", description: "Yes" },
+  { value: "NO", description: "No" },
 ];
 export const wear: Option[] = [
-  { value: "fn", description: "Factory New" },
-  { value: "mw", description: "Minimal Wear" },
-  { value: "ft", description: "Field-Tested" },
-  { value: "ww", description: "Well-Worn" },
-  { value: "bs", description: "Battle-Scarred" },
+  { value: "Factory New", description: "Factory New" },
+  { value: "Minimal Wear", description: "Minimal Wear" },
+  { value: "Field-Tested", description: "Field-Tested" },
+  { value: "Well-Worn", description: "Well-Worn" },
+  { value: "Battle-Scarred", description: "Battle-Scarred" },
 ];
 export const type: Option[] = [
-  { value: "knife", description: "Knife" },
-  { value: "gloves", description: "Gloves" },
-  { value: "fusil", description: "Fusil" },
-  { value: "pistol", description: "Pistol" },
-  { value: "sticker", description: "Sticker" },
-  { value: "agent", description: "Agent" },
-  { value: "pin", description: "Pin" },
-  { value: "kit", description: "Kit Music" },
+  { value: "KNIFE", description: "Knife" },
+  { value: "GLOVES", description: "Gloves" },
+  { value: "FUSIL", description: "Fusil" },
+  { value: "PISTOL", description: "Pistol" },
+  { value: "STICKER", description: "Sticker" },
+  { value: "AGENT", description: "Agent" },
+  { value: "PIN", description: "Pin" },
+  { value: "KIT", description: "Kit Music" },
 ];

@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import slideimage1 from "../../../public/slider1.jpg";
 import slideimage2 from "../../../public/slider2.jpg";
+// TODO: Create an Skeleton for this component or Suspense Fallback for Home page
 export const Carousel = () => {
   return (
     <div className="carousel h-96 w-full">

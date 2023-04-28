@@ -68,6 +68,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import { UserRole } from "@prisma/client";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -134,7 +135,7 @@ const isAdmin = t.middleware(async ({ ctx, next }) => {
       message: "User does not exist",
     });
   }
-  if (user.role !== "admin") {
+  if (user.role !== UserRole.ADMIN) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
       message: "User is not an administrator",

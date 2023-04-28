@@ -1,24 +1,35 @@
+import type { ProductForm } from "@/interfaces/form";
 import React from "react";
-import type { FieldValues, UseFormRegister } from "react-hook-form";
+import type { UseFormRegister } from "react-hook-form";
 
 interface Props {
-  name: string;
+  label: string;
+  name:
+    | "name"
+    | "type"
+    | "tradelock"
+    | "description"
+    | "price"
+    | "inStock"
+    | "float"
+    | "statTrak"
+    | "wear";
   type: string;
   required: boolean;
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<ProductForm>;
 }
 
 export const InputText: React.FC<Props> = ({
+  label,
   name,
   type,
   required,
   register,
 }) => {
-  const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1);
   return (
     <div className="form-control w-full">
       <label className="label">
-        <span className="label-text text-gray-600">{nameCapitalized}</span>
+        <span className="label-text text-gray-600">{label}</span>
         {required && (
           <span className="label-text text-red-500">Required *</span>
         )}
