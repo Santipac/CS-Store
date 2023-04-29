@@ -8,7 +8,7 @@ await import("./src/env.mjs");
 const config = {
   reactStrictMode: true,
   images: {
-    domains: ["lh3.googleusercontent.com", "platform-lookaside.fbsbx.com"]
+    domains: ["lh3.googleusercontent.com", "platform-lookaside.fbsbx.com", "cs-store-arg.s3.us-west-1.amazonaws.com", "tailwindui.com"]
   },
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
