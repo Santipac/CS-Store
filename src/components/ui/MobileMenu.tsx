@@ -55,98 +55,109 @@ export const MobileMenu: React.FC<Props> = ({
                 </button>
               </div>
               {isAdmin && (
-                <div className="mt-4 space-y-6 border-t border-gray-200 px-4 py-6">
-                  <div className="flow-root">
-                    <NextLink
-                      href="/auth/signin"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Dashboard
-                    </NextLink>
-                  </div>
-                  <div className="flow-root">
-                    <NextLink
-                      href="/auth/signin"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Orders
-                    </NextLink>
-                  </div>
-                  <div className="flow-root">
-                    <NextLink
-                      href="/auth/signup"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Products
-                    </NextLink>
-                  </div>
-                  <div className="flow-root">
-                    <NextLink
-                      href="/auth/signup"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Users
-                    </NextLink>
-                  </div>
-                </div>
-              )}
-              <div className="mt-4 space-y-6 border-t border-gray-200 px-4 py-6">
-                <div className="flow-root">
-                  <NextLink
-                    href="/auth/signin"
-                    className="-m-2 block p-2 font-medium text-gray-900"
-                  >
-                    Products
-                  </NextLink>
-                </div>
-                <div className="flow-root">
-                  <NextLink
-                    href="/auth/signin"
-                    className="-m-2 block p-2 font-medium text-gray-900"
-                  >
-                    Cart
-                  </NextLink>
-                </div>
-                <div className="flow-root">
-                  <NextLink
-                    href="/auth/signup"
-                    className="-m-2 block p-2 font-medium text-gray-900"
-                  >
-                    Sell Skins
-                  </NextLink>
-                </div>
-              </div>
-              {sessionData && (
-                <div className="mt-4 space-y-6 border-t border-gray-200 px-4 py-6">
-                  <div className="flow-root">
-                    <NextLink
-                      href="/"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      My Orders
-                    </NextLink>
-                  </div>
-                  <div className="flow-root">
-                    <NextLink
-                      href="/"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Account Settings
-                    </NextLink>
+                <div className="mt-4">
+                  <h2 className="pl-4 text-sm font-semibold text-gray-500">
+                    Admin Actions
+                  </h2>
+                  <div className=" space-y-6 border-t border-gray-200 px-4 py-6">
+                    <div className="flow-root">
+                      <NextLink
+                        href="/admin/"
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                      >
+                        Dashboard
+                      </NextLink>
+                    </div>
+                    <div className="flow-root">
+                      <NextLink
+                        href="/admin/orders"
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                      >
+                        Orders
+                      </NextLink>
+                    </div>
+                    <div className="flow-root">
+                      <NextLink
+                        href="/admin/products"
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                      >
+                        Products
+                      </NextLink>
+                    </div>
+                    <div className="flow-root">
+                      <NextLink
+                        href="/admin/users"
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                      >
+                        Users
+                      </NextLink>
+                    </div>
                   </div>
                 </div>
               )}
-              <div className="flex-1 space-y-6 border-t border-gray-200 px-4 py-6">
-                {navigation.pages.map((page) => (
-                  <div key={page.name} className="flow-root">
-                    <a
-                      href={page.href}
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      {page.name}
-                    </a>
+
+              {!isAdmin && (
+                <div className="mt-4">
+                  <h2 className="pl-4 text-sm font-semibold text-gray-500">
+                    Actions
+                  </h2>
+                  <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                    <div className="flow-root">
+                      <NextLink
+                        href="/products"
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                      >
+                        Products
+                      </NextLink>
+                    </div>
+                    <div className="flow-root">
+                      <NextLink
+                        href="/cart"
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                      >
+                        Cart
+                      </NextLink>
+                    </div>
+                    {sessionData && (
+                      <>
+                        <div className="flow-root">
+                          <NextLink
+                            href="/orders"
+                            className="-m-2 block p-2 font-medium text-gray-900"
+                          >
+                            My Orders
+                          </NextLink>
+                        </div>
+                        <div className="flow-root">
+                          <NextLink
+                            href="/account"
+                            className="-m-2 block p-2 font-medium text-gray-900"
+                          >
+                            Account
+                          </NextLink>
+                        </div>
+                      </>
+                    )}
                   </div>
-                ))}
+                </div>
+              )}
+
+              <div className="flex-1">
+                <h2 className="pl-4 text-sm font-semibold text-gray-500">
+                  Pages
+                </h2>
+                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                  {navigation.pages.map((page) => (
+                    <div key={page.name} className="flow-root">
+                      <a
+                        href={page.href}
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                      >
+                        {page.name}
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </div>
               {sessionData ? (
                 <div className="mt-4 space-y-6 border-y border-gray-200 px-4 py-6">

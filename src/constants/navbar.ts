@@ -3,8 +3,8 @@ import navbar2 from "../../public/navbar2.jpg";
 export const navigation = {
   categories: [
     {
-      id: "skins",
-      name: "Skins",
+      id: "products",
+      name: "Products",
       featured: [
         {
           name: "New Arrivals",
@@ -48,7 +48,8 @@ export const navigation = {
     },
   ],
   pages: [
-    { name: "About us", href: "#" },
+    { name: "About", href: "#" },
     { name: "FAQ", href: "#" },
+    { name: "Sell Skins", href: "#" },
   ],
 };

@@ -13,7 +13,7 @@ import { classNames } from "./helpers";
 import { MobileMenu } from "./MobileMenu";
 import { api } from "@/utils/api";
 
-export const StoreNav: React.FC = () => {
+export const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { data: sessionData } = useSession();
   const { data: isAdmin } = api.admin.userIsAdmin.useQuery({
@@ -220,15 +220,16 @@ export const StoreNav: React.FC = () => {
                         tabIndex={0}
                         className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-slate-50 p-2 text-gray-600 shadow-md"
                       >
-                        <li>
-                          <span>My Orders</span>
-                        </li>
-                        <li>
-                          <span>Sell Skins</span>
-                        </li>
-                        <li>
-                          <span>Account</span>
-                        </li>
+                        {!isAdmin && (
+                          <>
+                            <li>
+                              <span>My Orders</span>
+                            </li>
+                            <li>
+                              <span>Account</span>
+                            </li>
+                          </>
+                        )}
                         {isAdmin && (
                           <>
                             <li>

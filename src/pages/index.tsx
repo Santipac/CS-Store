@@ -2,7 +2,7 @@ import Head from "next/head";
 import { type NextPage } from "next";
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/Spinner";
-import { Hero, StoreNav } from "@/components";
+import { Hero, Navbar } from "@/components";
 const Home: NextPage = () => {
   return (
     <Suspense
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen justify-center bg-white">
-        <StoreNav />
+        <Navbar />
         <div className="flex h-full w-full justify-center">
           <div className="flex w-11/12 flex-col md:w-3/4">
             <Hero />
