@@ -10,7 +10,7 @@ import { FormProduct } from "@/components/admin/products/FormProduct";
 const CreateProductPage: NextPage = () => {
   return (
     <main className="flex min-h-screen justify-center bg-slate-100">
-      <div className="flex  w-11/12 flex-col space-y-8 py-6 md:w-3/4">
+      <div className="flex  w-11/12 flex-col space-y-8 py-6 lg:w-3/4">
         <NextLink
           href="/admin/products"
           className="link font-semibold text-gray-600"

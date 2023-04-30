@@ -12,5 +12,25 @@ export const productSchema = z.object({
   wear: z.string().optional(),
   statTrak: z.string().optional(),
 });
+export const productFormValidation = z.object({
+  name: z.string().nonempty("This field is required"),
+  tradelock: z.string().nonempty("This field is required"),
+  description: z.string().optional(),
+  float: z.string().optional(),
+  price: z.string().nonempty("This field is required"),
+  inStock: z.string().nonempty("This field is required"),
+  type: z.union([
+    z.literal("KNIFE"),
+    z.literal("GLOVES"),
+    z.literal("FUSIL"),
+    z.literal("PISTOL"),
+    z.literal("STICKER"),
+    z.literal("AGENT"),
+    z.literal("PIN"),
+    z.literal("KIT"),
+  ]),
+  wear: z.string().optional(),
+  statTrak: z.string().optional(),
+});
 
 export type IProduct = z.infer<typeof productSchema>;

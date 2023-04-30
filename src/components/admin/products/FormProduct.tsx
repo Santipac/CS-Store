@@ -6,6 +6,9 @@ import { useForm } from "react-hook-form";
 import { useFileSelected } from "./helpers";
 import { api } from "@/utils/api";
 import Image from "next/image";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { productFormValidation } from "@/common/validation/product";
+import { ErrorMessage } from "@hookform/error-message";
 interface Input {
   file: undefined | File;
 }
@@ -15,14 +18,18 @@ const initialInput = {
 export const FormProduct = () => {
   const [preview, setPreview] = useState<string>("");
   const [input, setInput] = useState<Input>(initialInput);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string>("The image is required");
   const { handleFileSelect, handleImageUpload } = useFileSelected({
     input,
     setInput,
     setError,
   });
-  const { register, handleSubmit } = useForm<ProductForm>();
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<ProductForm>({ resolver: zodResolver(productFormValidation) });
+  console.log({ errors });
   const { mutateAsync: createProduct } =
     api.product.createProduct.useMutation();
 
@@ -32,16 +39,19 @@ export const FormProduct = () => {
   };
 
   useEffect(() => {
-    if (!input.file) return;
+    if (!input.file) return setError("The image is required");
     const objectUrl = URL.createObjectURL(input.file);
     setPreview(objectUrl);
-
+    setError("");
     return () => URL.revokeObjectURL(objectUrl);
   }, [input.file]);
 
   const onSubmit = async (data: ProductForm) => {
     const key = await handleImageUpload();
-    if (!key) throw new Error("The key does not exist");
+    if (!key) {
+      setError("Image upload failed. Please try again");
+      return;
+    }
 
     await createProduct({
       ...data,
@@ -56,21 +66,27 @@ export const FormProduct = () => {
   };
 
   return (
-    <form className="flex gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex w-1/2 flex-col space-y-4">
+    <form
+      className="flex flex-col gap-4 md:flex-row"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div className="flex w-full  flex-col space-y-4 md:w-1/2">
         <InputText
           name="name"
           label="Name"
           register={register}
           type="text"
           required
+          errors={errors}
         />
+
         <InputText
           name="tradelock"
           label="Tradelock"
           register={register}
           type="text"
           required
+          errors={errors}
         />
 
         <div className="flex w-full  space-x-2">
@@ -79,12 +95,14 @@ export const FormProduct = () => {
             label="Price"
             register={register}
             required
+            errors={errors}
           />
           <InputNumber
             name="inStock"
             label="In Stock"
             register={register}
             required
+            errors={errors}
           />
         </div>
         <Select
@@ -93,14 +111,34 @@ export const FormProduct = () => {
           listOptions={type}
           register={register}
           required
+          errors={errors}
         />
-        <InputText
-          name="float"
-          label="Float"
-          type="text"
-          register={register}
-          required={false}
-        />
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text text-gray-600">Float</span>
+          </label>
+          <input
+            type="number"
+            min={0}
+            step="0.0000000001"
+            placeholder="1"
+            className="input-bordered input w-full  bg-slate-50 text-black"
+            {...register("float")}
+          />
+          <div className="mt-1">
+            {errors["float"] && (
+              <ErrorMessage
+                errors={errors}
+                name="float"
+                render={({ message }) => (
+                  <span className="text-xs font-semibold text-red-500">
+                    {message}
+                  </span>
+                )}
+              />
+            )}
+          </div>
+        </div>
 
         <div className="flex w-full space-x-2">
           <Select
@@ -109,6 +147,7 @@ export const FormProduct = () => {
             listOptions={wear}
             register={register}
             required={false}
+            errors={errors}
           />
 
           <Select
@@ -117,6 +156,7 @@ export const FormProduct = () => {
             listOptions={statTrak}
             register={register}
             required={false}
+            errors={errors}
           />
         </div>
         <div className="form-control">
@@ -130,7 +170,7 @@ export const FormProduct = () => {
           ></textarea>
         </div>
       </div>
-      <div className="flex w-1/2 flex-col">
+      <div className="flex w-full  flex-col md:w-1/2">
         {preview ? (
           <div className="flex flex-col">
             <Image src={preview} width={250} height={150} alt="Product Image" />
@@ -142,15 +182,21 @@ export const FormProduct = () => {
             </button>
           </div>
         ) : (
-          <input
-            type="file"
-            className="file-input w-full cursor-pointer"
-            onChange={handleFileSelect}
-            accept="image/jpeg image/png image/jpg"
-          />
+          <>
+            <input
+              type="file"
+              className="file-input w-full cursor-pointer bg-slate-50"
+              onChange={handleFileSelect}
+              accept="image/jpeg image/png image/jpg"
+            />
+          </>
         )}
-
-        <button type="submit" className="btn-block btn mt-4">
+        <p className="mt-2 text-red-500">{error}</p>
+        <button
+          type="submit"
+          className="btn-block btn mt-4 border-none  text-white"
+          disabled={!isValid || error.length > 0}
+        >
           Submit
         </button>
       </div>

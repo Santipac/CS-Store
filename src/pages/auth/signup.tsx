@@ -9,10 +9,13 @@ import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
 import { useRouter } from "next/router";
 import { type ISignUp, signUpSchema } from "@/common/validation/auth";
+import toast, { Toaster } from "react-hot-toast";
+import { Spinner } from "@/components";
 
 const RegisterPage = () => {
   const router = useRouter();
-  const { mutateAsync: createUser } = api.users.createUser.useMutation();
+  const { mutateAsync: createUser, isLoading } =
+    api.users.createUser.useMutation();
   const {
     register,
     handleSubmit,
@@ -23,9 +26,12 @@ const RegisterPage = () => {
   const onSubmit = useCallback(
     async (data: ISignUp) => {
       const result = await createUser(data);
-      if (result.status === 201) {
-        router.push("/auth/login");
+      if (result.status === 409) {
+        toast.error(result.message);
       }
+      toast.success(result.message);
+      const timeoutId = setTimeout(() => router.push("/auth/signin"), 1000);
+      return () => clearTimeout(timeoutId);
     },
     [createUser, router]
   );
@@ -34,6 +40,7 @@ const RegisterPage = () => {
       className="grid h-screen place-content-center bg-slate-200"
       data-theme="light"
     >
+      <Toaster />
       <div className="flex min-h-min w-96 flex-col space-y-8 rounded-lg bg-white px-4 py-6 shadow-lg">
         <h2 className="text-center text-xl font-semibold text-zinc-800">
           CS Store
@@ -120,7 +127,16 @@ const RegisterPage = () => {
             type="submit"
             className="btn-block btn border-none bg-arg text-white shadow-md hover:bg-[#67adce]"
           >
-            Sign up
+            {isLoading ? (
+              <Spinner
+                width="w-8"
+                height="h-8"
+                colorText="text-arg"
+                fill="fill-gray-200"
+              />
+            ) : (
+              "Sign Up"
+            )}
           </button>
         </form>
         <hr />

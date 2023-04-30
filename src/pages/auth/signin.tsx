@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import NextLink from "next/link";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -8,8 +8,10 @@ import { ErrorMessage } from "@hookform/error-message";
 import type { GetServerSideProps } from "next";
 import { getServerAuthSession } from "@/server/auth";
 import { type ILogin, loginSchema } from "@/common/validation/auth";
+import { Spinner } from "@/components";
 
 const SignIn = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -22,7 +24,9 @@ const SignIn = () => {
   }, []);
 
   const onSubmit = useCallback(async (data: ILogin) => {
+    setIsLoading(true);
     await signIn("credentials", data);
+    setIsLoading(false);
   }, []);
   return (
     <div
@@ -89,7 +93,16 @@ const SignIn = () => {
             type="submit"
             className="btn-block btn border-none bg-arg text-white shadow-md hover:bg-[#67adce]"
           >
-            Sign in
+            {isLoading ? (
+              <Spinner
+                width="w-8"
+                height="h-8"
+                colorText="text-arg"
+                fill="fill-gray-200"
+              />
+            ) : (
+              "Sign Up"
+            )}
           </button>
         </form>
         <hr />

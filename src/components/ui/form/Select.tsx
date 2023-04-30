@@ -1,6 +1,7 @@
 import React from "react";
 import type { Option, ProductForm } from "@/interfaces/form";
-import type { UseFormRegister } from "react-hook-form";
+import type { UseFormRegister, FieldErrors } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
 interface Props {
   required: boolean;
@@ -17,6 +18,7 @@ interface Props {
   label: string;
   listOptions: Option[];
   register: UseFormRegister<ProductForm>;
+  errors: FieldErrors<ProductForm>;
 }
 
 export const Select: React.FC<Props> = ({
@@ -25,6 +27,7 @@ export const Select: React.FC<Props> = ({
   listOptions,
   required,
   register,
+  errors,
 }) => {
   return (
     <div className="form-control w-full">
@@ -47,6 +50,19 @@ export const Select: React.FC<Props> = ({
           </option>
         ))}
       </select>
+      <div className="mt-1">
+        {errors[name] && (
+          <ErrorMessage
+            errors={errors}
+            name={name}
+            render={({ message }) => (
+              <span className="text-xs font-semibold text-red-500">
+                {message}
+              </span>
+            )}
+          />
+        )}
+      </div>
     </div>
   );
 };

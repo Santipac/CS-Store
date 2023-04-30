@@ -1,6 +1,7 @@
 import type { ProductForm } from "@/interfaces/form";
+import { ErrorMessage } from "@hookform/error-message";
 import React from "react";
-import type { UseFormRegister } from "react-hook-form";
+import type { UseFormRegister, FieldErrors } from "react-hook-form";
 
 interface Props {
   name:
@@ -17,6 +18,7 @@ interface Props {
   minValue?: number;
   required: boolean;
   register: UseFormRegister<ProductForm>;
+  errors: FieldErrors<ProductForm>;
 }
 export const InputNumber: React.FC<Props> = ({
   label,
@@ -24,6 +26,7 @@ export const InputNumber: React.FC<Props> = ({
   minValue,
   required,
   register,
+  errors,
 }) => {
   return (
     <div className="form-control w-full">
@@ -40,6 +43,19 @@ export const InputNumber: React.FC<Props> = ({
         className="input-bordered input w-full  bg-slate-50 text-black"
         {...register(name)}
       />
+      <div className="mt-1">
+        {errors[name] && (
+          <ErrorMessage
+            errors={errors}
+            name={name}
+            render={({ message }) => (
+              <span className="text-xs font-semibold text-red-500">
+                {message}
+              </span>
+            )}
+          />
+        )}
+      </div>
     </div>
   );
 };
