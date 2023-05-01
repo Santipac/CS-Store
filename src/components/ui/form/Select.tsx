@@ -41,9 +41,6 @@ export const Select: React.FC<Props> = ({
         className="select-bordered select bg-slate-50 text-black"
         {...register(name)}
       >
-        <option disabled selected>
-          Pick one
-        </option>
         {listOptions.map((option, i) => (
           <option key={i} value={option.value} className="text-black">
             {option.description}

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { z } from "zod";
-import { createTRPCRouter } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 import { s3 } from "@/lib/s3";
 import { MAX_FILE_SIZE } from "@/constants/config";
 import { protectedProcedure } from "../trpc";
@@ -36,6 +36,19 @@ export const productRouter = createTRPCRouter({
       })) as any as { url: string; fields: any };
       return { url, fields, key };
     }),
+  getProducts: publicProcedure.query(async ({ ctx }) => {
+    let products = await ctx.prisma.product.findMany();
+    products = await Promise.all(
+      products.map(async (product) => ({
+        ...product,
+        image: await s3.getSignedUrlPromise("getObject", {
+          Bucket: "cs-store-arg",
+          Key: product.image,
+        }),
+      }))
+    );
+    return products;
+  }),
   createProduct: protectedProcedure
     .input(productSchema)
     .mutation(async ({ ctx, input }) => {
@@ -77,21 +90,18 @@ export const productRouter = createTRPCRouter({
       return product;
     }),
   deleteProduct: protectedProcedure
-    .input(z.object({ image: z.string(), id: z.string() }))
+    .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
       // Delete image from s3
-      const { image, id } = input;
-      await s3.deleteObject({ Bucket: "cs-store-arg", Key: image }).promise();
+      const { id } = input;
+      const product = await ctx.prisma.product.findUnique({ where: { id } });
+      await s3
+        .deleteObject({ Bucket: "cs-store-arg", Key: product!.image })
+        .promise();
 
       // Delete image from db
       await ctx.prisma.product.delete({ where: { id } });
 
-      return true;
-    }),
-  deleteImage: protectedProcedure
-    .input(z.string())
-    .mutation(async ({ input }) => {
-      await s3.deleteObject({ Bucket: "cs-store-arg", Key: input }).promise();
       return true;
     }),
 });
