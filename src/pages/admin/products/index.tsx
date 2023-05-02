@@ -2,7 +2,7 @@ import React from "react";
 import NextLink from "next/link";
 import type { NextPage } from "next";
 import { requireBeAdmin } from "@/common/HOFs/requireBeAdmin";
-import { AdminLayout } from "@/components/ui/layouts";
+import { AdminLayout } from "@/components/layouts";
 import { useSession } from "next-auth/react";
 import { api } from "@/utils/api";
 import { useRouter } from "next/router";
@@ -43,7 +43,7 @@ const ProductsAdminPage: NextPage = () => {
         >
           Create product
         </NextLink>
-        <div className=" overflow-scroll rounded-lg border border-gray-200 p-1">
+        <div className=" overflow-scroll rounded-lg border border-gray-200 p-1 md:overflow-auto">
           {products === undefined || products.length === 0 ? (
             <div className="flex h-96 w-full flex-col items-center justify-center">
               <NoSymbolIcon className="h-24 w-24 text-red-400" />
@@ -52,7 +52,7 @@ const ProductsAdminPage: NextPage = () => {
               </span>
             </div>
           ) : (
-            <table className="table-compact w-full  bg-white">
+            <table className="  table-compact w-full ">
               <thead className="border-b-2 border-gray-300">
                 <tr>
                   <th>Image</th>
@@ -68,7 +68,10 @@ const ProductsAdminPage: NextPage = () => {
               </thead>
               <tbody>
                 {products?.map((product, i) => (
-                  <tr key={i}>
+                  <tr
+                    key={i}
+                    className="text-gray-500 odd:bg-white even:bg-slate-100"
+                  >
                     <td>
                       <Image
                         src={product.image}

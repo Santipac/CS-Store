@@ -10,7 +10,7 @@ export const Hero = () => {
     { enabled: sessionData?.user !== undefined }
   );
   return (
-    <section className="w-full items-center bg-white pb-8 lg:h-screen">
+    <section className="w-full items-center bg-white pb-8 lg:min-h-min">
       <div className="container mx-auto flex max-w-7xl flex-col items-start overflow-hidden bg-gray-100 px-8 pb-20 pt-24 md:flex-row lg:items-center lg:px-16">
         <div className="mb-8 flex flex-col text-center md:text-left lg:w-1/2 lg:flex-grow">
           <div className="max-w-xl text-center lg:text-left">

@@ -5,7 +5,7 @@ import {
   UserCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { classNames } from "../helpers";
+import { classNames } from "../ui/helpers";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import NextLink from "next/link";
