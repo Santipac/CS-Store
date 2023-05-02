@@ -65,7 +65,7 @@ export const FormProduct = () => {
         tradelock: data.tradelock,
         type: data.type,
       });
-      toast.success("Producto created successfully", { duration: 2000 });
+      toast.success("Product created successfully", { duration: 2000 });
       setPreview("");
       setInput(initialInput);
       reset();

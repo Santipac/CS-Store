@@ -49,6 +49,20 @@ export const productRouter = createTRPCRouter({
     );
     return products;
   }),
+  getProductById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const productDB = await ctx.prisma.product.findFirst({
+        where: { id: input.id },
+      });
+      if (!productDB) return null;
+      const imageUrl = await s3.getSignedUrlPromise("getObject", {
+        Bucket: "cs-store-arg",
+        Key: productDB.image,
+      });
+      const product = { ...productDB, image: imageUrl };
+      return product;
+    }),
   createProduct: protectedProcedure
     .input(productSchema)
     .mutation(async ({ ctx, input }) => {

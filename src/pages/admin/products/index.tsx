@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { Toaster, toast } from "react-hot-toast";
 import { NoSymbolIcon } from "@heroicons/react/24/outline";
-import { Spinner } from "@/components";
 const ProductsAdminPage: NextPage = () => {
   const router = useRouter();
   const { data: sessionData } = useSession({ required: true });
@@ -20,11 +19,12 @@ const ProductsAdminPage: NextPage = () => {
     router.replace("/");
   }
   const { data: products, refetch } = api.product.getProducts.useQuery();
-  const { mutateAsync: deleteProduct, isLoading } =
+  const { mutateAsync: deleteProduct } =
     api.product.deleteProduct.useMutation();
 
   const onDeleteProduct = async (id: string) => {
     try {
+      toast.loading("Deleting Product...", { duration: 2000 });
       await deleteProduct({ id });
       refetch();
       toast.success("Product deleted successfully");
@@ -108,21 +108,12 @@ const ProductsAdminPage: NextPage = () => {
                       </NextLink>
                     </td>
                     <td>
-                      {isLoading ? (
-                        <Spinner
-                          width="w-8"
-                          height="h-8"
-                          fill="fill-red-500"
-                          colorText="text-gray-200"
-                        />
-                      ) : (
-                        <span
-                          className="cursor-pointer text-red-500"
-                          onClick={() => onDeleteProduct(product.id)}
-                        >
-                          Delete
-                        </span>
-                      )}
+                      <span
+                        className="cursor-pointer text-red-500"
+                        onClick={() => onDeleteProduct(product.id)}
+                      >
+                        Delete
+                      </span>
                     </td>
                   </tr>
                 ))}
