@@ -12,9 +12,12 @@ import { signOut, useSession } from "next-auth/react";
 import { classNames } from "./helpers";
 import { MobileMenu } from "./MobileMenu";
 import { api } from "@/utils/api";
+import { CartPopover } from "./CartPopover";
+import { useCartStore } from "@/store/cartStore";
 
 export const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const { items } = useCartStore();
   const { data: sessionData } = useSession();
   const { data: isAdmin } = api.admin.userIsAdmin.useQuery({
     id: sessionData ? sessionData.user.id : null,
@@ -186,16 +189,20 @@ export const Navbar: React.FC = () => {
 
                 {/* Cart */}
                 <div className="mx-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 flex items-center p-2">
+                  <NextLink
+                    href="/cart"
+                    className="group -m-2 flex items-center p-2  min-[500px]:hidden"
+                  >
                     <ShoppingBagIcon
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      0
+                      {items.length}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
-                  </a>
+                  </NextLink>
+                  <CartPopover />
                 </div>
                 {sessionData ? (
                   <>
@@ -218,7 +225,7 @@ export const Navbar: React.FC = () => {
                       </label>
                       <ul
                         tabIndex={0}
-                        className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-slate-50 p-2 text-gray-600 shadow-md"
+                        className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-white p-2 text-gray-600 shadow-md"
                       >
                         {!isAdmin && (
                           <>

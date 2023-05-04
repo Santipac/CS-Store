@@ -3,15 +3,37 @@ import Image from "next/image";
 import NextLink from "next/link";
 
 export default function ProductList() {
-  const { data: products, fetchStatus } = api.product.getProducts.useQuery();
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = api.product.getProducts.useQuery();
 
-  if (products === undefined || products.length === 0) {
+  if (isError) {
+    return (
+      <div className="bg-white">
+        <div className="my-12 text-center ">
+          <h2 className="text-2xl font-medium text-gray-700">
+            Something went wrong...
+          </h2>
+        </div>
+      </div>
+    );
+  }
+
+  if (isLoading) {
     return (
       <div className="bg-white">
         <div className="my-12">
-          <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900">
-            We could not find any products available.
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+            Customers also purchased
           </h2>
+          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            <CardProductSkeleton />
+            <CardProductSkeleton />
+            <CardProductSkeleton />
+            <CardProductSkeleton />
+          </div>
         </div>
       </div>
     );
@@ -25,17 +47,20 @@ export default function ProductList() {
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {fetchStatus === "fetching" ? (
+          {products.length === 0 ? (
             <>
-              <CardProductSkeleton />
-              <CardProductSkeleton />
-              <CardProductSkeleton />
-              <CardProductSkeleton />
+              <div className="bg-white">
+                <div className="my-12">
+                  <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+                    We could not find any product available.
+                  </h2>
+                </div>
+              </div>
             </>
           ) : (
             <>
               {products.map((product) => (
-                <NextLink href={`/products/${product.id}`} key={product.id}>
+                <NextLink href={`/products/${product.slug}`} key={product.slug}>
                   <div className="flex flex-col items-center  pb-2 ">
                     <div className="relative flex w-full items-center justify-center bg-slate-50">
                       <Image

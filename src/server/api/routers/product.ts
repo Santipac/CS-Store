@@ -8,6 +8,7 @@ import { MAX_FILE_SIZE } from "@/constants/config";
 import { protectedProcedure } from "../trpc";
 import { nanoid } from "nanoid";
 import { productSchema } from "@/common/validation/product";
+import { slugCreator } from "@/helpers/products";
 
 export const productRouter = createTRPCRouter({
   createPresignedUrl: protectedProcedure
@@ -63,15 +64,30 @@ export const productRouter = createTRPCRouter({
       const product = { ...productDB, image: imageUrl };
       return product;
     }),
+  getProductBySlug: publicProcedure
+    .input(z.object({ slug: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const productDB = await ctx.prisma.product.findFirst({
+        where: { slug: input.slug },
+      });
+      if (!productDB) return null;
+      const imageUrl = await s3.getSignedUrlPromise("getObject", {
+        Bucket: "cs-store-arg",
+        Key: productDB.image,
+      });
+      const product = { ...productDB, image: imageUrl };
+      return product;
+    }),
   createProduct: protectedProcedure
     .input(productSchema)
     .mutation(async ({ ctx, input }) => {
       const isStatTrak = input.statTrak;
-
+      const slug = slugCreator(input.name);
       if (!isStatTrak) {
         const product = await ctx.prisma.product.create({
           data: {
             ...input,
+            slug,
             statTrak: false,
           },
         });
@@ -81,6 +97,7 @@ export const productRouter = createTRPCRouter({
         const product = await ctx.prisma.product.create({
           data: {
             ...input,
+            slug,
             statTrak: false,
           },
         });
@@ -90,6 +107,7 @@ export const productRouter = createTRPCRouter({
         const product = await ctx.prisma.product.create({
           data: {
             ...input,
+            slug,
             statTrak: true,
           },
         });
@@ -98,6 +116,7 @@ export const productRouter = createTRPCRouter({
       const product = await ctx.prisma.product.create({
         data: {
           ...input,
+          slug,
           statTrak: false,
         },
       });

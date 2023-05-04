@@ -79,6 +79,7 @@ model VerificationToken {
 model Product {
     id          String      @id @default(cuid())
     name        String
+    slug        String
     wear        String?
     type        String
     description String?
