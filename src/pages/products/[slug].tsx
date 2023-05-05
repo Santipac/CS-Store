@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navbar } from "@/components";
-import { s3 } from "@/lib/s3";
 import { prisma } from "@/server/db";
-import type { Product } from "@prisma/client";
 import type { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import { useCartStore } from "@/store/cartStore";
 import { api } from "@/utils/api";
+import { formatPriceToActualCurrency } from "@/helpers/currency";
 
 interface Props {
   slug: string;
@@ -15,7 +14,24 @@ interface Props {
 const ProductPage: NextPage<Props> = ({ slug }) => {
   const { data: product } = api.product.getProductBySlug.useQuery({ slug });
   const { AddProduct } = useCartStore();
+  const [quantity, setQuantity] = useState<number>(1);
   if (!product) return <></>;
+
+  const increment = () => {
+    if (quantity < product.inStock) {
+      setQuantity(quantity + 1);
+    }
+    if (quantity === product.inStock) {
+      return setQuantity(quantity);
+    }
+  };
+  const decrement = () => {
+    if (quantity <= 1) {
+      return setQuantity(1);
+    }
+    setQuantity(quantity - 1);
+  };
+
   return (
     <section className="min-h-screen bg-white">
       <Navbar />
@@ -35,36 +51,59 @@ const ProductPage: NextPage<Props> = ({ slug }) => {
               </span>
             )}
           </div>
-          <div className="flex w-full flex-col space-y-4 px-4 lg:w-1/2">
-            <div className="mt-2 flex items-center lg:mt-0">
-              <h2 className="text-xl font-medium text-black">{product.name}</h2>
+          <div className="flex w-full flex-col space-y-4 sm:px-4 lg:w-1/2">
+            <div className="mt-2 flex items-center justify-between lg:mt-0">
+              <h2 className="text-lg font-medium text-black sm:text-xl">
+                {product.name}
+              </h2>
+              <h2 className="text-lg font-semibold text-gray-800 sm:text-xl">
+                {formatPriceToActualCurrency(product.price)}
+              </h2>
             </div>
-            <div>
+            <div className="flex flex-wrap items-center gap-2">
               {product.wear && product.wear !== "-" && (
                 <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20">
                   {product.wear}
                 </span>
               )}
-            </div>
-
-            {!product.float || product.float === 0 ? null : (
-              <div>
-                <span className="inline-flex items-center rounded-md bg-zinc-50 px-2 py-1 text-sm font-medium text-zinc-700 ring-1 ring-inset ring-zinc-600/20">
-                  Float: {product.float}
-                </span>
-              </div>
-            )}
-
-            <div>
+              {!product.float || product.float === 0 ? null : (
+                <div>
+                  <span className="inline-flex items-center rounded-md bg-zinc-50 px-2 py-1 text-sm font-medium text-zinc-700 ring-1 ring-inset ring-zinc-600/20">
+                    Float: {product.float}
+                  </span>
+                </div>
+              )}
               <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                 TradeLock: {product.tradelock}
               </span>
             </div>
+
+            <div className="flex flex-col space-y-2">
+              <h2 className="font-regular text-md text-gray-600">Quantity:</h2>
+              <div className="flex items-center space-x-5">
+                <button
+                  onClick={decrement}
+                  className="font-semibold text-gray-800"
+                >
+                  -
+                </button>
+                <p className="text-blach bg-gray-100 px-2 py-1 text-zinc-500">
+                  {quantity}
+                </p>
+                <button
+                  onClick={increment}
+                  className="font-semibold text-gray-800"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
             <div className="w-full">
               <button
                 className="btn-block btn border-none bg-zinc-800 font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-600 disabled:text-gray-300"
                 disabled={product.inStock === 0}
-                onClick={() => AddProduct(product)}
+                onClick={() => AddProduct({ ...product, quantity })}
               >
                 Add to Cart
               </button>

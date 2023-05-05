@@ -81,7 +81,7 @@ export default function ProductList() {
                         {product.name}
                       </h2>
                       <h2 className="font-regular text-md text-gray-700">
-                        ${product.price.toLocaleString()}
+                        {formatPriceToActualCurrency(product.price)}
                       </h2>
                     </div>
                     <div className="w-full px-2 text-start">
@@ -104,3 +104,4 @@ export default function ProductList() {
 
 import React from "react";
 import { CardProductSkeleton } from "./CardProductSkeleton";
+import { formatPriceToActualCurrency } from "@/helpers/currency";

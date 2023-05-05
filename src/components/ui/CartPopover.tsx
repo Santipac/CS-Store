@@ -1,10 +1,12 @@
+import React from "react";
 import { useCartStore } from "@/store/cartStore";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import React from "react";
-
+import { formatPriceToActualCurrency } from "@/helpers/currency";
 export const CartPopover: React.FC = () => {
-  const { items, remove } = useCartStore();
+  const items = useCartStore((state) => state.items);
+  const remove = useCartStore((state) => state.remove);
+  const computed = useCartStore((state) => state.computed);
   return (
     <div className="dropdown-end dropdown hidden min-[500px]:block">
       <label tabIndex={0} className="m-1">
@@ -23,7 +25,7 @@ export const CartPopover: React.FC = () => {
         tabIndex={0}
         className="dropdown-content w-96  rounded-sm  bg-white  px-2 py-4 shadow"
       >
-        {items.length === 0 ? (
+        {computed.isEmpty ? (
           <li className=" text-center">
             <h2 className="text-md font-medium text-gray-500">Cart Empty</h2>
           </li>
@@ -45,12 +47,12 @@ export const CartPopover: React.FC = () => {
                         {item.name}
                       </h2>
                       <h2 className="text-sm font-medium text-gray-700">
-                        ${item.price.toLocaleString()}
+                        {formatPriceToActualCurrency(item.price)}
                       </h2>
                     </div>
                     <div className="flex items-center justify-between">
                       <p className="font-regular text-xs text-gray-500">
-                        Qty: 1
+                        Qty: {item.quantity}
                       </p>
                       <span
                         className="font-regular cursor-pointer text-xs text-red-500 hover:text-red-700"
@@ -63,6 +65,12 @@ export const CartPopover: React.FC = () => {
                 </div>
               </li>
             ))}
+            <li className="flex w-full items-center justify-between border-b border-gray-200 p-2">
+              <p className="text-sm font-medium text-gray-600">Subtotal</p>
+              <p className="text-sm font-medium text-gray-600">
+                {formatPriceToActualCurrency(computed.total)}
+              </p>
+            </li>
             <button className="btn-block btn mt-2 rounded-sm bg-zinc-700 text-white">
               Go to Cart
             </button>

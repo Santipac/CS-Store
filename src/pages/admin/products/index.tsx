@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { Toaster, toast } from "react-hot-toast";
 import { NoSymbolIcon } from "@heroicons/react/24/outline";
+import { formatPriceToActualCurrency } from "@/helpers/currency";
 const ProductsAdminPage: NextPage = () => {
   const router = useRouter();
   const { data: sessionData } = useSession({ required: true });
@@ -82,7 +83,7 @@ const ProductsAdminPage: NextPage = () => {
                       />
                     </td>
                     <td>{product.name}</td>
-                    <td>${product.price}</td>
+                    <td>{formatPriceToActualCurrency(product.price)}</td>
                     <td>{product.inStock}</td>
                     <td>{product.type}</td>
                     <td>{product.tradelock}</td>
