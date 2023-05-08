@@ -6,16 +6,31 @@ import Image from "next/image";
 import { useCartStore } from "@/store/cartStore";
 import { api } from "@/utils/api";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
-
+import NextLink from "next/link";
 interface Props {
   slug: string;
 }
-
 const ProductPage: NextPage<Props> = ({ slug }) => {
-  const { data: product } = api.product.getProductBySlug.useQuery({ slug });
+  const { data: product, isLoading } = api.product.getProductBySlug.useQuery({
+    slug,
+  });
   const { AddProduct } = useCartStore();
   const [quantity, setQuantity] = useState<number>(1);
-  if (!product) return <></>;
+
+  if (isLoading) {
+    return <ProductSkeleton />;
+  }
+  if (!product)
+    return (
+      <section className="flex min-h-screen flex-col items-center justify-center gap-4 bg-white">
+        <h2 className="text-xl font-medium text-gray-800">
+          Something went wrong with this product. Please comeback later.
+        </h2>
+        <NextLink href="/" className="text-gray-500 underline">
+          Back to home
+        </NextLink>
+      </section>
+    );
 
   const increment = () => {
     if (quantity < product.inStock) {
@@ -139,40 +154,41 @@ export async function getStaticPaths() {
 }
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug = "" } = params as { slug: string };
-  // const productDB = await prisma.product.findFirst({
-  //   where: { slug },
-  //   select: {
-  //     createdAt: false,
-  //     _count: false,
-  //     updatedAt: false,
-  //     OrderItem: false,
-  //     id: true,
-  //     name: true,
-  //     wear: true,
-  //     type: true,
-  //     description: true,
-  //     float: true,
-  //     statTrak: true,
-  //     image: true,
-  //     price: true,
-  //     inStock: true,
-  //     tradelock: true,
-  //   },
-  // });
-  // if (!productDB) {
-  //   return {
-  //     props: {},
-  //   };
-  // }
-  // const imageUrl = await s3.getSignedUrlPromise("getObject", {
-  //   Bucket: "cs-store-arg",
-  //   Key: productDB.image,
-  // });
-  // const product = { ...productDB, image: imageUrl };
-
   return {
     props: { slug },
+    revalidate: 60 * 60 * 24,
   };
+};
+
+const ProductSkeleton = () => {
+  return (
+    <section className="min-h-screen bg-white">
+      <Navbar />
+      <div className="flex h-full w-full justify-center">
+        <div className="mt-8 flex w-11/12 flex-col md:w-3/4 lg:flex-row">
+          <div className="flex min-h-[40vh] w-full animate-pulse items-center justify-center rounded-3xl bg-gray-300 lg:w-1/2 " />
+          <div className="mt-4 flex w-full flex-col space-y-8 sm:px-4 lg:mt-0 lg:w-1/2">
+            <div className="mt-2 flex items-center justify-between lg:mt-0">
+              <div className="h-6 w-36 animate-pulse rounded-full bg-gray-200" />
+              <div className="h-6 w-12 animate-pulse rounded-full bg-gray-200" />
+            </div>
+            <div className="flex flex-wrap gap-4">
+              <div className="h-6 w-28 animate-pulse rounded-xl bg-gray-200" />
+              <div className="h-6 w-28 animate-pulse rounded-xl bg-gray-200" />
+              <div className="h-6 w-28 animate-pulse rounded-xl bg-gray-200" />
+            </div>
+            <div className="mt-16">
+              <div className="h-12 w-full animate-pulse rounded-xl bg-gray-200" />
+            </div>
+            <div className="flex flex-col gap-4">
+              <div className="h-4 w-16 animate-pulse rounded-full bg-gray-200" />
+              <div className="h-4 w-72 animate-pulse rounded-full bg-gray-200" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default ProductPage;

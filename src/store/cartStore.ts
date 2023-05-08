@@ -1,18 +1,15 @@
-import type { Product } from "@prisma/client";
+import type { ProductCart } from "@/interfaces/product";
 import { create } from "zustand";
-
-interface ProductCart extends Product {
-  quantity: number;
-}
-
-//TODO: Decrement and Increment Quantity
 
 type CartState = {
   items: ProductCart[];
   computed: {
     get isEmpty(): boolean;
     get total(): number;
+    get count(): number;
   };
+};
+type Actions = {
   AddProduct: (product: ProductCart) => void;
   increase: (productID: string) => void;
   decrease: (productID: string) => void;
@@ -20,7 +17,7 @@ type CartState = {
   removeAll: () => void;
 };
 
-export const useCartStore = create<CartState>((set, get) => ({
+export const useCartStore = create<CartState & Actions>((set, get) => ({
   items: [],
   computed: {
     get isEmpty() {
@@ -29,6 +26,11 @@ export const useCartStore = create<CartState>((set, get) => ({
     get total() {
       return get().items.reduce((total, product) => {
         return total + product.price * product.quantity;
+      }, 0);
+    },
+    get count() {
+      return get().items.reduce((count, product) => {
+        return count + product.quantity;
       }, 0);
     },
   },
@@ -41,8 +43,8 @@ export const useCartStore = create<CartState>((set, get) => ({
       return state;
     }),
   increase: (id: string) =>
-    set((state) => ({
-      items: state.items.map((item) => {
+    set({
+      items: get().items.map((item) => {
         if (item.id !== id) return item;
         if (item.quantity === item.inStock) return item;
         return {
@@ -50,21 +52,22 @@ export const useCartStore = create<CartState>((set, get) => ({
           quantity: item.quantity + 1,
         };
       }),
-    })),
+    }),
   decrease: (id: string) =>
-    set((state) => ({
-      items: state.items.map((item) => {
-        if (item.id !== id) return item;
-        if (item.quantity === 1) return item;
-        return {
-          ...item,
-          quantity: item.quantity - 1,
-        };
-      }),
-    })),
+    set({
+      items: get()
+        .items.map((item) => {
+          if (item.id !== id) return item;
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        })
+        .filter((item) => item.quantity > 0),
+    }),
   remove: (id: string) =>
-    set((state) => ({
-      items: state.items.filter((item) => item.id !== id),
-    })),
+    set({
+      items: get().items.filter((item) => item.id !== id),
+    }),
   removeAll: () => set((state) => ({ ...state, items: [] })),
 }));

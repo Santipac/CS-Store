@@ -3,6 +3,7 @@ import { useCartStore } from "@/store/cartStore";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
+import NextLink from "next/link";
 export const CartPopover: React.FC = () => {
   const items = useCartStore((state) => state.items);
   const remove = useCartStore((state) => state.remove);
@@ -16,7 +17,7 @@ export const CartPopover: React.FC = () => {
             aria-hidden="true"
           />
           <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-            {items.length}
+            {computed.count}
           </span>
           <span className="sr-only">items in cart, view bag</span>
         </a>
@@ -71,9 +72,12 @@ export const CartPopover: React.FC = () => {
                 {formatPriceToActualCurrency(computed.total)}
               </p>
             </li>
-            <button className="btn-block btn mt-2 rounded-sm bg-zinc-700 text-white">
+            <NextLink
+              href="/cart"
+              className="btn-block btn mt-2 rounded-sm bg-zinc-700 text-white"
+            >
               Go to Cart
-            </button>
+            </NextLink>
           </>
         )}
       </ul>

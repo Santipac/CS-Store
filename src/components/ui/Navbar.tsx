@@ -14,10 +14,11 @@ import { MobileMenu } from "./MobileMenu";
 import { api } from "@/utils/api";
 import { CartPopover } from "./CartPopover";
 import { useCartStore } from "@/store/cartStore";
+import { shallow } from "zustand/shallow";
 
 export const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { items } = useCartStore();
+  const { count } = useCartStore((state) => state.computed, shallow);
   const { data: sessionData } = useSession();
   const { data: isAdmin } = api.admin.userIsAdmin.useQuery({
     id: sessionData ? sessionData.user.id : null,
@@ -37,11 +38,8 @@ export const Navbar: React.FC = () => {
           Get free delivery on orders over $100
         </p>
 
-        <nav
-          aria-label="Top"
-          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-        >
-          <div className="border-b border-gray-200">
+        <nav aria-label="Top" className="mx-auto max-w-7xl">
+          <div className="">
             <div className="flex h-16 items-center">
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
@@ -198,7 +196,7 @@ export const Navbar: React.FC = () => {
                       aria-hidden="true"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      {items.length}
+                      {count}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </NextLink>
