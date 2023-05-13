@@ -7,6 +7,7 @@ import React from "react";
 import { BsBagX } from "react-icons/bs";
 import NextLink from "next/link";
 import { shallow } from "zustand/shallow";
+import AlertDialog from "@/components/ui/AlertDialog";
 
 export default function CartPage() {
   const { items, isEmpty, total } = useCartStore(
@@ -150,9 +151,14 @@ export default function CartPage() {
               </h2>
             </div>
             <hr className="mt-2" />
-            <NextLink href="/checkout" className="btn-block btn">
+            {/* <NextLink href="/checkout" className="btn-block btn">
               Checkout
-            </NextLink>
+            </NextLink> */}
+            <AlertDialog
+              label="Checkout"
+              title="Are you sure to confirm the order?"
+              description="Once you confirm the order, you cannot go back to add or remove products."
+            />
           </div>
         </div>
       </section>

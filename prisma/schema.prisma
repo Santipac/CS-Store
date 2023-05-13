@@ -94,6 +94,11 @@ model Product {
     OrderItem   OrderItem[]
 }
 
+enum OrderStatus {
+    DELIVERED
+    PENDING
+}
+
 model Order {
     id            String      @id @default(cuid())
     user          User        @relation(fields: [userId], references: [id])
@@ -101,6 +106,7 @@ model Order {
     orderItems    OrderItem[]
     numberOfItems Int
     subTotal      Float
+    status        OrderStatus @default(PENDING)
     total         Float
     isPaid        Boolean     @default(false)
     paidAt        DateTime?
@@ -113,6 +119,7 @@ model OrderItem {
     id        String  @id @default(cuid())
     product   Product @relation(fields: [productId], references: [id])
     name      String
+    quantity  Float
     wear      String
     statTrak  Boolean
     image     String
