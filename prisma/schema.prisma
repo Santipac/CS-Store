@@ -77,21 +77,20 @@ model VerificationToken {
 }
 
 model Product {
-    id          String      @id @default(cuid())
+    id          String   @id @default(cuid())
     name        String
     slug        String
     wear        String?
     type        String
     description String?
     float       Float?
-    statTrak    Boolean?    @default(false)
+    statTrak    Boolean? @default(false)
     image       String
     price       Float
     inStock     Float
     tradelock   String
-    createdAt   DateTime    @default(now())
-    updatedAt   DateTime    @updatedAt
-    OrderItem   OrderItem[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
 
 enum OrderStatus {
@@ -105,26 +104,17 @@ model Order {
     userId        String
     orderItems    OrderItem[]
     numberOfItems Int
-    subTotal      Float
     status        OrderStatus @default(PENDING)
     total         Float
     isPaid        Boolean     @default(false)
-    paidAt        DateTime?
-    transactionId String?
     createdAt     DateTime    @default(now())
     updatedAt     DateTime    @updatedAt
 }
 
 model OrderItem {
-    id        String  @id @default(cuid())
-    product   Product @relation(fields: [productId], references: [id])
-    name      String
+    id        String @id @default(cuid())
     quantity  Float
-    wear      String
-    statTrak  Boolean
-    image     String
-    price     Float
-    order     Order   @relation(fields: [orderId], references: [id])
+    order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
     orderId   String
     productId String
 }

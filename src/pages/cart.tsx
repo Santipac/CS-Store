@@ -1,13 +1,12 @@
+import React from "react";
 import { Navbar } from "@/components";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
 import { useCartStore } from "@/store/cartStore";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
-import React from "react";
 import { BsBagX } from "react-icons/bs";
 import NextLink from "next/link";
 import { shallow } from "zustand/shallow";
 import AlertDialog from "@/components/ui/AlertDialog";
+import { ProductSummary } from "@/components/cart/ProductSummary";
 
 export default function CartPage() {
   const { items, isEmpty, total } = useCartStore(
@@ -20,10 +19,7 @@ export default function CartPage() {
     shallow
   );
 
-  const { increase, decrease, remove, clear } = useCartStore((cart) => ({
-    increase: cart.increase,
-    decrease: cart.decrease,
-    remove: cart.remove,
+  const { clear } = useCartStore((cart) => ({
     clear: cart.removeAll,
   }));
 
@@ -53,68 +49,9 @@ export default function CartPage() {
         <h2 className="text-4xl font-bold text-gray-800">Shopping Cart</h2>
         <div className="grid h-full w-full auto-rows-min gap-4 md:grid-cols-2 md:grid-rows-1">
           <div className="mt-8 flex w-full max-w-3xl flex-col space-y-4">
-            <section>
+            <section className="space-y-2">
               {items.map((item) => (
-                <article
-                  key={item.id}
-                  className="flex rounded-sm border-2 border-gray-200"
-                >
-                  <Image
-                    src={item.image}
-                    alt="Image for Product"
-                    width={130}
-                    height={100}
-                    className=" bg-gray-100 object-fill"
-                  />
-
-                  <div className="flex w-full flex-col space-y-1 p-2">
-                    <div className="flex w-full items-center justify-between">
-                      <h2 className="text-sm font-semibold text-gray-800">
-                        {item.name}
-                      </h2>
-                      <XMarkIcon
-                        className="h-6 w-6 cursor-pointer text-gray-500 hover:text-gray-800"
-                        aria-hidden="true"
-                        onClick={() => remove(item.id)}
-                      />
-                    </div>
-                    {item.wear && (
-                      <div>
-                        <h2 className="font-regular text-xs text-gray-500">
-                          {item.wear}
-                        </h2>
-                      </div>
-                    )}
-                    <div>
-                      <h2 className="text-sm font-semibold text-gray-800">
-                        {formatPriceToActualCurrency(item.price)}
-                      </h2>
-                    </div>
-                    <div className="flex flex-col">
-                      <h2 className="font-regular text-xs text-gray-500">
-                        Quantity
-                      </h2>
-                      <div className="mt-2 flex items-center gap-4">
-                        <button
-                          className="rounded-xl bg-gray-200 px-4 py-1 text-gray-600 "
-                          onClick={() => decrease(item.id)}
-                        >
-                          -
-                        </button>
-                        <span className="font-medium text-gray-800">
-                          {item.quantity}
-                        </span>
-                        <button
-                          className="rounded-xl bg-gray-200 px-4 py-1 text-gray-600 disabled:cursor-not-allowed"
-                          onClick={() => increase(item.id)}
-                          disabled={item.quantity === item.inStock}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </article>
+                <ProductSummary item={item} key={item.id} />
               ))}
             </section>
             <span
