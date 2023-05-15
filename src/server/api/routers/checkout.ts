@@ -3,6 +3,7 @@ import { TRPCError } from "@trpc/server";
 import stripe from "@/lib/stripe";
 import { z } from "zod";
 import { orderItemSchema } from "@/common/validation/order";
+import { env } from "@/env.mjs";
 
 const orderSchema = z.object({
   user: z.object({
@@ -71,8 +72,8 @@ export const checkoutRouter = createTRPCRouter({
             },
             quantity: product!.quantity,
           })),
-          success_url: `http://localhost:3000/checkout/success/${input.id}`,
-          cancel_url: `http://localhost:3000/checkout/error/${input.id}`,
+          success_url: `${env.APP_URL}/checkout/success/${input.id}`,
+          cancel_url: `${env.APP_URL}/checkout/error/${input.id}`,
         });
         return {
           url: session.url ?? "",
