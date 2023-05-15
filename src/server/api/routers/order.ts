@@ -1,6 +1,7 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { orderSchema } from "@/common/validation/order";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 export const orderRouter = createTRPCRouter({
   createOrder: publicProcedure
@@ -63,5 +64,14 @@ export const orderRouter = createTRPCRouter({
         },
       });
       return newOrder;
+    }),
+  getOrderByUser: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const orders = await ctx.prisma.order.findMany({
+        where: { userId: input.id },
+        orderBy: { createdAt: "desc" },
+      });
+      return orders;
     }),
 });

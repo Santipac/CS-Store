@@ -10,6 +10,16 @@ import Image from "next/image";
 import { Toaster, toast } from "react-hot-toast";
 import { NoSymbolIcon } from "@heroicons/react/24/outline";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+
 const ProductsAdminPage: NextPage = () => {
   const router = useRouter();
   const { data: sessionData } = useSession({ required: true });
@@ -44,84 +54,90 @@ const ProductsAdminPage: NextPage = () => {
         >
           Create product
         </NextLink>
-        <div className=" overflow-scroll rounded-lg border border-gray-200 p-1 md:overflow-auto">
-          {products === undefined || products.length === 0 ? (
-            <div className="flex h-96 w-full flex-col items-center justify-center">
-              <NoSymbolIcon className="h-24 w-24 text-red-400" />
-              <span className="mt-4 font-medium text-gray-500">
-                We couldn&apos;t find any product
-              </span>
+
+        {products === undefined || products.length === 0 ? (
+          <div className="flex h-96 w-full flex-col items-center justify-center">
+            <NoSymbolIcon className="h-24 w-24 text-red-400" />
+            <span className="mt-4 font-medium text-gray-500">
+              We couldn&apos;t find any product
+            </span>
+          </div>
+        ) : (
+          <>
+            <div className="rounded-md border-2 p-2">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Image</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Stock</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>TradeLock</TableHead>
+                    <TableHead>Float</TableHead>
+                    <TableHead>StatTrak</TableHead>
+                    <TableHead>Created</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {products?.map((product, i) => (
+                    <TableRow
+                      key={i}
+                      className="text-gray-500 odd:bg-white even:bg-slate-100"
+                    >
+                      <TableCell>
+                        <Image
+                          src={product.image}
+                          width={50}
+                          height={50}
+                          alt="Image for product"
+                          className="object-contain"
+                        />
+                      </TableCell>
+                      <TableCell>{product.name}</TableCell>
+                      <TableCell>
+                        {formatPriceToActualCurrency(product.price)}
+                      </TableCell>
+                      <TableCell>{product.inStock}</TableCell>
+                      <TableCell>{product.type}</TableCell>
+                      <TableCell>{product.tradelock}</TableCell>
+                      <TableCell>{product.float}</TableCell>
+                      <TableCell>
+                        {product.statTrak === true ? (
+                          <Badge
+                            variant="default"
+                            className="bg-green-100 text-green-800"
+                          >
+                            YES
+                          </Badge>
+                        ) : (
+                          <Badge
+                            variant="default"
+                            className="bg-red-100 text-red-800"
+                          >
+                            NO
+                          </Badge>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {new Date(product.createdAt).toLocaleString()}
+                      </TableCell>
+
+                      <TableCell>
+                        <span
+                          className="cursor-pointer text-red-500"
+                          onClick={() => onDeleteProduct(product.id)}
+                        >
+                          Delete
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
-          ) : (
-            <table className="  table-compact w-full ">
-              <thead className="border-b-2 border-gray-300">
-                <tr>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>In Stock</th>
-                  <th>Type</th>
-                  <th>TradeLock</th>
-                  <th>Float</th>
-                  <th>StatTrak</th>
-                  <th>Created At</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products?.map((product, i) => (
-                  <tr
-                    key={i}
-                    className="text-gray-500 odd:bg-white even:bg-slate-100"
-                  >
-                    <td>
-                      <Image
-                        src={product.image}
-                        width={50}
-                        height={50}
-                        alt="Image for product"
-                        className="object-contain"
-                      />
-                    </td>
-                    <td>{product.name}</td>
-                    <td>{formatPriceToActualCurrency(product.price)}</td>
-                    <td>{product.inStock}</td>
-                    <td>{product.type}</td>
-                    <td>{product.tradelock}</td>
-                    <td>{product.float}</td>
-                    <td>
-                      {product.statTrak === true ? (
-                        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                          Yes
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                          No
-                        </span>
-                      )}
-                    </td>
-                    <td>{new Date(product.createdAt).toLocaleDateString()}</td>
-                    <td>
-                      <NextLink
-                        className="text-gray-500"
-                        href={`/products/${product.id}`}
-                      >
-                        Edit
-                      </NextLink>
-                    </td>
-                    <td>
-                      <span
-                        className="cursor-pointer text-red-500"
-                        onClick={() => onDeleteProduct(product.id)}
-                      >
-                        Delete
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </AdminLayout>
   );

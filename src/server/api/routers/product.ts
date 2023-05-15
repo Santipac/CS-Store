@@ -38,7 +38,9 @@ export const productRouter = createTRPCRouter({
       return { url, fields, key };
     }),
   getProducts: publicProcedure.query(async ({ ctx }) => {
-    let products = await ctx.prisma.product.findMany();
+    let products = await ctx.prisma.product.findMany({
+      orderBy: { createdAt: "desc" },
+    });
     products = await Promise.all(
       products.map(async (product) => ({
         ...product,

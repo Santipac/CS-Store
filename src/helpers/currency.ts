@@ -1,6 +1,6 @@
 export function formatPriceToActualCurrency(price: number) {
-  return price.toLocaleString("es-AR", {
+  return price.toLocaleString("en-US", {
     style: "currency",
-    currency: "ARS",
+    currency: "USD",
   });
 }
