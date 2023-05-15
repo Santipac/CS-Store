@@ -25,6 +25,7 @@ const server = z.object({
   AWS_ACCESS_KEY_ID: z.string(),
   AWS_SECRET_ACCESS_KEY: z.string(),
   AWS_REGION: z.string(),
+  STRIPE_SECRET_KEY: z.string(),
 
 });
 
@@ -56,7 +57,8 @@ const processEnv = {
   JWT_SECRET: process.env.JWT_SECRET,
   AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-  AWS_REGION: process.env.AWS_REGION
+  AWS_REGION: process.env.AWS_REGION,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY
   // FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
   // FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,

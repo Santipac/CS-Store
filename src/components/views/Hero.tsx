@@ -5,10 +5,7 @@ import React from "react";
 export const Hero = () => {
   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
+
   return (
     <section className="w-full items-center bg-white pb-8 lg:min-h-min">
       <div className="container mx-auto flex max-w-7xl flex-col items-start overflow-hidden bg-gray-100 px-8 pb-20 pt-24 md:flex-row lg:items-center lg:px-16">
@@ -23,16 +20,14 @@ export const Hero = () => {
                 )}
               </p>
               <p className="mt-4 max-w-xl text-base tracking-tight text-gray-600">
-                {secretMessage ? (
-                  <span> - {secretMessage}</span>
-                ) : (
+             
                   <span>
                     We all make mistakes, have struggles, and even regret things
                     in our past. But you are not your mistakes, you are not your
                     struggles, and you are here NOW with the power to shape your
                     day and your future
                   </span>
-                )}
+             
               </p>
             </div>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 lg:flex-row lg:justify-start">

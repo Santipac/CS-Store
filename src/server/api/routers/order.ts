@@ -1,13 +1,42 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { orderSchema } from "@/common/validation/order";
+import { TRPCError } from "@trpc/server";
 
 export const orderRouter = createTRPCRouter({
   createOrder: publicProcedure
     .input(orderSchema)
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.session?.user.id;
-      if (!userId) return false;
+      if (!userId)
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "User is not authenticated",
+        });
 
+      const productsDB = await ctx.prisma.product.findMany({
+        where: {
+          id: {
+            in: input.orderItems.map((item) => item.productId),
+          },
+        },
+      });
+      const orderItemsValidated = input.orderItems
+        .map((orderItem) => {
+          const product = productsDB.find((p) => p.id === orderItem.productId);
+          if (product && orderItem.quantity <= product.inStock) {
+            return orderItem;
+          } else {
+            return null;
+          }
+        })
+        .filter((orderItem) => orderItem !== null);
+
+      if (orderItemsValidated.length !== input.orderItems.length) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Some products are not available",
+        });
+      }
       const newOrder = await ctx.prisma.order.create({
         data: {
           user: {

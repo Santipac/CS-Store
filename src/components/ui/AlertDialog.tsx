@@ -14,6 +14,11 @@ interface Props {
 
 const AlertDialog: React.FC<Props> = ({ label, title, description }) => {
   const router = useRouter();
+  const { mutateAsync: checkout } = api.checkout.checkoutSession.useMutation({
+    onSuccess: ({ url }) => {
+      router.push(url);
+    },
+  });
   const { mutateAsync: createOrder, isLoading } =
     api.order.createOrder.useMutation();
   const { items, count, total } = useCartStore(
@@ -24,15 +29,18 @@ const AlertDialog: React.FC<Props> = ({ label, title, description }) => {
     }),
     shallow
   );
-  const clearCart = useCartStore((state) => state.removeAll);
+
   const orderItems = items.map((item) => {
     return { quantity: item.quantity, productId: item.id };
   });
 
   const onOrderCreation = async () => {
-    await createOrder({ total, numberOfItems: count, orderItems });
-    router.replace("/checkout");
-    clearCart();
+    const order = await createOrder({
+      total,
+      numberOfItems: count,
+      orderItems,
+    });
+    await checkout(order);
   };
 
   return (
