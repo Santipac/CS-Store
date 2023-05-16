@@ -5,8 +5,11 @@ import { useCartStore } from "@/store/cartStore";
 import { BsBagX } from "react-icons/bs";
 import NextLink from "next/link";
 import { shallow } from "zustand/shallow";
-import AlertDialog from "@/components/ui/AlertDialog";
-import { ProductSummary } from "@/components/cart/ProductSummary";
+import dynamic from "next/dynamic";
+
+const CheckoutDialog = dynamic(() => import('@/components/cart/CheckoutDialog'))
+const ProductSummary = dynamic(() => import('@/components/cart/ProductSummary'))
+
 
 export default function CartPage() {
   const { items, isEmpty, total } = useCartStore(
@@ -91,7 +94,7 @@ export default function CartPage() {
             {/* <NextLink href="/checkout" className="btn-block btn">
               Checkout
             </NextLink> */}
-            <AlertDialog
+            <CheckoutDialog
               label="Checkout"
               title="Are you sure to confirm the order?"
               description="Once you confirm the order, you cannot go back to add or remove products."
@@ -102,3 +105,4 @@ export default function CartPage() {
     </section>
   );
 }
+

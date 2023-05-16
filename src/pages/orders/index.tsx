@@ -61,14 +61,14 @@ const OrdersPage = () => {
                       {order.isPaid ? (
                         <Badge
                           variant="default"
-                          className="bg-green-100 text-green-800"
+                          className="bg-green-100 text-green-800 hover:bg-green-100 hover:text-green-800"
                         >
                           YES
                         </Badge>
                       ) : (
                         <Badge
                           variant="default"
-                          className="bg-red-100 text-red-800"
+                          className="bg-red-100 text-red-800  hover:bg-red-100 hover:text-red-800"
                         >
                           NO
                         </Badge>
@@ -76,11 +76,11 @@ const OrdersPage = () => {
                     </TableCell>
                     <TableCell className="text-gray-600">
                       {order.status === "PENDING" ? (
-                        <Badge className="bg-yellow-100 text-yellow-800">
+                        <Badge className="bg-yellow-100 text-yellow-800  hover:bg-yellow-100 hover:text-yellow-800">
                           {order.status}
                         </Badge>
                       ) : (
-                        <Badge className="bg-green-100 text-green-800">
+                        <Badge className="bg-green-100 text-green-800  hover:bg-green-100 hover:text-green-800">
                           {order.status}
                         </Badge>
                       )}

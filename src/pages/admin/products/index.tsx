@@ -106,14 +106,14 @@ const ProductsAdminPage: NextPage = () => {
                         {product.statTrak === true ? (
                           <Badge
                             variant="default"
-                            className="bg-green-100 text-green-800"
+                            className="bg-green-100 text-green-800 hover:bg-green-100 hover:text-green-800"
                           >
                             YES
                           </Badge>
                         ) : (
                           <Badge
                             variant="default"
-                            className="bg-red-100 text-red-800"
+                            className="bg-red-100 text-red-800 hover:bg-red-100 hover:text-red-800"
                           >
                             NO
                           </Badge>

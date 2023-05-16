@@ -9,7 +9,7 @@ interface Props {
   item: ProductCart;
 }
 
-export const ProductSummary: React.FC<Props> = ({ item }) => {
+const ProductSummary: React.FC<Props> = ({ item }) => {
   const { increase, decrease, remove } = useCartStore((cart) => ({
     increase: cart.increase,
     decrease: cart.decrease,
@@ -67,3 +67,5 @@ export const ProductSummary: React.FC<Props> = ({ item }) => {
     </article>
   );
 };
+
+export default ProductSummary;
