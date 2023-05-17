@@ -76,17 +76,17 @@ export default function ProductList() {
                         </span>
                       )}
                     </div>
-                    <div className="mt-4 flex w-full items-center justify-between  px-2">
-                      <h2 className="text-md font-medium text-gray-700">
+                    <div className="mt-4 flex w-full justify-between  gap-4 px-2">
+                      <h2 className="text-sm font-medium text-gray-700">
                         {product.name}
                       </h2>
-                      <h2 className="font-regular text-md text-gray-700">
+                      <h2 className="font-regular text-sm text-gray-700">
                         {formatPriceToActualCurrency(product.price)}
                       </h2>
                     </div>
                     <div className="w-full px-2 text-start">
                       {product.wear && product.wear !== "-" && (
-                        <p className="font-regular text-left text-sm text-gray-500">
+                        <p className="font-regular text-left text-xs text-gray-500">
                           {product.wear}
                         </p>
                       )}

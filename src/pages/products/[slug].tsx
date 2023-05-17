@@ -150,13 +150,13 @@ export async function getStaticPaths() {
     params: { slug: product.slug },
   }));
   // Devolver las rutas pre-generadas
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 }
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug = "" } = params as { slug: string };
   return {
     props: { slug },
-    revalidate: 60 * 60 * 24,
+    revalidate: 60,
   };
 };
 
