@@ -112,9 +112,20 @@ model Order {
 }
 
 model OrderItem {
-    id        String @id @default(cuid())
-    quantity  Float
-    order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-    orderId   String
-    productId String
+    id          String   @id @default(cuid())
+    name        String
+    slug        String
+    wear        String?
+    type        String
+    description String?
+    float       Float?
+    statTrak    Boolean? @default(false)
+    image       String
+    price       Float
+    inStock     Float
+    tradelock   String
+    quantity    Float
+    order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    orderId     String
+    productId   String
 }

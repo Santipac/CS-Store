@@ -24,8 +24,12 @@ export const orderRouter = createTRPCRouter({
       const orderItemsValidated = input.orderItems
         .map((orderItem) => {
           const product = productsDB.find((p) => p.id === orderItem.productId);
+
           if (product && orderItem.quantity <= product.inStock) {
-            return orderItem;
+            return (orderItem = {
+              ...orderItem,
+              image: product.image,
+            });
           } else {
             return null;
           }

@@ -9,52 +9,31 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useCartStore } from "@/store/cartStore";
-import { shallow } from "zustand/shallow";
 import { Spinner } from "../ui";
+import type { Order } from "@/pages/orders/[id]";
 
 interface DialogProps {
   label: string;
   title: string;
   description: string;
+  order: Order;
 }
 
 const CheckoutDialog: React.FC<DialogProps> = ({
   label,
   title,
   description,
+  order,
 }) => {
   const router = useRouter();
-  const { mutateAsync: checkout } = api.checkout.checkoutSession.useMutation({
-    onSuccess: ({ url }) => {
-      router.push(url);
-    },
-  });
-  const { mutateAsync: createOrder, isLoading } =
-    api.order.createOrder.useMutation();
-  const { items, count, total } = useCartStore(
-    (cart) => ({
-      items: cart.items,
-      total: cart.computed.total,
-      count: cart.computed.count,
-    }),
-    shallow
-  );
-
-  const orderItems = items.map((item) => {
-    return {
-      ...item,
-      quantity: item.quantity,
-      productId: item.id,
-    };
-  });
+  const { mutateAsync: checkout, isLoading } =
+    api.checkout.checkoutSession.useMutation({
+      onSuccess: ({ url }) => {
+        router.push(url);
+      },
+    });
 
   const onOrderCreation = async () => {
-    const order = await createOrder({
-      total,
-      numberOfItems: count,
-      orderItems,
-    });
     await checkout(order);
   };
 
