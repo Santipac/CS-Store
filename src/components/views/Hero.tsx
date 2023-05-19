@@ -1,10 +1,8 @@
-import { api } from "@/utils/api";
 import { useSession } from "next-auth/react";
 import React from "react";
 
 export const Hero = () => {
   const { data: sessionData } = useSession();
-
 
   return (
     <section className="w-full items-center bg-white pb-8 lg:min-h-min">
@@ -20,14 +18,12 @@ export const Hero = () => {
                 )}
               </p>
               <p className="mt-4 max-w-xl text-base tracking-tight text-gray-600">
-             
-                  <span>
-                    We all make mistakes, have struggles, and even regret things
-                    in our past. But you are not your mistakes, you are not your
-                    struggles, and you are here NOW with the power to shape your
-                    day and your future
-                  </span>
-             
+                <span>
+                  We all make mistakes, have struggles, and even regret things
+                  in our past. But you are not your mistakes, you are not your
+                  struggles, and you are here NOW with the power to shape your
+                  day and your future
+                </span>
               </p>
             </div>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 lg:flex-row lg:justify-start">

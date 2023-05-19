@@ -30,7 +30,8 @@ export const navigation = {
             { name: "Gloves", href: "#" },
             { name: "Fusil", href: "#" },
             { name: "Pistols", href: "#" },
-            { name: "AWP", href: "#" },
+            { name: "Snipers", href: "#" },
+            { name: "Shotguns", href: "#" },
             { name: "SMG", href: "#" },
           ],
         },
@@ -46,10 +47,5 @@ export const navigation = {
         },
       ],
     },
-  ],
-  pages: [
-    { name: "About", href: "#" },
-    { name: "FAQ", href: "#" },
-    { name: "Sell Skins", href: "#" },
   ],
 };

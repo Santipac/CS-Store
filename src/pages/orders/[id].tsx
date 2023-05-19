@@ -1,6 +1,6 @@
 import { ShopLayout } from "@/components/layouts/ShopLayout";
 import CheckoutDialog from "@/components/orders/CheckoutDialog";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/primitives/badge";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
 import { s3 } from "@/lib/s3";
 import { getServerAuthSession } from "@/server/auth";

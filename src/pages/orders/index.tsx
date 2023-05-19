@@ -4,7 +4,7 @@ import { NoSymbolIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { api } from "@/utils/api";
 import { requireAuth } from "@/common/HOFs/requireAuth";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/primitives/badge";
 import {
   Table,
   TableBody,
@@ -12,7 +12,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui/primitives/table";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
 const OrdersPage = () => {
   const { data: session } = useSession({ required: true });

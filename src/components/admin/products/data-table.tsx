@@ -17,10 +17,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/primitives/table";
+import { Button } from "@/components/ui/primitives/button";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/primitives/input";
 import { useRouter } from "next/router";
 
 interface DataTableProps<TData, TValue> {
@@ -52,7 +52,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="mx-1 flex items-center justify-between py-4">
+      <div className="mx-1 flex items-center justify-between gap-2 py-4">
         <Input
           placeholder="Filter by Name"
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -64,9 +64,9 @@ export function DataTable<TData, TValue>({
         <Button
           variant="secondary"
           onClick={() => router.push("/admin/products/create")}
-          className="mb-2 w-40 text-end text-gray-500"
+          className=" w-20 text-end text-gray-500"
         >
-          Create product
+          Create
         </Button>
       </div>
       <div className="rounded-md border">

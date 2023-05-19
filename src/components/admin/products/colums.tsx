@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { Product } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/primitives/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +9,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
+} from "@/components/ui/primitives/dropdown-menu";
+import { Badge } from "@/components/ui/primitives/badge";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import NextLink from "next/link";
 import { api } from "@/utils/api";

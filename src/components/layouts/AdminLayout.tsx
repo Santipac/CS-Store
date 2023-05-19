@@ -1,19 +1,24 @@
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Disclosure } from "@headlessui/react";
+import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
+import Image from "next/image";
+import NextLink from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/primitives/dropdown-menu";
 import {
   Bars3Icon,
   UserCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { classNames } from "../ui/helpers";
-import { signOut } from "next-auth/react";
-import Image from "next/image";
-import NextLink from "next/link";
 import type { Session } from "next-auth";
-import { useRouter } from "next/router";
 
-const userNavigation = [{ name: "Home", href: "/" }];
-
+// const userNavigation = [{ name: "Home", href: "/" }];
 interface Props {
   children: JSX.Element | JSX.Element[];
   sessionData: Session | null;
@@ -84,65 +89,41 @@ export const AdminLayout: React.FC<Props> = ({
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
                       {/* Profile dropdown */}
-                      <Menu as="div" className="relative ml-3">
-                        <div>
-                          <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                            <span className="sr-only">Open user menu</span>
-                            {sessionData ? (
-                              <>
-                                {sessionData.user.image ? (
-                                  <Image
-                                    src={sessionData.user.image}
-                                    alt="Avatar image for admin user"
-                                    className="rounded-full  object-cover"
-                                    width={32}
-                                    height={32}
-                                  />
-                                ) : (
-                                  <UserCircleIcon
-                                    className="h-8 w-8  text-gray-400 group-hover:text-gray-500"
-                                    aria-hidden="true"
-                                  />
-                                )}
-                              </>
-                            ) : (
-                              <UserCircleIcon
-                                className="h-8 w-8  text-gray-400 group-hover:text-gray-500"
-                                aria-hidden="true"
-                              />
-                            )}
-                          </Menu.Button>
-                        </div>
-                        <Transition
-                          as={Fragment}
-                          enter="transition ease-out duration-100"
-                          enterFrom="transform opacity-0 scale-95"
-                          enterTo="transform opacity-100 scale-100"
-                          leave="transition ease-in duration-75"
-                          leaveFrom="transform opacity-100 scale-100"
-                          leaveTo="transform opacity-0 scale-95"
-                        >
-                          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <Menu.Item>
-                              <NextLink
-                                href="/"
-                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                              >
-                                Home
-                              </NextLink>
-                            </Menu.Item>
-
-                            <Menu.Item>
-                              <span
-                                onClick={() => signOut()}
-                                className="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                              >
-                                Sign out
-                              </span>
-                            </Menu.Item>
-                          </Menu.Items>
-                        </Transition>
-                      </Menu>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger className="mr-2 outline-none">
+                          {sessionData?.user.image ? (
+                            <Image
+                              className="rounded-full object-contain"
+                              src={`${sessionData.user.image}`}
+                              width={32}
+                              height={32}
+                              alt="Profile avatar image"
+                            />
+                          ) : (
+                            <UserCircleIcon
+                              className="h-8 w-8  text-gray-400 group-hover:text-gray-500"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="mr-8">
+                          <DropdownMenuItem>
+                            <NextLink
+                              href="/"
+                              className="-m-2 block p-2 font-medium text-gray-900"
+                            >
+                              Home
+                            </NextLink>
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            onClick={() => signOut()}
+                            className="cursor-pointer text-red-800"
+                          >
+                            Sign Out
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                   </div>
                   <div className="-mr-2 flex md:hidden">
@@ -183,8 +164,14 @@ export const AdminLayout: React.FC<Props> = ({
                       {item.name}
                     </Disclosure.Button>
                   ))}
+                  <Disclosure.Button
+                    className="block rounded-md px-3 py-2 text-base font-medium text-red-800"
+                    onClick={() => signOut()}
+                  >
+                    Sign Out
+                  </Disclosure.Button>
                 </div>
-                <div className="border-t border-gray-700 pb-3 pt-4">
+                <div className="space-y-1 px-2 py-3 sm:px-3">
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
                       {sessionData ? (
@@ -211,7 +198,7 @@ export const AdminLayout: React.FC<Props> = ({
                         />
                       )}
                     </div>
-                    {sessionData ? (
+                    {sessionData && (
                       <div className="ml-3">
                         <div className="mb-2 text-base font-medium leading-none text-gray-600">
                           {sessionData.user.name}
@@ -220,11 +207,8 @@ export const AdminLayout: React.FC<Props> = ({
                           {sessionData.user.email}
                         </div>
                       </div>
-                    ) : (
-                      <></>
                     )}
                   </div>
-                  <div className="mt-3 space-y-1 px-2"></div>
                 </div>
               </Disclosure.Panel>
             </>

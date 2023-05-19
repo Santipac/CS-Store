@@ -3,12 +3,12 @@ import Head from "next/head";
 import { type NextPage } from "next";
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/Spinner";
-import { InputText, Navbar } from "@/components";
+import { Navbar } from "@/components";
 import { api } from "@/utils/api";
 import Image from "next/image";
 import NextLink from "next/link";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
-import { useForm } from "react-hook-form";
+
 const ProductsPage: NextPage = () => {
   const { data: products } = api.product.getProducts.useQuery();
 

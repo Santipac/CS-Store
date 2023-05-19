@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/ui/primitives/dialog";
 import { Spinner } from "../ui";
 import type { Order } from "@/pages/orders/[id]";
 

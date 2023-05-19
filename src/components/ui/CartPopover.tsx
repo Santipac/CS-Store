@@ -4,36 +4,37 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
 import NextLink from "next/link";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/primitives/popover";
+import { Button } from "./primitives/button";
+
 export const CartPopover: React.FC = () => {
   const items = useCartStore((state) => state.items);
   const remove = useCartStore((state) => state.remove);
   const computed = useCartStore((state) => state.computed);
   return (
-    <div className="dropdown-end dropdown hidden min-[500px]:block">
-      <label tabIndex={0} className="m-1">
-        <a href="#" className="group -m-2 flex items-center p-2">
+    <Popover>
+      <PopoverTrigger>
+        <span className="relative flex items-center justify-center">
           <ShoppingBagIcon
-            className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+            className="z-20 mt-2 h-6 w-6 text-gray-400 group-hover:text-gray-500"
             aria-hidden="true"
           />
-          <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+          <span className="absolute -right-3 top-0 z-20 rounded-full bg-zinc-700 px-1 text-xs font-medium text-white">
             {computed.count}
           </span>
-          <span className="sr-only">items in cart, view bag</span>
-        </a>
-      </label>
-      <ul
-        tabIndex={0}
-        className="dropdown-content w-96  rounded-sm  bg-white  px-2 py-4 shadow"
-      >
+        </span>
+      </PopoverTrigger>
+      <PopoverContent className="w-80 sm:w-96">
         {computed.isEmpty ? (
-          <li className=" text-center">
-            <h2 className="text-md font-medium text-gray-500">Cart Empty</h2>
-          </li>
+          <span className="flex justify-center">Cart Empty</span>
         ) : (
           <>
             {items.map((item) => (
-              <li key={item.id} className="  border-b border-gray-200 p-1">
+              <div key={item.id} className="  border-b border-gray-200 p-1">
                 <div className="flex">
                   <Image
                     src={item.image}
@@ -43,7 +44,7 @@ export const CartPopover: React.FC = () => {
                     className="object-contain"
                   />
                   <div className="flex h-full w-full flex-col space-y-2 px-2">
-                    <div className="flex items-center justify-between">
+                    <div className="flex justify-between gap-4">
                       <h2 className="text-sm font-medium text-gray-700">
                         {item.name}
                       </h2>
@@ -64,23 +65,20 @@ export const CartPopover: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </li>
+              </div>
             ))}
-            <li className="flex w-full items-center justify-between border-b border-gray-200 p-2">
-              <p className="text-sm font-medium text-gray-600">Subtotal</p>
+            <div className="flex w-full items-center justify-between  p-2">
+              <p className="text-sm font-medium text-gray-600">Total</p>
               <p className="text-sm font-medium text-gray-600">
                 {formatPriceToActualCurrency(computed.total)}
               </p>
-            </li>
-            <NextLink
-              href="/cart"
-              className="btn-block btn mt-2 rounded-sm bg-zinc-700 text-white"
-            >
-              Go to Cart
+            </div>
+            <NextLink href="/cart">
+              <Button className="w-full bg-black">Go to Cart</Button>
             </NextLink>
           </>
         )}
-      </ul>
-    </div>
+      </PopoverContent>
+    </Popover>
   );
 };
