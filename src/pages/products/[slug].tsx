@@ -116,7 +116,7 @@ const ProductPage: NextPage<Props> = ({ slug }) => {
 
             <div className="w-full">
               <button
-                className="btn-block btn border-none bg-zinc-800 font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-600 disabled:text-gray-300"
+                className="h-12 w-full rounded border-none bg-zinc-800 font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-600 disabled:text-gray-300"
                 disabled={product.inStock === 0}
                 onClick={() => AddProduct({ ...product, quantity })}
               >

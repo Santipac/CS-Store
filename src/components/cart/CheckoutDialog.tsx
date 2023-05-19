@@ -12,6 +12,7 @@ import {
 import { useCartStore } from "@/store/cartStore";
 import { shallow } from "zustand/shallow";
 import { Spinner } from "../ui";
+import { Button } from "../ui/primitives/button";
 
 interface DialogProps {
   label: string;
@@ -61,7 +62,7 @@ const CheckoutDialog: React.FC<DialogProps> = ({
   return (
     <Dialog>
       <DialogTrigger>
-        <button className="btn-block btn text-gray-200">
+        <Button className="w-full rounded bg-black text-gray-200">
           {isLoading ? (
             <Spinner
               height="h-8"
@@ -72,7 +73,7 @@ const CheckoutDialog: React.FC<DialogProps> = ({
           ) : (
             label
           )}
-        </button>
+        </Button>
       </DialogTrigger>
       <DialogContent className="self-center">
         <DialogHeader>
@@ -83,17 +84,20 @@ const CheckoutDialog: React.FC<DialogProps> = ({
         </DialogHeader>
         <DialogFooter className="flex gap-4">
           <DialogTrigger asChild>
-            <button className="rounded-xl border-2 border-red-500 px-6 py-2 text-red-500 shadow-sm">
+            <Button
+              className="0 rounded-xl px-6 py-2  shadow-sm"
+              variant="destructive"
+            >
               Cancel
-            </button>
+            </Button>
           </DialogTrigger>
           <DialogTrigger asChild>
-            <button
+            <Button
               className="rounded-xl bg-zinc-800 px-6 py-2 text-white"
               onClick={onOrderCreation}
             >
               Confirm
-            </button>
+            </Button>
           </DialogTrigger>
         </DialogFooter>
       </DialogContent>

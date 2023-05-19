@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { InputNumber, InputText, Select, Spinner } from "@/components/ui";
+import { SelectCustom, Spinner } from "@/components/ui";
 import { statTrak, type, wear } from "@/constants/product";
 import { type ProductForm } from "@/interfaces/form";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { productFormValidation } from "@/common/validation/product";
 import { ErrorMessage } from "@hookform/error-message";
 import { Toaster, toast } from "react-hot-toast";
+import { Label } from "@/components/ui/primitives/label";
+import { Input } from "@/components/ui/primitives/input";
+import { Textarea } from "@/components/ui/primitives/textarea";
+import { Button } from "@/components/ui/primitives/button";
 interface Input {
   file: undefined | File;
 }
@@ -83,42 +87,109 @@ export const FormProduct = () => {
         className="flex flex-col gap-4 md:flex-row"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex w-full  flex-col space-y-4 md:w-1/2">
-          <InputText
-            name="name"
-            label="Name"
-            register={register}
+        <div className="flex w-full  flex-col space-y-2 md:w-1/2">
+          <Label htmlFor="name" className="text-gray-600">
+            Name <span className="text-red-500">*</span>
+          </Label>
+          <Input
             type="text"
+            {...register("name")}
             required
-            errors={errors}
+            className="bg-slate-50 text-gray-800"
           />
-
-          <InputText
-            name="tradelock"
-            label="Tradelock"
-            register={register}
-            type="text"
-            required
-            errors={errors}
-          />
+          <div className="mt-1">
+            {errors["name"] && (
+              <ErrorMessage
+                errors={errors}
+                name="name"
+                render={({ message }) => (
+                  <span className="text-xs font-semibold text-red-500">
+                    {message}
+                  </span>
+                )}
+              />
+            )}
+          </div>
+          <div className="flex w-full  flex-col space-y-2 ">
+            <Label htmlFor="tradelock" className="text-gray-600">
+              Tradelock <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              type="text"
+              {...register("tradelock")}
+              required
+              className=" bg-slate-50 text-gray-800"
+            />
+            <div className="mt-1">
+              {errors["tradelock"] && (
+                <ErrorMessage
+                  errors={errors}
+                  name="tradelock"
+                  render={({ message }) => (
+                    <span className="text-xs font-semibold text-red-500">
+                      {message}
+                    </span>
+                  )}
+                />
+              )}
+            </div>
+          </div>
 
           <div className="flex w-full  space-x-2">
-            <InputNumber
-              name="price"
-              label="Price"
-              register={register}
-              required
-              errors={errors}
-            />
-            <InputNumber
-              name="inStock"
-              label="In Stock"
-              register={register}
-              required
-              errors={errors}
-            />
+            <div className="flex w-full  flex-col space-y-2 ">
+              <Label htmlFor="price" className="text-gray-600">
+                Price <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                type="number"
+                {...register("price")}
+                required
+                className=" bg-slate-50 text-gray-800"
+                min={0}
+                placeholder="1"
+              />
+              <div className="mt-1">
+                {errors["price"] && (
+                  <ErrorMessage
+                    errors={errors}
+                    name="price"
+                    render={({ message }) => (
+                      <span className="text-xs font-semibold text-red-500">
+                        {message}
+                      </span>
+                    )}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="flex w-full  flex-col space-y-2 ">
+              <Label htmlFor="inStock" className="text-gray-600">
+                Stock <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                type="number"
+                {...register("inStock")}
+                required
+                className="bg-slate-50 text-gray-800"
+                min={0}
+                placeholder="1"
+              />
+              <div className="mt-1">
+                {errors["inStock"] && (
+                  <ErrorMessage
+                    errors={errors}
+                    name="inStock"
+                    render={({ message }) => (
+                      <span className="text-xs font-semibold text-red-500">
+                        {message}
+                      </span>
+                    )}
+                  />
+                )}
+              </div>
+            </div>
           </div>
-          <Select
+          <SelectCustom
             label="Type"
             name="type"
             listOptions={type}
@@ -126,17 +197,17 @@ export const FormProduct = () => {
             required
             errors={errors}
           />
-          <div className="form-control w-full">
-            <label className="label">
-              <span className="label-text text-gray-600">Float</span>
-            </label>
-            <input
+          <div className="flex w-full  flex-col space-y-2 ">
+            <Label htmlFor="float" className="text-gray-600">
+              Float
+            </Label>
+            <Input
               type="number"
-              min={0}
-              step="0.0000000001"
-              placeholder="1"
-              className="input-bordered input w-full  bg-slate-50 text-black"
               {...register("float")}
+              required
+              className=" bg-slate-50 text-gray-800"
+              min={0}
+              placeholder="1"
             />
             <div className="mt-1">
               {errors["float"] && (
@@ -153,34 +224,38 @@ export const FormProduct = () => {
             </div>
           </div>
 
-          <div className="flex w-full space-x-2">
-            <Select
-              label="Wear"
-              name="wear"
-              listOptions={wear}
-              register={register}
-              required={false}
-              errors={errors}
-            />
+          <section className="flex w-full space-x-2">
+            <article className="w-1/2">
+              <SelectCustom
+                label="Wear"
+                name="wear"
+                listOptions={wear}
+                register={register}
+                required={false}
+                errors={errors}
+              />
+            </article>
 
-            <Select
-              label="StatTrak™"
-              name="statTrak"
-              listOptions={statTrak}
-              register={register}
-              required={false}
-              errors={errors}
-            />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-gray-600">Description</span>
-            </label>
-            <textarea
-              className="textarea-bordered textarea h-24 bg-slate-50 text-black"
+            <article className="w-1/2">
+              <SelectCustom
+                label="StatTrak™"
+                name="statTrak"
+                listOptions={statTrak}
+                register={register}
+                required={false}
+                errors={errors}
+              />
+            </article>
+          </section>
+          <div className="space-y-2">
+            <Label htmlFor="description" className="text-gray-600">
+              Description
+            </Label>
+            <Textarea
+              className="bg-slate-50 text-gray-800"
               placeholder="Description of the product"
               {...register("description")}
-            ></textarea>
+            />
           </div>
         </div>
         <div className="flex w-full  flex-col md:w-1/2">
@@ -201,31 +276,37 @@ export const FormProduct = () => {
             </div>
           ) : (
             <>
-              <input
-                type="file"
-                className="file-input w-full cursor-pointer bg-slate-50"
-                onChange={handleFileSelect}
-                accept="image/jpeg image/png image/jpg"
-              />
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label htmlFor="image" className="text-gray-600">
+                  Image
+                </Label>
+                <Input
+                  id="image"
+                  type="file"
+                  onChange={handleFileSelect}
+                  accept="image/jpeg image/png image/jpg"
+                  className="w-full cursor-pointer bg-slate-50 file:text-gray-600 "
+                />
+              </div>
             </>
           )}
           <p className="mt-2 text-red-500">{error}</p>
-          <button
+          <Button
             type="submit"
-            className="btn-block btn mt-4 border-none  text-white disabled:cursor-not-allowed disabled:bg-black disabled:text-gray-400"
+            className="mt-4 border-none bg-black  text-white disabled:cursor-not-allowed disabled:bg-black disabled:text-gray-400"
             disabled={!isValid || error.length > 0 || isLoading}
           >
             {isLoading ? (
               <Spinner
                 width="w-8"
                 height="h-8"
-                fill="fill-gold"
+                fill="fill-gray-600"
                 colorText="text-white"
               />
             ) : (
               "Create"
             )}
-          </button>
+          </Button>
         </div>
       </form>
     </>

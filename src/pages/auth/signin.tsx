@@ -9,6 +9,9 @@ import type { GetServerSideProps } from "next";
 import { getServerAuthSession } from "@/server/auth";
 import { type ILogin, loginSchema } from "@/common/validation/auth";
 import { Spinner } from "@/components";
+import { Label } from "@/components/ui/primitives/label";
+import { Input } from "@/components/ui/primitives/input";
+import { Button } from "@/components/ui/primitives/button";
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -38,16 +41,13 @@ const SignIn = () => {
           CS Store
         </h2>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-control w-full">
-            <label className="label">
-              <span className="label-text">
-                Email <span className="text-red-500">*</span>
-              </span>
-            </label>
-            <input
+          <div className="form-control w-full space-y-2">
+            <Label htmlFor="email">
+              Email <span className="text-red-500">*</span>
+            </Label>
+            <Input
               type="email"
               placeholder="email@example.com"
-              className="input-bordered input w-full"
               {...register("email")}
             />
             <div className="mt-1">
@@ -56,7 +56,7 @@ const SignIn = () => {
                   errors={errors}
                   name="email"
                   render={({ message }) => (
-                    <span className="text-xs font-semibold text-error">
+                    <span className="text-error text-xs font-semibold">
                       {message}
                     </span>
                   )}
@@ -64,24 +64,18 @@ const SignIn = () => {
               )}
             </div>
           </div>
-          <div className="form-control w-full">
-            <label className="label">
-              <span className="label-text">
-                Password <span className="text-red-500">*</span>
-              </span>
-            </label>
-            <input
-              type="password"
-              className="input-bordered input w-full"
-              {...register("password")}
-            />
+          <div className="form-control w-full space-y-2">
+            <Label htmlFor="password">
+              Password <span className="text-red-500">*</span>
+            </Label>
+            <Input type="password" {...register("password")} />
             <div className="mt-1">
               {errors["password"] && (
                 <ErrorMessage
                   errors={errors}
                   name="password"
                   render={({ message }) => (
-                    <span className="text-xs font-semibold text-error">
+                    <span className="text-error text-xs font-semibold">
                       {message}
                     </span>
                   )}
@@ -89,10 +83,7 @@ const SignIn = () => {
               )}
             </div>
           </div>
-          <button
-            type="submit"
-            className="btn-block btn border-none bg-arg text-white shadow-md hover:bg-[#67adce]"
-          >
+          <Button type="submit" className="w-full bg-black">
             {isLoading ? (
               <Spinner
                 width="w-8"
@@ -101,20 +92,20 @@ const SignIn = () => {
                 fill="fill-gray-200"
               />
             ) : (
-              "Sign Up"
+              "Sign in"
             )}
-          </button>
+          </Button>
         </form>
         <hr />
-        <button
-          className="btn-block btn border-none bg-slate-100 text-gray-500 hover:bg-slate-200 "
+        <Button
+          className="bg-slate-100 text-gray-500 hover:bg-slate-200 "
           onClick={signInWithGoogle}
         >
           <FcGoogle className="mr-2" size="24px" />
           Sign in With Google
-        </button>
+        </Button>
         <NextLink
-          className="link text-end font-normal text-gray-400"
+          className="text-end text-sm font-normal text-gray-600 underline"
           href="/auth/signup"
         >
           Don&apos;t have an account ?

@@ -11,6 +11,9 @@ import { useRouter } from "next/router";
 import { type ISignUp, signUpSchema } from "@/common/validation/auth";
 import toast, { Toaster } from "react-hot-toast";
 import { Spinner } from "@/components";
+import { Button } from "@/components/ui/primitives/button";
+import { Label } from "@/components/ui/primitives/label";
+import { Input } from "@/components/ui/primitives/input";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -46,25 +49,18 @@ const RegisterPage = () => {
           CS Store
         </h2>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-control w-full">
-            <label className="label">
-              <span className="label-text">
-                Full Name <span className="text-red-500">*</span>
-              </span>
-            </label>
-            <input
-              type="text"
-              placeholder="Jhon Doe"
-              className="input-bordered input w-full"
-              {...register("name")}
-            />
+          <div className="form-control w-full space-y-2">
+            <Label htmlFor="name">
+              Name <span className="text-red-500">*</span>
+            </Label>
+            <Input type="name" {...register("name")} />
             <div className="mt-1">
               {errors["name"] && (
                 <ErrorMessage
                   errors={errors}
                   name="name"
                   render={({ message }) => (
-                    <span className="text-xs font-semibold text-error">
+                    <span className="text-error text-xs font-semibold">
                       {message}
                     </span>
                   )}
@@ -72,25 +68,18 @@ const RegisterPage = () => {
               )}
             </div>
           </div>
-          <div className="form-control w-full">
-            <label className="label">
-              <span className="label-text">
-                Email <span className="text-red-500">*</span>
-              </span>
-            </label>
-            <input
-              type="email"
-              placeholder="email@example.com"
-              className="input-bordered input w-full"
-              {...register("email")}
-            />
+          <div className="form-control w-full space-y-2">
+            <Label htmlFor="email">
+              Email <span className="text-red-500">*</span>
+            </Label>
+            <Input type="email" {...register("email")} />
             <div className="mt-1">
               {errors["email"] && (
                 <ErrorMessage
                   errors={errors}
                   name="email"
                   render={({ message }) => (
-                    <span className="text-xs font-semibold text-error">
+                    <span className="text-error text-xs font-semibold">
                       {message}
                     </span>
                   )}
@@ -98,24 +87,18 @@ const RegisterPage = () => {
               )}
             </div>
           </div>
-          <div className="form-control w-full">
-            <label className="label">
-              <span className="label-text">
-                Password <span className="text-red-500">*</span>
-              </span>
-            </label>
-            <input
-              type="password"
-              className="input-bordered input w-full"
-              {...register("password")}
-            />
+          <div className="form-control w-full space-y-2">
+            <Label htmlFor="password">
+              Password <span className="text-red-500">*</span>
+            </Label>
+            <Input type="password" {...register("password")} />
             <div className="mt-1">
               {errors["password"] && (
                 <ErrorMessage
                   errors={errors}
                   name="password"
                   render={({ message }) => (
-                    <span className="text-xs font-semibold text-error">
+                    <span className="text-error text-xs font-semibold">
                       {message}
                     </span>
                   )}
@@ -123,10 +106,7 @@ const RegisterPage = () => {
               )}
             </div>
           </div>
-          <button
-            type="submit"
-            className="btn-block btn border-none bg-arg text-white shadow-md hover:bg-[#67adce]"
-          >
+          <Button type="submit" className="w-full bg-black">
             {isLoading ? (
               <Spinner
                 width="w-8"
@@ -135,14 +115,12 @@ const RegisterPage = () => {
                 fill="fill-gray-200"
               />
             ) : (
-              "Sign Up"
+              "Sign up"
             )}
-          </button>
+          </Button>
         </form>
-        <hr />
-
         <NextLink
-          className="link text-end font-normal text-gray-400"
+          className="text-end text-sm font-normal text-gray-600 underline"
           href="/auth/signin"
         >
           Have an account ?
