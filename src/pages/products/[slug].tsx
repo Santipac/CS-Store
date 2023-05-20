@@ -7,6 +7,7 @@ import { useCartStore } from "@/store/cartStore";
 import { api } from "@/utils/api";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
 import NextLink from "next/link";
+import { ssgHelper } from "@/server/api/ssgHelper";
 interface Props {
   slug: string;
 }
@@ -154,6 +155,8 @@ export async function getStaticPaths() {
 }
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug = "" } = params as { slug: string };
+  const ssg = ssgHelper();
+  await ssg.product.getProductBySlug.prefetch({ slug });
   return {
     props: { slug },
   };

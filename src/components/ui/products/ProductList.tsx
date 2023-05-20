@@ -43,7 +43,7 @@ export default function ProductList() {
     <div className="bg-white">
       <div className="my-12">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-          Customers also purchased
+          New Products
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -59,7 +59,7 @@ export default function ProductList() {
             </>
           ) : (
             <>
-              {products.map((product) => (
+              {products.slice(0, 4).map((product) => (
                 <NextLink href={`/products/${product.slug}`} key={product.slug}>
                   <div className="flex flex-col items-center  pb-2 ">
                     <div className="relative flex w-full items-center justify-center bg-slate-50">

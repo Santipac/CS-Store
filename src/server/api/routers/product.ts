@@ -11,32 +11,52 @@ import { productSchema } from "@/common/validation/product";
 import { slugCreator } from "@/helpers/products";
 
 export const productRouter = createTRPCRouter({
-  createPresignedUrl: protectedProcedure
-    .input(z.object({ fileType: z.string() }))
-    .mutation(async ({ input }) => {
-      const id = nanoid();
-      const ex = input.fileType.split("/")[1];
-      const key = `${id}.${ex}`;
-
-      const { url, fields } = (await new Promise((resolve, reject) => {
-        s3.createPresignedPost(
-          {
-            Bucket: "cs-store-arg",
-            Fields: { key },
-            Expires: 60,
-            Conditions: [
-              ["content-length-range", 0, MAX_FILE_SIZE],
-              ["starts-with", "$Content-Type", "image/"],
-            ],
+  createProduct: protectedProcedure
+    .input(productSchema)
+    .mutation(async ({ ctx, input }) => {
+      const isStatTrak = input.statTrak;
+      const slug = slugCreator(input.name);
+      if (!isStatTrak) {
+        const product = await ctx.prisma.product.create({
+          data: {
+            ...input,
+            slug,
+            statTrak: false,
           },
-          (err, signed) => {
-            if (err) return reject(err);
-            resolve(signed);
-          }
-        );
-      })) as any as { url: string; fields: any };
-      return { url, fields, key };
+        });
+        return product;
+      }
+      if (isStatTrak === "NO") {
+        const product = await ctx.prisma.product.create({
+          data: {
+            ...input,
+            slug,
+            statTrak: false,
+          },
+        });
+        return product;
+      }
+      if (isStatTrak === "YES") {
+        const product = await ctx.prisma.product.create({
+          data: {
+            ...input,
+            slug,
+            statTrak: true,
+          },
+        });
+        return product;
+      }
+      const product = await ctx.prisma.product.create({
+        data: {
+          ...input,
+          slug,
+          statTrak: false,
+        },
+      });
+      ctx.revalidateSSG?.(`/products/${product.slug}`);
+      return product;
     }),
+
   getProducts: publicProcedure.query(async ({ ctx }) => {
     let products = await ctx.prisma.product.findMany({
       orderBy: { createdAt: "desc" },
@@ -80,51 +100,7 @@ export const productRouter = createTRPCRouter({
       const product = { ...productDB, image: imageUrl };
       return product;
     }),
-  createProduct: protectedProcedure
-    .input(productSchema)
-    .mutation(async ({ ctx, input }) => {
-      const isStatTrak = input.statTrak;
-      const slug = slugCreator(input.name);
-      if (!isStatTrak) {
-        const product = await ctx.prisma.product.create({
-          data: {
-            ...input,
-            slug,
-            statTrak: false,
-          },
-        });
-        return product;
-      }
-      if (isStatTrak === "NO") {
-        const product = await ctx.prisma.product.create({
-          data: {
-            ...input,
-            slug,
-            statTrak: false,
-          },
-        });
-        return product;
-      }
-      if (isStatTrak === "YES") {
-        const product = await ctx.prisma.product.create({
-          data: {
-            ...input,
-            slug,
-            statTrak: true,
-          },
-        });
-        return product;
-      }
-      const product = await ctx.prisma.product.create({
-        data: {
-          ...input,
-          slug,
-          statTrak: false,
-        },
-      });
-      // ctx.revalidateSSG?.(`/products/${product.slug}`);
-      return product;
-    }),
+
   deleteProduct: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
@@ -139,5 +115,31 @@ export const productRouter = createTRPCRouter({
       await ctx.prisma.product.delete({ where: { id } });
 
       return true;
+    }),
+  createPresignedUrl: protectedProcedure
+    .input(z.object({ fileType: z.string() }))
+    .mutation(async ({ input }) => {
+      const id = nanoid();
+      const ex = input.fileType.split("/")[1];
+      const key = `${id}.${ex}`;
+
+      const { url, fields } = (await new Promise((resolve, reject) => {
+        s3.createPresignedPost(
+          {
+            Bucket: "cs-store-arg",
+            Fields: { key },
+            Expires: 60,
+            Conditions: [
+              ["content-length-range", 0, MAX_FILE_SIZE],
+              ["starts-with", "$Content-Type", "image/"],
+            ],
+          },
+          (err, signed) => {
+            if (err) return reject(err);
+            resolve(signed);
+          }
+        );
+      })) as any as { url: string; fields: any };
+      return { url, fields, key };
     }),
 });
