@@ -122,6 +122,7 @@ export const productRouter = createTRPCRouter({
           statTrak: false,
         },
       });
+      // ctx.revalidateSSG?.(`/products/${product.slug}`);
       return product;
     }),
   deleteProduct: protectedProcedure

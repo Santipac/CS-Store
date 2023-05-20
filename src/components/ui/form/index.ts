@@ -1,3 +1,3 @@
-export * from "./InputNumber";
-export * from "./InputText";
+export * from "./FieldText";
+export * from "./FieldNumber";
 export * from "./SelectCustom";
