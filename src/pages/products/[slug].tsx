@@ -94,26 +94,34 @@ const ProductPage: NextPage<Props> = ({ slug }) => {
               </span>
             </div>
 
-            <div className="flex flex-col space-y-2">
-              <h2 className="font-regular text-md text-gray-600">Quantity:</h2>
-              <div className="flex items-center space-x-5">
-                <button
-                  onClick={decrement}
-                  className="font-semibold text-gray-800"
-                >
-                  -
-                </button>
-                <p className="text-blach bg-gray-100 px-2 py-1 text-zinc-500">
-                  {quantity}
-                </p>
-                <button
-                  onClick={increment}
-                  className="font-semibold text-gray-800"
-                >
-                  +
-                </button>
+            {product.inStock === 0 ? (
+              <span className="text-red-500">
+                We don&apos;t have stock for this product{" "}
+              </span>
+            ) : (
+              <div className="flex flex-col space-y-2">
+                <h2 className="font-regular text-md text-gray-600">
+                  Quantity:
+                </h2>
+                <div className="flex items-center space-x-5">
+                  <button
+                    onClick={decrement}
+                    className="font-semibold text-gray-800"
+                  >
+                    -
+                  </button>
+                  <p className="text-blach bg-gray-100 px-2 py-1 text-zinc-500">
+                    {quantity}
+                  </p>
+                  <button
+                    onClick={increment}
+                    className="font-semibold text-gray-800"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="w-full">
               <button
