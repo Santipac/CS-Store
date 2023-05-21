@@ -13,6 +13,7 @@ import { useCartStore } from "@/store/cartStore";
 import { shallow } from "zustand/shallow";
 import { Spinner } from "../ui";
 import { Button } from "../ui/primitives/button";
+import { toast } from "react-hot-toast";
 
 interface DialogProps {
   label: string;
@@ -32,7 +33,17 @@ const CheckoutDialog: React.FC<DialogProps> = ({
     },
   });
   const { mutateAsync: createOrder, isLoading } =
-    api.order.createOrder.useMutation();
+    api.order.createOrder.useMutation({
+      onError: ({ data, message }) => {
+        if (data?.code === "FORBIDDEN") {
+          toast.error("You need to Sign in before purchasing", {
+            duration: 3000,
+          });
+        } else {
+          toast.error(message, { duration: 3000 });
+        }
+      },
+    });
   const { items, count, total } = useCartStore(
     (cart) => ({
       items: cart.items,

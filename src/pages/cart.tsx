@@ -6,10 +6,14 @@ import { BsBagX } from "react-icons/bs";
 import NextLink from "next/link";
 import { shallow } from "zustand/shallow";
 import dynamic from "next/dynamic";
+import { Toaster } from "react-hot-toast";
 
-const CheckoutDialog = dynamic(() => import('@/components/cart/CheckoutDialog'))
-const ProductSummary = dynamic(() => import('@/components/cart/ProductSummary'))
-
+const CheckoutDialog = dynamic(
+  () => import("@/components/cart/CheckoutDialog")
+);
+const ProductSummary = dynamic(
+  () => import("@/components/cart/ProductSummary")
+);
 
 export default function CartPage() {
   const { items, isEmpty, total } = useCartStore(
@@ -50,6 +54,7 @@ export default function CartPage() {
       <Navbar />
       <section className="mx-auto mt-12 flex max-w-7xl flex-col px-4 sm:px-6">
         <h2 className="text-4xl font-bold text-gray-800">Shopping Cart</h2>
+        <Toaster />
         <div className="grid h-full w-full auto-rows-min gap-4 md:grid-cols-2 md:grid-rows-1">
           <div className="mt-8 flex w-full max-w-3xl flex-col space-y-4">
             <section className="space-y-2">
@@ -105,4 +110,3 @@ export default function CartPage() {
     </section>
   );
 }
-

@@ -23,13 +23,12 @@ export const columns: ColumnDef<Product>[] = [
       const product = row.original;
       const { mutateAsync: deleteProduct } =
         api.product.deleteProduct.useMutation();
-      const { refetch } = api.product.getProducts.useQuery();
-      const onDeleteProduct = async (id: string) => {
+      const onDeleteProduct = async () => {
         try {
           toast.loading("Deleting Product...", { duration: 2000 });
-          await deleteProduct({ id });
-          refetch();
+          await deleteProduct({ id: product.id });
           toast.success("Product deleted successfully");
+          window.location.reload();
         } catch (error) {
           toast.error("Could not delete product. Please try again");
         }
@@ -46,7 +45,7 @@ export const columns: ColumnDef<Product>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               className="font-medium text-red-500 focus:bg-red-500 focus:text-white"
-              onClick={() => onDeleteProduct(product.id)}
+              onClick={onDeleteProduct}
             >
               Delete Product
             </DropdownMenuItem>
