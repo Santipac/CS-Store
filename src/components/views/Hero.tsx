@@ -82,7 +82,7 @@ export const Hero = () => {
                   <CreditCardIcon className="h-6 w-6" /> Secure purchase
                 </p>
               </div>
-              <div className="mt-2 text-base text-gray-600">
+              <div className="mt-2  text-sm text-gray-600 sm:text-lg">
                 We provide a third party service such as Stripe for the
                 protection of your credentials.
               </div>
@@ -93,7 +93,7 @@ export const Hero = () => {
                   <BoltIcon className="h-6 w-6" /> Flash Delivery
                 </p>
               </div>
-              <div className="mt-2 text-base text-gray-600">
+              <div className="mt-2  text-sm text-gray-600 sm:text-lg">
                 We deliver every day, so you will receive your purchases
                 quickly.
               </div>
@@ -104,7 +104,7 @@ export const Hero = () => {
                   <CurrencyDollarIcon className="h-6 w-6" /> Sell us your skins
                 </p>
               </div>
-              <div className="mt-2 text-base text-gray-600">
+              <div className="mt-2  text-sm text-gray-600 sm:text-lg">
                 We buy and quote your skins at the best price in the market!
               </div>
             </div>

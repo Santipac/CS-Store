@@ -72,6 +72,24 @@ export const productRouter = createTRPCRouter({
     );
     return products;
   }),
+  getProductsByCategory: publicProcedure
+    .input(z.object({ type: z.string() }))
+    .query(async ({ input, ctx }) => {
+      let products = await ctx.prisma.product.findMany({
+        where: { type: input.type },
+        orderBy: { createdAt: "desc" },
+      });
+      products = await Promise.all(
+        products.map(async (product) => ({
+          ...product,
+          image: await s3.getSignedUrlPromise("getObject", {
+            Bucket: "cs-store-arg",
+            Key: product.image,
+          }),
+        }))
+      );
+      return products;
+    }),
   getProductById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -86,6 +104,7 @@ export const productRouter = createTRPCRouter({
       const product = { ...productDB, image: imageUrl };
       return product;
     }),
+
   getProductBySlug: publicProcedure
     .input(z.object({ slug: z.string() }))
     .query(async ({ ctx, input }) => {

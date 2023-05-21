@@ -1,7 +1,10 @@
-import { api } from "@/utils/api";
+import React from "react";
 import Image from "next/image";
 import NextLink from "next/link";
-
+import { CardProductSkeleton } from "./CardProductSkeleton";
+import { formatPriceToActualCurrency } from "@/helpers/currency";
+import { NoSymbolIcon } from "@heroicons/react/24/outline";
+import { api } from "@/utils/api";
 export default function ProductList() {
   const {
     data: products,
@@ -13,9 +16,12 @@ export default function ProductList() {
     return (
       <div className="bg-white">
         <div className="my-12 text-center ">
-          <h2 className="text-2xl font-medium text-gray-700">
-            Something went wrong...
-          </h2>
+          <div className="flex h-96 w-full flex-col items-center justify-center">
+            <NoSymbolIcon className="h-24 w-24 text-red-400" />
+            <span className="mt-4 font-medium text-gray-500">
+              We couldn&apos;t find any product
+            </span>
+          </div>
         </div>
       </div>
     );
@@ -42,9 +48,14 @@ export default function ProductList() {
   return (
     <div className="bg-white">
       <div className="my-12">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-          New Products
-        </h2>
+        <div className="flex w-full items-center justify-between">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+            New Products
+          </h2>
+          <NextLink href="/products" className="text-gray-400 ">
+            View All
+          </NextLink>
+        </div>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {products.length === 0 ? (
@@ -70,8 +81,13 @@ export default function ProductList() {
                         width={200}
                         height={200}
                       />
+                      {product.inStock === 0 && (
+                        <span className="absolute bottom-0 left-0 mb-2 ml-2 rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-800">
+                          Not Available
+                        </span>
+                      )}
                       {product.statTrak && (
-                        <span className="absolute right-0 top-0 mr-2 mt-2 rounded-full bg-black px-2 py-1 text-xs text-white">
+                        <span className="absolute right-0 top-0 mr-2 mt-2 rounded-full bg-zinc-200 px-2 py-1 text-xs font-medium text-black">
                           StatTrak™
                         </span>
                       )}
@@ -101,7 +117,3 @@ export default function ProductList() {
     </div>
   );
 }
-
-import React from "react";
-import { CardProductSkeleton } from "./CardProductSkeleton";
-import { formatPriceToActualCurrency } from "@/helpers/currency";
