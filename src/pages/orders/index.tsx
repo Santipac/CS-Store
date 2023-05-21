@@ -1,5 +1,6 @@
-import { ShopLayout } from "@/components/layouts/ShopLayout";
 import React from "react";
+import NextLink from "next/link";
+import { ShopLayout } from "@/components/layouts/ShopLayout";
 import { NoSymbolIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { api } from "@/utils/api";
@@ -43,7 +44,7 @@ const OrdersPage = () => {
                   <TableHead>Total</TableHead>
                   <TableHead>Paid</TableHead>
                   <TableHead>Status</TableHead>
-                  {/* <TableHead>Resume</TableHead> */}
+                  <TableHead>Resume</TableHead>
                   <TableHead>Created</TableHead>
                 </TableRow>
               </TableHeader>
@@ -85,14 +86,14 @@ const OrdersPage = () => {
                         </Badge>
                       )}
                     </TableCell>
-                    {/* <TableCell>
+                    <TableCell>
                       <NextLink
                         href={`/orders/${order.id}`}
                         className="text-blue-500 underline"
                       >
                         View Order
                       </NextLink>
-                    </TableCell> */}
+                    </TableCell>
                     <TableCell className="text-gray-600">{`${new Date(
                       order.createdAt
                     ).toLocaleString()}`}</TableCell>

@@ -7,7 +7,10 @@ import { s3 } from "@/lib/s3";
 import { MAX_FILE_SIZE } from "@/constants/config";
 import { protectedProcedure } from "../trpc";
 import { nanoid } from "nanoid";
-import { productSchema } from "@/common/validation/product";
+import {
+  getProductsFilterSchema,
+  productSchema,
+} from "@/common/validation/product";
 import { slugCreator } from "@/helpers/products";
 
 export const productRouter = createTRPCRouter({
@@ -57,21 +60,38 @@ export const productRouter = createTRPCRouter({
       return product;
     }),
 
-  getProducts: publicProcedure.query(async ({ ctx }) => {
-    let products = await ctx.prisma.product.findMany({
-      orderBy: { createdAt: "desc" },
-    });
-    products = await Promise.all(
-      products.map(async (product) => ({
-        ...product,
-        image: await s3.getSignedUrlPromise("getObject", {
-          Bucket: "cs-store-arg",
-          Key: product.image,
-        }),
-      }))
-    );
-    return products;
-  }),
+  getProducts: publicProcedure
+    .input(getProductsFilterSchema)
+    .query(async ({ input, ctx }) => {
+      let orderBy: object;
+      switch (input) {
+        case "NEWEST":
+          orderBy = { createdAt: "desc" };
+          break;
+        case "OLDEST":
+          orderBy = { createdAt: "asc" };
+          break;
+        case "CHEAP_FIRST":
+          orderBy = { price: "asc" };
+          break;
+        case "EXPENSIVE_FIRST":
+          orderBy = { price: "desc" };
+          break;
+      }
+      let products = await ctx.prisma.product.findMany({
+        orderBy,
+      });
+      products = await Promise.all(
+        products.map(async (product) => ({
+          ...product,
+          image: await s3.getSignedUrlPromise("getObject", {
+            Bucket: "cs-store-arg",
+            Key: product.image,
+          }),
+        }))
+      );
+      return products;
+    }),
   getProductsByCategory: publicProcedure
     .input(z.object({ type: z.string() }))
     .query(async ({ input, ctx }) => {

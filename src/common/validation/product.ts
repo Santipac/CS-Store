@@ -36,4 +36,13 @@ export const productFormValidation = z.object({
   statTrak: z.string().optional(),
 });
 
+export const getProductsFilterSchema = z
+  .union([
+    z.literal("CHEAP_FIRST"),
+    z.literal("EXPENSIVE_FIRST"),
+    z.literal("NEWEST"),
+    z.literal("OLDEST"),
+  ])
+  .default("NEWEST");
+
 export type IProduct = z.infer<typeof productSchema>;

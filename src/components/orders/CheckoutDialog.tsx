@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/primitives/dialog";
 import { Spinner } from "../ui";
 import type { Order } from "@/pages/orders/[id]";
+import { Button } from "../ui/primitives";
 
 interface DialogProps {
   label: string;
@@ -40,7 +41,7 @@ const CheckoutDialog: React.FC<DialogProps> = ({
   return (
     <Dialog>
       <DialogTrigger>
-        <button className="btn-block btn text-gray-200">
+        <Button className="w-full bg-black text-gray-200">
           {isLoading ? (
             <Spinner
               height="h-8"
@@ -51,7 +52,7 @@ const CheckoutDialog: React.FC<DialogProps> = ({
           ) : (
             label
           )}
-        </button>
+        </Button>
       </DialogTrigger>
       <DialogContent className="self-center">
         <DialogHeader>

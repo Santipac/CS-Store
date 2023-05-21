@@ -15,7 +15,8 @@ const config = {
       rules: {
         '@typescript-eslint/no-misused-promises': 'off',
         '@typescript-eslint/require-await': 'off',
-        '@typescript-eslint/no-floating-promises': 'off'
+        '@typescript-eslint/no-floating-promises': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off'
       }
     },
   ],
