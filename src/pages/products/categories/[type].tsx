@@ -77,6 +77,7 @@ const CategoryProductPage: NextPage<Props> = ({ category }) => {
       title={`CS Store | Page for ${categoryCapitalized} Skins`}
       description={`Page for products with category ${categoryCapitalized}`}
     >
+      <h2 className="text-4xl font-bold text-gray-800 my-6">Products <span className="italic text-lg font-medium text-gray-400">({category})</span></h2>
       <section className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
         {products.map((product) => (
           <NextLink href={`/products/${product.slug}`} key={product.slug}>

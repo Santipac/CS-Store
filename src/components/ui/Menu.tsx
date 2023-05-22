@@ -37,7 +37,7 @@ export const Menu: React.FC = () => {
           />
         )}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="mr-8">
+      <DropdownMenuContent className="mr-8 w-44">
         {isAdmin ? (
           <AdminActions />
         ) : (
@@ -55,7 +55,7 @@ const AdminActions = () => (
     <DropdownMenuItem>
       <NextLink
         href="/admin/"
-        className="-m-2 block p-2 font-medium text-gray-900"
+        className="-m-2 block  w-full px-2 py-3 font-medium text-gray-900"
       >
         Dashboard
       </NextLink>
@@ -63,7 +63,7 @@ const AdminActions = () => (
     <DropdownMenuItem>
       <NextLink
         href="/admin/orders"
-        className="-m-2 block p-2 font-medium text-gray-900"
+        className="-m-2 block  w-full px-2 py-3 font-medium text-gray-900"
       >
         Orders
       </NextLink>
@@ -72,7 +72,7 @@ const AdminActions = () => (
       {" "}
       <NextLink
         href="/admin/products"
-        className="-m-2 block p-2 font-medium text-gray-900"
+        className="-m-2 block  w-full px-2 py-3 font-medium text-gray-900"
       >
         Products
       </NextLink>
@@ -81,7 +81,7 @@ const AdminActions = () => (
       {" "}
       <NextLink
         href="/admin/users"
-        className="-m-2 block p-2 font-medium text-gray-900"
+        className="-m-2 block  w-full px-2 py-3 font-medium text-gray-900"
       >
         Users
       </NextLink>
@@ -102,7 +102,7 @@ const CustomerActions = ({ sessionData }: { sessionData: Session | null }) => (
         <DropdownMenuItem>
           <NextLink
             href="/products"
-            className="-m-2 block p-2 font-medium text-gray-900"
+            className="-m-2 block w-full px-2  py-3 font-medium text-gray-900"
           >
             Products
           </NextLink>
@@ -110,7 +110,7 @@ const CustomerActions = ({ sessionData }: { sessionData: Session | null }) => (
         <DropdownMenuItem>
           <NextLink
             href="/orders"
-            className="-m-2 block p-2 font-medium text-gray-900"
+            className="-m-2 block  w-full px-2 py-3 font-medium text-gray-900"
           >
             My Orders
           </NextLink>
@@ -118,7 +118,7 @@ const CustomerActions = ({ sessionData }: { sessionData: Session | null }) => (
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => signOut()}
-          className="cursor-pointer font-medium"
+          className="w-full cursor-pointer font-medium"
         >
           Sign Out
         </DropdownMenuItem>
@@ -128,7 +128,7 @@ const CustomerActions = ({ sessionData }: { sessionData: Session | null }) => (
         <DropdownMenuItem>
           <NextLink
             href="/auth/signin"
-            className="-m-2 block p-2 font-medium text-gray-900"
+            className="-m-2 block  w-full px-2 py-3 font-medium text-gray-900"
           >
             Sign In
           </NextLink>
@@ -136,7 +136,7 @@ const CustomerActions = ({ sessionData }: { sessionData: Session | null }) => (
         <DropdownMenuItem>
           <NextLink
             href="/auth/signup"
-            className="-m-2 block p-2 font-medium text-gray-900"
+            className="-m-2 block  w-full px-2 py-3 font-medium text-gray-900"
           >
             Create Account
           </NextLink>
