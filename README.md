@@ -33,11 +33,12 @@ Para esta aplicacion utilice varias tecnologias, haciendo especialmente foco en 
 - Prisma ORM
 - CockRoachDB (SQL)
 
-![CS-store-Argentina](https://github.com/Santipac/CS-Store/assets/92342946/f5d49d69-e153-4b69-af03-6e7c1c6dceb9)
-
-## Info Card para completar pagos.
+## Card para completar pagos.
 - titular: cualquier nombre
 - email: cualquier email
 - numbers: 4242 4242 4242 4242
 - expirate date: 12/34
 - cvv: 123
+
+
+![CS-store-Argentina](https://github.com/Santipac/CS-Store/assets/92342946/f5d49d69-e153-4b69-af03-6e7c1c6dceb9)
