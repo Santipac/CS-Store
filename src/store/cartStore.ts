@@ -1,6 +1,5 @@
 import type { ProductCart } from "@/interfaces/product";
 import { create } from "zustand";
-
 type CartState = {
   items: ProductCart[];
   computed: {
@@ -37,8 +36,22 @@ export const useCartStore = create<CartState & Actions>((set, get) => ({
   AddProduct: (product: ProductCart) =>
     set((state) => {
       const wasAdded = state.items.some((item) => item.id === product.id);
+      if (wasAdded) {
+        const updateQuantityProduct = state.items.map((item) =>
+          item.id === product.id
+            ? {
+                ...item,
+                quantity:
+                  item.quantity + product.quantity <= product.inStock
+                    ? item.quantity + product.quantity
+                    : product.inStock,
+              }
+            : item
+        );
+        return { ...state, items: updateQuantityProduct };
+      }
       if (!wasAdded) {
-        return { ...state, items: [product, ...state.items] };
+        return { ...state, items: [...state.items, product] };
       }
       return state;
     }),

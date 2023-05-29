@@ -52,7 +52,7 @@ const ProductPage: NextPage<Props> = ({ slug }) => {
     <section className="min-h-screen bg-white">
       <Navbar />
       <div className="flex h-full w-full justify-center">
-        <div className="mt-8 flex w-11/12 flex-col md:w-3/4 lg:flex-row">
+        <div className="mt-8 flex w-11/12 max-w-7xl flex-col lg:flex-row">
           <div className="relative flex min-h-[40vh] w-full items-center  justify-center rounded-md bg-gray-200 lg:w-1/2">
             <Image
               src={product.image}
@@ -89,20 +89,25 @@ const ProductPage: NextPage<Props> = ({ slug }) => {
                   </span>
                 </div>
               )}
-              <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                TradeLock: {product.tradelock}
-              </span>
             </div>
-
+            <span className="text-md font-medium text-gray-600">
+              Tradelock: {product.tradelock}
+            </span>
             {product.inStock === 0 ? (
               <span className="text-red-500">
                 We don&apos;t have stock for this product{" "}
               </span>
             ) : (
               <div className="flex flex-col space-y-2">
-                <h2 className="font-regular text-md text-gray-600">
-                  Quantity:
-                </h2>
+                <div className="flex items-center gap-2">
+                  {" "}
+                  <h2 className="font-regular text-md text-gray-600">
+                    Quantity
+                  </h2>
+                  <span className="mt-1 text-sm font-medium text-gray-400">
+                    ({product.inStock}) in stock
+                  </span>
+                </div>
                 <div className="flex items-center space-x-5">
                   <button
                     onClick={decrement}
@@ -127,7 +132,10 @@ const ProductPage: NextPage<Props> = ({ slug }) => {
               <button
                 className="h-12 w-full rounded border-none bg-zinc-800 font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-600 disabled:text-gray-300"
                 disabled={product.inStock === 0}
-                onClick={() => AddProduct({ ...product, quantity })}
+                onClick={() => {
+                  AddProduct({ ...product, quantity });
+                  setQuantity(1);
+                }}
               >
                 Add to Cart
               </button>

@@ -69,7 +69,7 @@ export default function CartPage() {
               Remove all products
             </span>
           </div>
-          <div className="my-8 flex w-full max-w-3xl flex-col space-y-4 bg-gray-100 px-4 py-4">
+          <div className="my-8 flex h-min w-full max-w-3xl flex-col space-y-4 bg-gray-100 px-4 py-4">
             <h2 className="text-lg font-semibold text-gray-800">
               Order Summary
             </h2>

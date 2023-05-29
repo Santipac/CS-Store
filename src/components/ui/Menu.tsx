@@ -21,7 +21,7 @@ export const Menu: React.FC = () => {
   });
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="mr-2 outline-none">
+      <DropdownMenuTrigger className="outline-none">
         {sessionData?.user.image ? (
           <Image
             className="rounded-full object-contain"

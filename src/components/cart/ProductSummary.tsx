@@ -20,12 +20,12 @@ const ProductSummary: React.FC<Props> = ({ item }) => {
       <Image
         src={item.image}
         alt={`Image Product for ${item.name}`}
-        width={130}
+        width={160}
         height={100}
-        className=" bg-gray-100 object-fill"
+        className=" bg-gray-100 object-fill p-2"
       />
 
-      <div className="flex w-full flex-col space-y-1 p-2">
+      <div className="flex w-full flex-col justify-center space-y-1 p-2 pl-4">
         <div className="flex w-full items-center justify-between">
           <h2 className="text-sm font-semibold text-gray-800">{item.name}</h2>
           <XMarkIcon

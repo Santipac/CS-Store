@@ -31,9 +31,14 @@ export default function ProductList() {
     return (
       <div className="bg-white">
         <div className="my-12">
+        <div className="flex w-full items-center justify-between">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-            Customers also purchased
+            New Products
           </h2>
+          <NextLink href="/products" className="text-gray-400 ">
+            View All
+          </NextLink>
+        </div>
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             <CardProductSkeleton />
             <CardProductSkeleton />

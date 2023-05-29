@@ -34,7 +34,7 @@ export const ShopLayout: React.FC<Props> = ({
       <main className="min-h-screen bg-white">
         <Navbar />
         <div className="flex h-full w-full justify-center">
-          <div className="flex w-full flex-col px-4 md:w-3/4">{children}</div>
+          <div className="flex w-full flex-col px-4 max-w-7xl">{children}</div>
         </div>
       </main>
     </Suspense>

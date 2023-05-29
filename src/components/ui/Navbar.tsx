@@ -21,9 +21,9 @@ export const Navbar: React.FC = () => {
         </p>
 
         <nav aria-label="Top" className="mx-auto max-w-7xl">
-          <div className="flex h-16 w-full items-center justify-between">
+          <div className="flex h-16 w-full items-center justify-between px-4">
             {/* Logo */}
-            <div className="ml-4 flex flex-1 lg:ml-0">
+            <div className="flex flex-1">
               <NextLink href="/" className="text-2xl font-bold text-gray-800">
                 CS
               </NextLink>
