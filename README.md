@@ -1,28 +1,44 @@
-# Create T3 App
+# CS STORE
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Tienda ficticia orientada a la venta de articulos o items del juego Counter-Strike (CSGO). La idea de desarrollar esta tienda fue impulsada para aprender sobre varias tecnologias que no conocia hasta el momento de realizar la aplicacion. Utilice el juego como nicho para evitar hacer una tipica tienda de ropa, ademas de ser uno de mis juegos favoritos.
 
-## What's next? How do I make an app with this?
+## Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Algunas de las funcionalidades de la tienda estan protegidas para evitar el uso indebido de la misma, por ende, si pruebas la demo solo tendras las funcionalidades de cliente.
+- Autenticacion basada en Roles (ADMIN / CIENTE)
+- Autenticacion con redes sociales
+- Pagos integrados (Mas abajo dejare una tarjeta para completar las compras)
+- Carrito de compras
+- Manejo de Ordenes
+- Admin Panel con funcionalidades CRUD para productos, ordenes, usuarios
+- Rutas Dinamicas
+- Server Side Rendering (SSR)
+- Static Site Generation (SSG), Incremental Static Regeneration (ISG)
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Stack
 
-## Learn More
+Para esta aplicacion utilice varias tecnologias, haciendo especialmente foco en hacer la app totalmente tipada. Asi que muchas dependencias o tecnologias estan basadas en TypeScript. Nombrare las mas importantes.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- NextJS 13
+- TypeScript
+- Tailwind CSS
+- React Query
+- Zustand
+- Zod
+- tRPC
+- Stripe
+- AWS S3
+- Next Auth
+- Prisma ORM
+- CockRoachDB (SQL)
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Card para completar pagos.
+- titular: cualquier nombre
+- email: cualquier email
+- numbers: 4242 4242 4242 4242
+- expirate date: 12/34
+- cvv: 123
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
 
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+![CS-store-Argentina](https://github.com/Santipac/CS-Store/assets/92342946/f5d49d69-e153-4b69-af03-6e7c1c6dceb9)
