@@ -7,11 +7,11 @@ import { api } from "@/utils/api";
 import { useRouter } from "next/router";
 import { Toaster } from "react-hot-toast";
 import { NoSymbolIcon } from "@heroicons/react/24/outline";
-import { columns } from "@/components/admin/products/columns";
 import { Button } from "@/components/ui/primitives";
 import { DataTable } from "@/components/ui/DataTable";
+import { columns } from "@/components/admin/orders/columns";
 
-const ProductsAdminPage: NextPage = () => {
+const OrdersAdminPage: NextPage = () => {
   const router = useRouter();
   const { data: sessionData } = useSession({ required: true });
   const { data: isAdmin } = api.admin.userIsAdmin.useQuery({
@@ -20,7 +20,7 @@ const ProductsAdminPage: NextPage = () => {
   if (isAdmin === false || isAdmin === null) {
     router.replace("/");
   }
-  const { data: products } = api.product.getProducts.useQuery();
+  const { data: orders } = api.order.getAllOrders.useQuery();
 
   return (
     <AdminLayout sessionData={sessionData} title="Products">
@@ -36,7 +36,7 @@ const ProductsAdminPage: NextPage = () => {
           </Button>
         </div>
         <>
-          {products === undefined || products.length === 0 ? (
+          {orders === undefined || orders.length === 0 ? (
             <div className="flex h-96 w-full flex-col items-center justify-center">
               <NoSymbolIcon className="h-24 w-24 text-red-400" />
               <span className="mt-4 font-medium text-gray-500">
@@ -47,9 +47,9 @@ const ProductsAdminPage: NextPage = () => {
             <div className="overflow-hidden">
               <DataTable
                 columns={columns}
-                data={products}
-                inputFilter="name"
-                inputPlaceHolder="Filter by Product Name"
+                data={orders}
+                inputFilter="id"
+                inputPlaceHolder="Filter by Order ID"
               />
             </div>
           )}
@@ -62,4 +62,4 @@ const ProductsAdminPage: NextPage = () => {
 export const getServerSideProps = requireBeAdmin(async (_ctx) => {
   return { props: {} };
 });
-export default ProductsAdminPage;
+export default OrdersAdminPage;

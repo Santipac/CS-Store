@@ -2,6 +2,7 @@ import {
   type ColumnDef,
   type SortingState,
   type ColumnFiltersState,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
@@ -21,18 +22,27 @@ import {
 import { Button } from "@/components/ui/primitives/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/primitives/input";
-import { useRouter } from "next/router";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/primitives/dropdown-menu";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  inputFilter: string;
+  inputPlaceHolder: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  inputFilter,
+  inputPlaceHolder,
 }: DataTableProps<TData, TValue>) {
-  const router = useRouter();
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -44,30 +54,53 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
       columnFilters,
+      columnVisibility,
     },
   });
 
   return (
     <>
-      <div className="mx-1 flex items-center justify-between gap-2 py-4">
+      <div className="flex items-center justify-between gap-2 py-4">
         <Input
-          placeholder="Filter by Name"
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+          placeholder={inputPlaceHolder}
+          value={
+            (table.getColumn(inputFilter)?.getFilterValue() as string) ?? ""
           }
-          className="max-w-sm"
+          onChange={(event) =>
+            table.getColumn(inputFilter)?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm focus-visible:ring-transparent"
         />
-        <Button
-          variant="secondary"
-          onClick={() => router.push("/admin/products/create")}
-          className=" w-20 text-end text-gray-500"
-        >
-          Create
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto gap-2">
+              Columns
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className="rounded-md border">
         <Table>

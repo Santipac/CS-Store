@@ -1,4 +1,8 @@
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 import { orderSchema } from "@/common/validation/order";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
@@ -78,4 +82,17 @@ export const orderRouter = createTRPCRouter({
       });
       return orders;
     }),
+  getAllOrders: protectedProcedure.query(async ({ ctx }) => {
+    const orders = await ctx.prisma.order.findMany({
+      include: {
+        user: {
+          select: {
+            email: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    return orders;
+  }),
 });
