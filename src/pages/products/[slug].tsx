@@ -8,6 +8,7 @@ import { api } from "@/utils/api";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
 import NextLink from "next/link";
 import { ssgHelper } from "@/server/api/ssgHelper";
+import { ShopLayout } from "@/components/layouts/ShopLayout";
 interface Props {
   slug: string;
 }
@@ -49,112 +50,109 @@ const ProductPage: NextPage<Props> = ({ slug }) => {
   };
 
   return (
-    <section className="min-h-screen bg-white">
-      <Navbar />
-      <div className="flex h-full w-full justify-center">
-        <div className="mt-8 flex w-11/12 max-w-7xl flex-col lg:flex-row">
-          <div className="relative flex min-h-[40vh] w-full items-center  justify-center rounded-md bg-gray-200 lg:w-1/2">
-            <Image
-              src={product.image}
-              alt="Product Image"
-              width={360}
-              height={200}
-              className="object-contain"
-            />
-            {product.statTrak && (
-              <span className="absolute right-0 top-0 mr-2 mt-2 inline-flex items-center rounded-md bg-black px-2 py-1 text-sm font-medium text-white ring-1 ring-inset ring-orange-600/20">
-                StatTrak™
-              </span>
-            )}
-          </div>
-          <div className="flex w-full flex-col space-y-4 sm:px-4 lg:w-1/2">
-            <div className="mt-2 flex items-center justify-between lg:mt-0">
-              <h2 className="text-lg font-medium text-black sm:text-xl">
-                {product.name}
-              </h2>
-              <h2 className="text-lg font-semibold text-gray-800 sm:text-xl">
-                {formatPriceToActualCurrency(product.price)}
-              </h2>
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              {product.wear && product.wear !== "-" && (
-                <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20">
-                  {product.wear}
-                </span>
-              )}
-              {!product.float || product.float === 0 ? null : (
-                <div>
-                  <span className="inline-flex items-center rounded-md bg-zinc-50 px-2 py-1 text-sm font-medium text-zinc-700 ring-1 ring-inset ring-zinc-600/20">
-                    Float: {product.float}
-                  </span>
-                </div>
-              )}
-            </div>
-            <span className="text-md font-medium text-gray-600">
-              Tradelock: {product.tradelock}
+    <ShopLayout
+      title="CS Store - Product Page"
+      description={`Product page for ${product.name}`}
+    >
+      <div className="mt-8 flex max-w-7xl flex-col lg:flex-row">
+        <div className="relative flex min-h-[40vh] w-full items-center  justify-center rounded-md bg-gray-200 lg:w-1/2">
+          <Image
+            src={product.image}
+            alt="Product Image"
+            width={360}
+            height={200}
+            className="object-contain"
+            priority
+          />
+          {product.statTrak && (
+            <span className="absolute right-0 top-0 mr-2 mt-2 inline-flex items-center rounded-md bg-black px-2 py-1 text-sm font-medium text-white ring-1 ring-inset ring-orange-600/20">
+              StatTrak™
             </span>
-            {product.inStock === 0 ? (
-              <span className="text-red-500">
-                We don&apos;t have stock for this product{" "}
+          )}
+        </div>
+        <div className="flex w-full flex-col space-y-4 sm:px-4 lg:w-1/2">
+          <div className="mt-2 flex items-center justify-between lg:mt-0">
+            <h2 className="text-lg font-medium text-black sm:text-xl">
+              {product.name}
+            </h2>
+            <h2 className="text-lg font-semibold text-gray-800 sm:text-xl">
+              {formatPriceToActualCurrency(product.price)}
+            </h2>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            {product.wear && product.wear !== "-" && (
+              <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20">
+                {product.wear}
               </span>
-            ) : (
-              <div className="flex flex-col space-y-2">
-                <div className="flex items-center gap-2">
-                  {" "}
-                  <h2 className="font-regular text-md text-gray-600">
-                    Quantity
-                  </h2>
-                  <span className="mt-1 text-sm font-medium text-gray-400">
-                    ({product.inStock}) in stock
-                  </span>
-                </div>
-                <div className="flex items-center space-x-5">
-                  <button
-                    onClick={decrement}
-                    className="font-semibold text-gray-800"
-                  >
-                    -
-                  </button>
-                  <p className="text-blach bg-gray-100 px-2 py-1 text-zinc-500">
-                    {quantity}
-                  </p>
-                  <button
-                    onClick={increment}
-                    className="font-semibold text-gray-800"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
             )}
-
-            <div className="w-full">
-              <button
-                className="h-12 w-full rounded border-none bg-zinc-800 font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-600 disabled:text-gray-300"
-                disabled={product.inStock === 0}
-                onClick={() => {
-                  AddProduct({ ...product, quantity });
-                  setQuantity(1);
-                }}
-              >
-                Add to Cart
-              </button>
-            </div>
-
-            {product.description && (
-              <div className="flex flex-col">
-                <h2 className="text-md font-medium text-gray-700">
-                  Description
-                </h2>
-                <p className="font-regular text-sm text-gray-500">
-                  {product.description}
-                </p>
+            {!product.float || product.float === 0 ? null : (
+              <div>
+                <span className="inline-flex items-center rounded-md bg-zinc-50 px-2 py-1 text-sm font-medium text-zinc-700 ring-1 ring-inset ring-zinc-600/20">
+                  Float: {product.float}
+                </span>
               </div>
             )}
           </div>
+          <span className="text-md font-medium text-gray-600">
+            Tradelock: {product.tradelock}
+          </span>
+          {product.inStock === 0 ? (
+            <span className="text-red-500">
+              We don&apos;t have stock for this product{" "}
+            </span>
+          ) : (
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center gap-2">
+                {" "}
+                <h2 className="font-regular text-md text-gray-600">Quantity</h2>
+                <span className="mt-1 text-sm font-medium text-gray-400">
+                  ({product.inStock}) in stock
+                </span>
+              </div>
+              <div className="flex items-center space-x-5">
+                <button
+                  onClick={decrement}
+                  className="font-semibold text-gray-800"
+                >
+                  -
+                </button>
+                <p className="text-blach bg-gray-100 px-2 py-1 text-zinc-500">
+                  {quantity}
+                </p>
+                <button
+                  onClick={increment}
+                  className="font-semibold text-gray-800"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="w-full">
+            <button
+              className="h-12 w-full rounded border-none bg-zinc-800 font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-600 disabled:text-gray-300"
+              disabled={product.inStock === 0}
+              onClick={() => {
+                AddProduct({ ...product, quantity });
+                setQuantity(1);
+              }}
+            >
+              Add to Cart
+            </button>
+          </div>
+
+          {product.description && (
+            <div className="flex flex-col">
+              <h2 className="text-md font-medium text-gray-700">Description</h2>
+              <p className="font-regular text-sm text-gray-500">
+                {product.description}
+              </p>
+            </div>
+          )}
         </div>
       </div>
-    </section>
+    </ShopLayout>
   );
 };
 

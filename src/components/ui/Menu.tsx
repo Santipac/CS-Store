@@ -21,7 +21,7 @@ export const Menu: React.FC = () => {
   });
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="outline-none">
+      <DropdownMenuTrigger className="outline-none" type="button">
         {sessionData?.user.image ? (
           <Image
             className="rounded-full object-contain"
@@ -54,7 +54,7 @@ const AdminActions = () => (
     <DropdownMenuSeparator />
     <DropdownMenuItem>
       <NextLink
-        href="/admin/"
+        href="/admin"
         className="-m-2 block  w-full px-2 py-3 font-medium text-gray-900"
       >
         Dashboard

@@ -22,7 +22,7 @@ const OrdersPage = () => {
   });
   return (
     <ShopLayout
-      title="CS Store | Orders"
+      title="CS Store - Orders"
       description="Page for check all the orders of the Customer"
     >
       <div className="flex w-full flex-col space-y-4 overflow-hidden">
