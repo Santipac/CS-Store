@@ -5,7 +5,7 @@ import { ShopLayout } from "@/components/layouts/ShopLayout";
 const Home: NextPage = () => {
   return (
     <ShopLayout
-      title="CS store | Argentina"
+      title="CS store - Argentina"
       description="Best Skins of CSGO in one place."
     >
       <Hero />

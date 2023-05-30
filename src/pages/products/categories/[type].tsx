@@ -74,7 +74,7 @@ const CategoryProductPage: NextPage<Props> = ({ category }) => {
 
   return (
     <ShopLayout
-      title={`CS Store | Page for ${categoryCapitalized} Skins`}
+      title={`CS Store - Page for ${categoryCapitalized} Skins`}
       description={`Page for products with category ${categoryCapitalized}`}
     >
       <h2 className="text-4xl font-bold text-gray-800 my-6">Products <span className="italic text-lg font-medium text-gray-400">({category})</span></h2>

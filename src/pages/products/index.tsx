@@ -51,7 +51,7 @@ const ProductsPage: NextPage = () => {
   if (!products || products.length === 0)
     return (
       <ShopLayout
-        title="CS Store | Products Page"
+        title="CS Store - Products Page"
         description="Page for all the products in the store"
       >
         <div className="flex h-96 w-full flex-col items-center justify-center">

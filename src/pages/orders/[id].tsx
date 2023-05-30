@@ -28,7 +28,7 @@ interface Props {
 const OrderSummaryPage: NextPage<Props> = ({ order }) => {
   return (
     <ShopLayout
-      title="CS Store | Order Page"
+      title="CS Store - Order Page"
       description="Order Summary Page for complete or check status of the order"
     >
       <h2 className="text-2xl font-bold text-gray-800 md:text-4xl">

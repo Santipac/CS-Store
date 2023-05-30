@@ -14,7 +14,11 @@ import { Button } from "./primitives/button";
 export const CartPopover: React.FC = () => {
   const items = useCartStore((state) => state.items);
   const remove = useCartStore((state) => state.remove);
-  const computed = useCartStore((state) => state.computed);
+  const computed = useCartStore((state) => ({
+    count: state.count,
+    isEmpty: state.isEmpty,
+    total: state.total,
+  }));
   return (
     <Popover>
       <PopoverTrigger>
@@ -82,3 +86,4 @@ export const CartPopover: React.FC = () => {
     </Popover>
   );
 };
+export default CartPopover;

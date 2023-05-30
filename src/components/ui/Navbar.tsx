@@ -5,13 +5,14 @@ import { navigation } from "@/constants/navbar";
 import Image from "next/image";
 import NextLink from "next/link";
 import { classNames } from "./helpers";
-import { CartPopover } from "./CartPopover";
 import { useCartStore } from "@/store/cartStore";
-import { shallow } from "zustand/shallow";
 import { Menu } from "./Menu";
-
+import dynamic from "next/dynamic";
+const CartPopover = dynamic(() => import("@/components/ui/CartPopover"), {
+  ssr: false,
+});
 export const Navbar: React.FC = () => {
-  const { count } = useCartStore((state) => state.computed, shallow);
+  const count = useCartStore((state) => state.count);
 
   return (
     <div className="w-full bg-white">
@@ -167,6 +168,6 @@ export const Navbar: React.FC = () => {
     </div>
   );
 };
-
+export default Navbar;
 /*
  */

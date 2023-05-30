@@ -47,8 +47,8 @@ const CheckoutDialog: React.FC<DialogProps> = ({
   const { items, count, total } = useCartStore(
     (cart) => ({
       items: cart.items,
-      total: cart.computed.total,
-      count: cart.computed.count,
+      total: cart.total,
+      count: cart.count,
     }),
     shallow
   );

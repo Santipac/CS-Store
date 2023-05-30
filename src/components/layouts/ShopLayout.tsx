@@ -1,7 +1,9 @@
 import React, { Suspense } from "react";
-import { Spinner, Navbar } from "../ui";
+import { Spinner } from "../ui";
 import Head from "next/head";
+import dynamic from "next/dynamic";
 
+const Navbar = dynamic(() => import("@/components/ui/Navbar"), { ssr: false });
 interface Props {
   children: JSX.Element | JSX.Element[];
   title: string;
@@ -34,7 +36,7 @@ export const ShopLayout: React.FC<Props> = ({
       <main className="min-h-screen bg-white">
         <Navbar />
         <div className="flex h-full w-full justify-center">
-          <div className="flex w-full flex-col px-4 max-w-7xl">{children}</div>
+          <div className="flex w-full max-w-7xl flex-col px-4">{children}</div>
         </div>
       </main>
     </Suspense>
