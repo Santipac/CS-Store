@@ -5,7 +5,7 @@ Tienda ficticia orientada a la venta de articulos o items del juego Counter-Stri
 ## Features
 
 Algunas de las funcionalidades de la tienda estan protegidas para evitar el uso indebido de la misma, por ende, si pruebas la demo solo tendras las funcionalidades de cliente.
-- Autenticacion basada en Roles (ADMIN / CIENTE)
+- Autenticacion basada en Roles (ADMIN / CLIENTE)
 - Autenticacion con redes sociales
 - Pagos integrados (Mas abajo dejare una tarjeta para completar las compras)
 - Carrito de compras
