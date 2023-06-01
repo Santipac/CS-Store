@@ -16,16 +16,16 @@ export const Navbar: React.FC = () => {
 
   return (
     <div className="w-full bg-white">
-      <header className="relative z-50 bg-white">
-        <p className="flex h-10 items-center justify-center bg-zinc-800 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          Get the best CSGO skins at the best price
+      <header className="relative z-50 bg-slate-900">
+        <p className="flex h-10 items-center justify-center bg-gradient-to-r from-sky-400 to-blue-500 px-2 text-center text-sm font-medium text-white sm:px-6 lg:px-8">
+          This isn&apos;t a real ecommerce for CSGO Skins.
         </p>
 
         <nav aria-label="Top" className="mx-auto max-w-7xl">
           <div className="flex h-16 w-full items-center justify-between px-4">
             {/* Logo */}
             <div className="flex flex-1">
-              <NextLink href="/" className="text-2xl font-bold text-gray-800">
+              <NextLink href="/" className="text-2xl font-bold text-gray-300">
                 CS
               </NextLink>
             </div>
@@ -41,9 +41,9 @@ export const Navbar: React.FC = () => {
                           <Popover.Button
                             className={classNames(
                               open
-                                ? "border-indigo-600 text-indigo-600"
-                                : "border-transparent text-gray-700 hover:text-gray-800",
-                              "relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out"
+                                ? "border-blue-600 text-blue-300"
+                                : "border-transparent text-gray-300 hover:text-gray-100",
+                              "relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium outline-none ring-transparent transition-colors duration-200 ease-out"
                             )}
                           >
                             {category.name}
@@ -66,14 +66,14 @@ export const Navbar: React.FC = () => {
                               aria-hidden="true"
                             />
 
-                            <div className="relative bg-white">
+                            <div className="relative bg-slate-900">
                               <div className="mx-auto max-w-7xl px-8">
                                 <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
                                   <div className="col-start-2 grid grid-cols-2 gap-x-8">
                                     {category.featured.map((item) => (
                                       <div
                                         key={item.name}
-                                        className="group relative text-base sm:text-sm"
+                                        className="group relative text-gray-400 sm:text-sm"
                                       >
                                         <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                                           <Image
@@ -85,7 +85,7 @@ export const Navbar: React.FC = () => {
                                         </div>
                                         <a
                                           href={item.href}
-                                          className="mt-6 block font-medium text-gray-900"
+                                          className="mt-6 block font-medium text-gray-200"
                                         >
                                           <span
                                             className="absolute inset-0 z-10"
@@ -104,7 +104,7 @@ export const Navbar: React.FC = () => {
                                       <div key={section.name}>
                                         <p
                                           id={`${section.name}-heading`}
-                                          className="font-medium text-gray-900"
+                                          className="font-medium text-gray-200"
                                         >
                                           {section.name}
                                         </p>
@@ -120,7 +120,7 @@ export const Navbar: React.FC = () => {
                                             >
                                               <a
                                                 href={item.href}
-                                                className="hover:text-gray-800"
+                                                className="hover:text-blue-400"
                                               >
                                                 {item.name}
                                               </a>

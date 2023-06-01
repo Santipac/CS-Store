@@ -51,8 +51,8 @@ export const AdminLayout: React.FC<Props> = ({
   ];
   return (
     <>
-      <div className="min-h-screen bg-white">
-        <Disclosure as="nav" className="border-b border-gray-200 bg-white">
+      <div className="min-h-screen bg-slate-950">
+        <Disclosure as="nav" className="bg-slate-900">
           {({ open }) => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -61,7 +61,7 @@ export const AdminLayout: React.FC<Props> = ({
                     <div className="flex-shrink-0">
                       <NextLink
                         href="/"
-                        className="text-2xl font-bold text-gray-800"
+                        className="text-2xl font-bold text-gray-200"
                       >
                         CS
                       </NextLink>
@@ -75,7 +75,7 @@ export const AdminLayout: React.FC<Props> = ({
                             className={classNames(
                               item.current
                                 ? "bg-gray-900 text-white"
-                                : "text-gray-500  hover:text-gray-900",
+                                : "text-gray-500  hover:text-blue-400",
                               "rounded-md px-3 py-2 text-sm font-medium "
                             )}
                             aria-current={item.current ? "page" : undefined}
@@ -215,14 +215,14 @@ export const AdminLayout: React.FC<Props> = ({
           )}
         </Disclosure>
 
-        <header className="bg-white shadow">
+        <header className="bg-slate-950 shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            <h1 className="text-3xl font-bold tracking-tighter text-gray-200">
               {title}
             </h1>
           </div>
         </header>
-        <main className="bg-white">
+        <main className="bg-slate-950">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             {children}
           </div>

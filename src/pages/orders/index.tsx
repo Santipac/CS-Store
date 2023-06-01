@@ -17,11 +17,13 @@ const OrdersPage = () => {
       description="Page for check all the orders of the Customer"
     >
       <div className="flex w-full flex-col space-y-4 overflow-hidden">
-        <h2 className="mt-8 text-4xl font-bold text-gray-800 ">My Orders</h2>
+        <h2 className="mt-8 text-4xl font-bold tracking-tighter text-gray-200">
+          My Orders
+        </h2>
         {orders === undefined || orders.length === 0 ? (
           <div className="flex h-96 w-full flex-col items-center justify-center">
             <NoSymbolIcon className="h-24 w-24 text-red-400" />
-            <span className="mt-4 font-medium text-gray-500">
+            <span className="mt-4 font-medium text-gray-400">
               We couldn&apos;t find any order
             </span>
           </div>

@@ -1,17 +1,47 @@
-import {
-  BoltIcon,
-  CreditCardIcon,
-  CurrencyDollarIcon,
-} from "@heroicons/react/24/outline";
 import React from "react";
-import image1 from "../../../public/heroimage.jpg";
-import image2 from "../../../public/heroimage-2.jpg";
-import image3 from "../../../public/heroimage-3.jpg";
-import NextLink from "next/link";
+// import {
+//   BoltIcon,
+//   CreditCardIcon,
+//   CurrencyDollarIcon,
+// } from "@heroicons/react/24/outline";
+// import image1 from "../../../public/heroimage.jpg";
+// import image2 from "../../../public/heroimage-2.jpg";
+// import image3 from "../../../public/heroimage-3.jpg";
+// import NextLink from "next/link";
+import { Button } from "../ui/primitives";
+import { useRouter } from "next/router";
 export const Hero = () => {
+  const router = useRouter();
   return (
-    <section className="w-full items-center bg-white pb-8 lg:min-h-min">
-      <div className="grid min-h-[60vh] w-full grid-cols-11 grid-rows-6 gap-2 bg-slate-50">
+    <section className="min-h-[70vh] w-full items-center bg-inherit pb-8 ">
+      <article className="flex h-full max-w-7xl flex-col items-center justify-center gap-8 md:px-4">
+        <div>
+          <h2 className="text-center text-4xl font-extrabold tracking-tighter text-gray-100 min-[425px]:text-5xl min-[520px]:text-6xl sm:text-7xl lg:text-8xl">
+            BEST
+            <span className="bg-gradient-to-r from-yellow-100 via-yellow-300 to-yellow-500  bg-clip-text px-4 text-transparent">
+              STORE
+            </span>
+            FOR
+          </h2>
+          <h2 className="text-center text-4xl font-extrabold tracking-tighter text-gray-100 min-[425px]:text-5xl min-[520px]:text-6xl sm:text-7xl lg:text-8xl">
+            <span className="bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text pr-4 text-transparent">
+              CSGO
+            </span>
+            SKINS
+          </h2>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            size="lg"
+            variant="secondary"
+            onClick={() => router.push("/products")}
+          >
+            Find Products
+          </Button>
+          <Button size="lg">Sell Skins</Button>
+        </div>
+      </article>
+      {/* <div className="grid min-h-[60vh] w-full grid-cols-11 grid-rows-6 gap-2 bg-slate-50">
         <NextLink
           href="/products/categories/FUSIL"
           className="col-start-1 col-end-12 row-start-1 row-end-3 hover:opacity-90 md:col-end-7 md:row-end-7"
@@ -110,7 +140,7 @@ export const Hero = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

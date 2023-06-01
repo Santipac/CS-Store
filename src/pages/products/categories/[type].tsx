@@ -4,9 +4,12 @@ import { ShopLayout } from "@/components/layouts/ShopLayout";
 import { api } from "@/utils/api";
 import { NoSymbolIcon } from "@heroicons/react/24/outline";
 import type { GetServerSideProps, NextPage } from "next";
-import Image from "next/image";
-import { formatPriceToActualCurrency } from "@/helpers/currency";
 import { CardProductSkeleton } from "@/components/ui/products/CardProductSkeleton";
+import dynamic from "next/dynamic";
+const ProductCard = dynamic(
+  () => import("@/components/ui/products/ProductCard")
+);
+
 interface Props {
   category: string;
 }
@@ -27,7 +30,7 @@ const CategoryProductPage: NextPage<Props> = ({ category }) => {
       >
         <div className="flex h-96 w-full flex-col items-center justify-center">
           <NoSymbolIcon className="h-24 w-24 text-red-400" />
-          <span className="mt-4 font-medium text-gray-500">
+          <span className="mt-4 font-medium text-gray-200">
             We couldn&apos;t find any product
           </span>
         </div>
@@ -62,7 +65,7 @@ const CategoryProductPage: NextPage<Props> = ({ category }) => {
       >
         <div className="flex h-96 w-full flex-col items-center justify-center">
           <NoSymbolIcon className="h-24 w-24 text-red-400" />
-          <span className="mt-4 font-medium text-gray-500">
+          <span className="mt-4 font-medium text-gray-200">
             We couldn&apos;t find any product
           </span>
         </div>
@@ -77,46 +80,16 @@ const CategoryProductPage: NextPage<Props> = ({ category }) => {
       title={`CS Store - Page for ${categoryCapitalized} Skins`}
       description={`Page for products with category ${categoryCapitalized}`}
     >
-      <h2 className="text-4xl font-bold text-gray-800 my-6">Products <span className="italic text-lg font-medium text-gray-400">({category})</span></h2>
+      <h2 className="my-6 text-4xl font-bold tracking-tighter text-gray-200">
+        Products{" "}
+        <span className="text-lg font-medium italic text-gray-400">
+          ({category})
+        </span>
+      </h2>
       <section className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
         {products.map((product) => (
           <NextLink href={`/products/${product.slug}`} key={product.slug}>
-            <div className="flex flex-col items-center  pb-2 ">
-              <div className="relative flex w-full items-center justify-center bg-slate-50">
-                <Image
-                  src={product.image}
-                  alt={`Product image for ${product.name}`}
-                  className="object-contain"
-                  width={200}
-                  height={200}
-                />
-                {product.inStock === 0 && (
-                  <span className="absolute bottom-0 left-0 mb-2 ml-2 rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-800">
-                    Not Available
-                  </span>
-                )}
-                {product.statTrak && (
-                  <span className="absolute right-0 top-0 mr-2 mt-2 rounded-full bg-zinc-200 px-2 py-1 text-xs font-medium text-black">
-                    StatTrak™
-                  </span>
-                )}
-              </div>
-              <div className="mt-4 flex w-full justify-between  gap-4 px-2">
-                <h2 className="text-sm font-medium text-gray-700">
-                  {product.name}
-                </h2>
-                <h2 className="font-regular text-sm text-gray-700">
-                  {formatPriceToActualCurrency(product.price)}
-                </h2>
-              </div>
-              <div className="w-full px-2 text-start">
-                {product.wear && product.wear !== "-" && (
-                  <p className="font-regular text-left text-xs text-gray-500">
-                    {product.wear}
-                  </p>
-                )}
-              </div>
-            </div>
+            <ProductCard product={product} />
           </NextLink>
         ))}
       </section>

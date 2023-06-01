@@ -32,9 +32,9 @@ export const CartPopover: React.FC = () => {
           </span>
         </span>
       </PopoverTrigger>
-      <PopoverContent className="w-80 sm:w-96">
+      <PopoverContent className="w-80 border-slate-800 bg-slate-900 sm:w-96">
         {computed.isEmpty ? (
-          <span className="flex justify-center">Cart Empty</span>
+          <span className="flex justify-center text-gray-400"> Empty Cart</span>
         ) : (
           <>
             {items.map((item) => (
@@ -49,16 +49,16 @@ export const CartPopover: React.FC = () => {
                   />
                   <div className="flex h-full w-full flex-col space-y-2 px-2">
                     <div className="flex justify-between gap-4">
-                      <h2 className="text-sm font-medium text-gray-700">
+                      <h2 className="text-sm font-medium text-gray-200">
                         {item.name}
                       </h2>
-                      <h2 className="text-sm font-medium text-gray-700">
+                      <h2 className="text-sm font-medium text-gray-200">
                         {formatPriceToActualCurrency(item.price)}
                       </h2>
                     </div>
                     <div className="flex items-center justify-between">
-                      <p className="font-regular text-xs text-gray-500">
-                        Qty: {item.quantity}
+                      <p className="font-regular text-xs text-gray-400">
+                        Quantity: {item.quantity}
                       </p>
                       <span
                         className="font-regular cursor-pointer text-xs text-red-500 hover:text-red-700"
@@ -72,13 +72,15 @@ export const CartPopover: React.FC = () => {
               </div>
             ))}
             <div className="flex w-full items-center justify-between  p-2">
-              <p className="text-sm font-medium text-gray-600">Total</p>
-              <p className="text-sm font-medium text-gray-600">
+              <p className="text-sm font-medium text-gray-300">Total</p>
+              <p className="text-sm font-medium text-gray-300">
                 {formatPriceToActualCurrency(computed.total)}
               </p>
             </div>
             <NextLink href="/cart">
-              <Button className="w-full bg-black">Go to Cart</Button>
+              <Button className="w-full bg-slate-950 hover:bg-slate-800">
+                Go to Cart
+              </Button>
             </NextLink>
           </>
         )}

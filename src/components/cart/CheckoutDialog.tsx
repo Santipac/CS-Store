@@ -73,7 +73,7 @@ const CheckoutDialog: React.FC<DialogProps> = ({
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="w-full rounded bg-black text-gray-200">
+        <Button className="w-full rounded bg-slate-900 text-gray-200">
           {isLoading ? (
             <Spinner
               height="h-8"
@@ -86,17 +86,17 @@ const CheckoutDialog: React.FC<DialogProps> = ({
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="self-center">
+      <DialogContent className="self-center border-slate-800 bg-slate-900 text-gray-300">
         <DialogHeader>
-          <DialogTitle className="text-left text-gray-800">{title}</DialogTitle>
-          <DialogDescription className="text-left text-gray-600">
+          <DialogTitle className="text-left text-gray-300">{title}</DialogTitle>
+          <DialogDescription className="text-left text-gray-400">
             {description}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex gap-4">
           <DialogTrigger asChild>
             <Button
-              className="0 rounded-xl px-6 py-2  shadow-sm"
+              className="0 rounded-xl bg-red-800 px-6  py-2 shadow-sm"
               variant="destructive"
             >
               Cancel
@@ -104,7 +104,7 @@ const CheckoutDialog: React.FC<DialogProps> = ({
           </DialogTrigger>
           <DialogTrigger asChild>
             <Button
-              className="rounded-xl bg-zinc-800 px-6 py-2 text-white"
+              className="rounded-xl bg-slate-800 px-6 py-2 text-white hover:bg-slate-700"
               onClick={onOrderCreation}
             >
               Confirm

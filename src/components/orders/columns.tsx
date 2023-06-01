@@ -9,6 +9,7 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: "id",
     header: "Order ID",
+    cell: ({ row }) => <p className="text-gray-400">{row.getValue("id")}</p>,
   },
 
   {
@@ -18,9 +19,10 @@ export const columns: ColumnDef<Order>[] = [
         <div className="text-center">
           <Button
             variant="ghost"
+            className="text-gray-200 hover:bg-transparent hover:text-blue-400"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Total Products
+            Products
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -28,7 +30,7 @@ export const columns: ColumnDef<Order>[] = [
     },
     cell: ({ row }) => {
       return (
-        <p className="text-center font-medium">
+        <p className="text-center font-medium text-gray-400">
           {row.getValue("numberOfItems")}
         </p>
       );
@@ -41,6 +43,7 @@ export const columns: ColumnDef<Order>[] = [
         <div className="text-center">
           <Button
             variant="ghost"
+            className="text-gray-200 hover:bg-transparent hover:text-blue-400"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Total
@@ -53,7 +56,9 @@ export const columns: ColumnDef<Order>[] = [
       const total = parseFloat(row.getValue("total"));
       const formatted = formatPriceToActualCurrency(total);
 
-      return <p className="text-center font-medium">{formatted}</p>;
+      return (
+        <p className="text-center font-medium text-gray-400">{formatted}</p>
+      );
     },
   },
   {
@@ -67,14 +72,14 @@ export const columns: ColumnDef<Order>[] = [
           {order.isPaid ? (
             <Badge
               variant="default"
-              className="bg-green-100 text-green-800 hover:bg-green-100 hover:text-green-800"
+              className="bg-emerald-700 text-white hover:bg-emerald-700 hover:text-white"
             >
               YES
             </Badge>
           ) : (
             <Badge
               variant="default"
-              className="bg-red-100 text-red-800 hover:bg-red-100 hover:text-red-800"
+              className="bg-red-900 text-white hover:bg-red-600 hover:text-white"
             >
               NO
             </Badge>
@@ -92,11 +97,11 @@ export const columns: ColumnDef<Order>[] = [
         <p className="text-center">
           {" "}
           {order.status === "PENDING" ? (
-            <Badge className="bg-yellow-100 text-yellow-800  hover:bg-yellow-100 hover:text-yellow-800">
+            <Badge className="bg-yellow-400 text-zinc-800  hover:bg-yellow-400 hover:text-zinc-800">
               {order.status}
             </Badge>
           ) : (
-            <Badge className="bg-green-100 text-green-800  hover:bg-green-100 hover:text-green-800">
+            <Badge className="bg-emerald-700 text-white hover:bg-emerald-700 hover:text-white">
               {order.status}
             </Badge>
           )}
@@ -111,7 +116,7 @@ export const columns: ColumnDef<Order>[] = [
       const order = row.original;
 
       return (
-        <NextLink className="text-blue-600" href={`/orders/${order.id}`}>
+        <NextLink className="text-blue-400" href={`/orders/${order.id}`}>
           View Order
         </NextLink>
       );
@@ -123,6 +128,7 @@ export const columns: ColumnDef<Order>[] = [
       return (
         <Button
           variant="ghost"
+          className="text-gray-200 hover:bg-transparent hover:text-blue-400"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Created
@@ -132,7 +138,7 @@ export const columns: ColumnDef<Order>[] = [
     },
     cell: ({ row }) => {
       return (
-        <p className="text-left font-medium">
+        <p className="text-left font-medium text-gray-400">
           {new Date(row.getValue("createdAt")).toLocaleString()}
         </p>
       );

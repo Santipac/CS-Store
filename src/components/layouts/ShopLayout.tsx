@@ -33,21 +33,18 @@ export const ShopLayout: React.FC<Props> = ({
         <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-slate-950">
         <Navbar />
         <div className="flex h-full w-full justify-center">
           <div className="flex w-full max-w-7xl flex-col px-4">{children}</div>
         </div>
       </main>
-      <footer className="flex w-full flex-col items-center space-y-4 py-8">
-        <h2 className="text-xl font-bold tracking-tighter">
-          This is a side project, NOT a real ecommerce for CSGO Skins.
-        </h2>
-        <span className="text-sm font-medium text-gray-600">
+      <footer className="flex w-full justify-center space-y-4 bg-slate-950 py-8">
+        <span className="text-sm font-medium text-gray-400">
           This project is developed by{" "}
           <NextLink
             href="https://github.com/Santipac"
-            className="text-blue-600 underline"
+            className="text-blue-400 underline"
           >
             Santiago
           </NextLink>
