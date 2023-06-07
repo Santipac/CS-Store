@@ -73,7 +73,7 @@ export const checkoutRouter = createTRPCRouter({
             quantity: product!.quantity,
           })),
           success_url: `${env.APP_URL}/checkout/success/${input.id}`,
-          cancel_url: `${env.APP_URL}/checkout/error/${input.id}`,
+          cancel_url: `${env.APP_URL}/cart`,
         });
         return {
           url: session.url ?? "",

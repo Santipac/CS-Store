@@ -18,7 +18,7 @@ export const ShopLayout: React.FC<Props> = ({
   return (
     <Suspense
       fallback={
-        <div className="flex h-screen w-full flex-col items-center justify-center bg-white">
+        <div className="flex h-screen w-full flex-col items-center justify-center bg-slate-950">
           <Spinner
             width="w-12"
             height="h-12"

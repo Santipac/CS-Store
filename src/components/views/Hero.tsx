@@ -1,34 +1,44 @@
 import React from "react";
-// import {
-//   BoltIcon,
-//   CreditCardIcon,
-//   CurrencyDollarIcon,
-// } from "@heroicons/react/24/outline";
-// import image1 from "../../../public/heroimage.jpg";
-// import image2 from "../../../public/heroimage-2.jpg";
-// import image3 from "../../../public/heroimage-3.jpg";
-// import NextLink from "next/link";
+import { motion as m } from "framer-motion";
 import { Button } from "../ui/primitives";
 import { useRouter } from "next/router";
 export const Hero = () => {
   const router = useRouter();
   return (
-    <section className="min-h-[70vh] w-full items-center bg-inherit pb-8 ">
+    <section className="min-h-[70vh] w-full items-center overflow-hidden bg-inherit pb-8">
       <article className="flex h-full max-w-7xl flex-col items-center justify-center gap-8 md:px-4">
         <div>
-          <h2 className="text-center text-4xl font-extrabold tracking-tighter text-gray-100 min-[425px]:text-5xl min-[520px]:text-6xl sm:text-7xl lg:text-8xl">
+          <m.h2
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.5,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+            className="text-center text-4xl font-extrabold tracking-tighter text-gray-100 min-[425px]:text-5xl min-[520px]:text-6xl sm:text-7xl lg:text-8xl"
+          >
             BEST
             <span className="bg-gradient-to-r from-yellow-100 via-yellow-300 to-yellow-500  bg-clip-text px-4 text-transparent">
               STORE
             </span>
             FOR
-          </h2>
-          <h2 className="text-center text-4xl font-extrabold tracking-tighter text-gray-100 min-[425px]:text-5xl min-[520px]:text-6xl sm:text-7xl lg:text-8xl">
+          </m.h2>
+          <m.h2
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.5,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+            className="text-center text-4xl font-extrabold tracking-tighter text-gray-100 min-[425px]:text-5xl min-[520px]:text-6xl sm:text-7xl lg:text-8xl"
+          >
             <span className="bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text pr-4 text-transparent">
               CSGO
             </span>
             SKINS
-          </h2>
+          </m.h2>
         </div>
         <div className="flex items-center gap-2">
           <Button

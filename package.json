@@ -36,6 +36,7 @@
     "aws-sdk": "^2.1367.0",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
+    "framer-motion": "^10.12.16",
     "lucide-react": "^0.216.0",
     "nanoid": "^4.0.2",
     "next": "^13.2.4",

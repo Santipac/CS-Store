@@ -24,11 +24,11 @@ const ProductPage: NextPage<Props> = ({ slug }) => {
   }
   if (!product)
     return (
-      <section className="flex min-h-screen flex-col items-center justify-center gap-4 bg-white">
-        <h2 className="text-xl font-medium text-gray-800">
+      <section className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-950">
+        <h2 className="text-xl font-medium text-gray-300">
           Something went wrong with this product. Please comeback later.
         </h2>
-        <NextLink href="/" className="text-gray-500 underline">
+        <NextLink href="/" className="text-gray-400 underline">
           Back to home
         </NextLink>
       </section>
@@ -177,27 +177,27 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 const ProductSkeleton = () => {
   return (
-    <section className="min-h-screen bg-white">
+    <section className="min-h-screen bg-slate-950">
       <Navbar />
       <div className="flex h-full w-full justify-center">
         <div className="mt-8 flex w-11/12 flex-col md:w-3/4 lg:flex-row">
-          <div className="flex min-h-[40vh] w-full animate-pulse items-center justify-center rounded-3xl bg-gray-300 lg:w-1/2 " />
+          <div className="flex min-h-[40vh] w-full animate-pulse items-center justify-center rounded-3xl bg-slate-900 lg:w-1/2 " />
           <div className="mt-4 flex w-full flex-col space-y-8 sm:px-4 lg:mt-0 lg:w-1/2">
             <div className="mt-2 flex items-center justify-between lg:mt-0">
-              <div className="h-6 w-36 animate-pulse rounded-full bg-gray-200" />
-              <div className="h-6 w-12 animate-pulse rounded-full bg-gray-200" />
+              <div className="h-6 w-36 animate-pulse rounded-full bg-slate-800" />
+              <div className="h-6 w-12 animate-pulse rounded-full bg-slate-800" />
             </div>
             <div className="flex flex-wrap gap-4">
-              <div className="h-6 w-28 animate-pulse rounded-xl bg-gray-200" />
-              <div className="h-6 w-28 animate-pulse rounded-xl bg-gray-200" />
-              <div className="h-6 w-28 animate-pulse rounded-xl bg-gray-200" />
+              <div className="h-6 w-28 animate-pulse rounded-xl bg-slate-800" />
+              <div className="h-6 w-28 animate-pulse rounded-xl bg-slate-800" />
+              <div className="h-6 w-28 animate-pulse rounded-xl bg-slate-800" />
             </div>
             <div className="mt-16">
-              <div className="h-12 w-full animate-pulse rounded-xl bg-gray-200" />
+              <div className="h-12 w-full animate-pulse rounded-xl bg-slate-800" />
             </div>
             <div className="flex flex-col gap-4">
-              <div className="h-4 w-16 animate-pulse rounded-full bg-gray-200" />
-              <div className="h-4 w-72 animate-pulse rounded-full bg-gray-200" />
+              <div className="h-4 w-16 animate-pulse rounded-full bg-slate-800" />
+              <div className="h-4 w-72 animate-pulse rounded-full bg-slate-800" />
             </div>
           </div>
         </div>
