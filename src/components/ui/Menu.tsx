@@ -23,7 +23,11 @@ export const Menu: React.FC = () => {
   });
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="outline-none" type="button">
+      <DropdownMenuTrigger
+        className="outline-none"
+        type="button"
+        aria-label="Button for auth and navigation actions"
+      >
         {sessionData?.user.image ? (
           <Image
             className="rounded-full object-contain"

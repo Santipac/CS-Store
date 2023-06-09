@@ -36,7 +36,7 @@ export default function ProductList() {
             <h2 className="text-2xl font-bold tracking-tighter text-gray-200">
               New Products
             </h2>
-            <NextLink href="/products" className="font-medium text-gray-500 ">
+            <NextLink href="/products" className="font-medium text-gray-200 ">
               View All
             </NextLink>
           </div>
@@ -58,7 +58,7 @@ export default function ProductList() {
           <h2 className="text-2xl font-bold tracking-tighter text-gray-200">
             New Products
           </h2>
-          <NextLink href="/products" className="font-medium text-gray-500 ">
+          <NextLink href="/products" className="font-medium text-gray-300 ">
             View All
           </NextLink>
         </div>

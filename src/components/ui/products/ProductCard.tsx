@@ -15,6 +15,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           className="object-contain"
           width={200}
           height={200}
+          priority
         />
         {product.inStock === 0 && (
           <span className="absolute bottom-0 left-0 mb-2 ml-2 rounded-full bg-red-800 px-2 py-1 text-xs font-medium text-red-100">
@@ -28,7 +29,9 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         )}
       </div>
       <div className="mt-4 flex w-full justify-between  gap-4 px-2">
-        <h2 className="text-sm font-medium text-gray-300 truncate">{product.name}</h2>
+        <h2 className="truncate text-sm font-medium text-gray-300">
+          {product.name}
+        </h2>
       </div>
       <div className="flex w-full items-center justify-between px-2 text-start">
         {product.wear && product.wear !== "-" && (
