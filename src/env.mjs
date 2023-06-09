@@ -26,6 +26,8 @@ const server = z.object({
   AWS_SECRET_ACCESS_KEY: z.string(),
   AWS_REGION: z.string(),
   STRIPE_SECRET_KEY: z.string(),
+  MP_ACCESS_TOKEN: z.string(),
+  MP_PUBLIC_KEY: z.string(),
   APP_URL: z.string(),
 
 });
@@ -60,10 +62,9 @@ const processEnv = {
   AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
   AWS_REGION: process.env.AWS_REGION,
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
-  APP_URL: process.env.APP_URL
-  // FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
-  // FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID
-  // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+  APP_URL: process.env.APP_URL,
+  MP_ACCESS_TOKEN: process.env.MP_ACCESS_TOKEN,
+  MP_PUBLIC_KEY: process.env.MP_PUBLIC_KEY,
 };
 
 // Don't touch the part below

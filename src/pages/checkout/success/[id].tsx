@@ -4,16 +4,29 @@ import { useCartStore } from "@/store/cartStore";
 import type { Order } from "@prisma/client";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import NextLink from "next/link";
+import { api } from "@/utils/api";
 interface Props {
   order: Order;
 }
 
 const SuccessOrderPage: NextPage<Props> = ({ order }) => {
+  const { mutateAsync: updateOrderStatus } =
+    api.order.updateOrderStatus.useMutation();
   useCartStore((state) => state.removeAll)();
-
+  useEffect(() => {
+    const checkPaymentStatus = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const status = urlParams.get("status");
+      if (status === "approved") {
+        await updateOrderStatus({ orderId: order.id });
+        return;
+      }
+    };
+    checkPaymentStatus();
+  }, []);
   return (
     <Suspense
       fallback={
@@ -97,14 +110,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
     };
   }
-  order.orderItems.map(async (item) => {
-    await prisma.product.update({
-      where: { id: item.productId },
-      data: {
-        inStock: { decrement: item.quantity },
-      },
-    });
-  });
   return {
     props: { order },
   };

@@ -95,4 +95,15 @@ export const orderRouter = createTRPCRouter({
     });
     return orders;
   }),
+  updateOrderStatus: publicProcedure
+    .input(z.object({ orderId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const order = await ctx.prisma.order.update({
+        where: { id: input.orderId },
+        data: {
+          isPaid: true,
+        },
+      });
+      ctx.revalidateSSG?.(`/orders/${order.id}`);
+    }),
 });

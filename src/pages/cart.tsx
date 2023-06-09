@@ -1,23 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
 import { useCartStore } from "@/store/cartStore";
 import { BsBagX } from "react-icons/bs";
 import NextLink from "next/link";
 import { shallow } from "zustand/shallow";
 import dynamic from "next/dynamic";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { ShopLayout } from "@/components/layouts/ShopLayout";
+import { api } from "@/utils/api";
+import { useRouter } from "next/router";
+import { PaymentButtonGroup } from "@/components/ui/PaymentButtonGroup";
 
-const CheckoutDialog = dynamic(
-  () => import("@/components/cart/CheckoutDialog"),
-  { ssr: false }
-);
 const ProductSummary = dynamic(
   () => import("@/components/cart/ProductSummary")
 );
 
 export default function CartPage() {
-  const { items, isEmpty, total } = useCartStore(
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { items, isEmpty, total, count } = useCartStore(
     (cart) => ({
       items: cart.items,
       isEmpty: cart.isEmpty,
@@ -26,7 +26,54 @@ export default function CartPage() {
     }),
     shallow
   );
+  const router = useRouter();
+  const { mutateAsync: checkoutWithMercadoPago } =
+    api.checkout.checkoutWithMercadoPago.useMutation({
+      onSuccess: ({ url }: { url: string }) => {
+        router.push(url);
+      },
+    });
+  const { mutateAsync: checkoutWithStripe } =
+    api.checkout.checkoutWithStripe.useMutation({
+      onSuccess: ({ url }: { url: string }) => {
+        router.push(url);
+      },
+    });
+  const { mutateAsync: createOrder } = api.order.createOrder.useMutation({
+    onError: ({ data, message }) => {
+      if (data?.code === "FORBIDDEN") {
+        toast.error("You need to Sign in before purchasing", {
+          duration: 3000,
+        });
+      } else {
+        toast.error(message, { duration: 3000 });
+      }
+    },
+  });
 
+  const orderItems = items.map((item) => {
+    return {
+      ...item,
+      quantity: item.quantity,
+      productId: item.id,
+    };
+  });
+
+  const onOrderCreation = async (service: "mercadopago" | "stripe") => {
+    setIsLoading(true);
+    const order = await createOrder({
+      total,
+      numberOfItems: count,
+      orderItems,
+    });
+    if (service === "stripe") {
+      await checkoutWithStripe(order);
+      setIsLoading(false);
+    } else {
+      await checkoutWithMercadoPago(order);
+      setIsLoading(false);
+    }
+  };
   const { clear } = useCartStore((cart) => ({
     clear: cart.removeAll,
   }));
@@ -101,13 +148,9 @@ export default function CartPage() {
               </h2>
             </div>
             <div className="mt-2 h-px w-full bg-slate-600" />
-            {/* <NextLink href="/checkout" className="btn-block btn">
-              Checkout
-            </NextLink> */}
-            <CheckoutDialog
-              label="Checkout"
-              title="Are you sure to confirm the order?"
-              description="Once you confirm the order, you cannot go back to add or remove products."
+            <PaymentButtonGroup
+              isLoading={isLoading}
+              onOrderCreation={onOrderCreation}
             />
           </div>
         </div>

@@ -1,14 +1,16 @@
+import React, { useState } from "react";
 import { ShopLayout } from "@/components/layouts/ShopLayout";
-import CheckoutDialog from "@/components/orders/CheckoutDialog";
+import { PaymentButtonGroup } from "@/components/ui/PaymentButtonGroup";
 import { Badge } from "@/components/ui/primitives/badge";
 import { formatPriceToActualCurrency } from "@/helpers/currency";
 import { s3 } from "@/lib/s3";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
+import { api } from "@/utils/api";
 import type { OrderItem, OrderStatus, User } from "@prisma/client";
 import type { GetServerSideProps, NextPage } from "next";
 import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/router";
 
 export type Order = {
   id: string;
@@ -26,6 +28,32 @@ interface Props {
 }
 
 const OrderSummaryPage: NextPage<Props> = ({ order }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+
+  const { mutateAsync: checkoutWithMercadoPago } =
+    api.checkout.checkoutWithMercadoPago.useMutation({
+      onSuccess: ({ url }: { url: string }) => {
+        router.push(url);
+      },
+    });
+  const { mutateAsync: checkoutWithStripe } =
+    api.checkout.checkoutWithStripe.useMutation({
+      onSuccess: ({ url }: { url: string }) => {
+        router.push(url);
+      },
+    });
+  const onOrderCreation = async (service: "mercadopago" | "stripe") => {
+    setIsLoading(true);
+    if (service === "stripe") {
+      await checkoutWithStripe(order);
+      setIsLoading(false);
+    } else {
+      await checkoutWithMercadoPago(order);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <ShopLayout
       title="CS Store - Order Page"
@@ -139,11 +167,9 @@ const OrderSummaryPage: NextPage<Props> = ({ order }) => {
               </Badge>
             ) : (
               <>
-                <CheckoutDialog
-                  title="You are about to be redirected to the payment page."
-                  description="Make sure to complete the payment correctly so that we can deliver the order."
-                  label="Pay"
-                  order={order}
+                <PaymentButtonGroup
+                  isLoading={isLoading}
+                  onOrderCreation={onOrderCreation}
                 />
               </>
             )}
