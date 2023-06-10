@@ -4,6 +4,7 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import NextLink from "next/link";
 const Navbar = dynamic(() => import("@/components/ui/Navbar"), { ssr: false });
+import favicon from "../../../public/favicon.png";
 interface Props {
   children: JSX.Element | JSX.Element[];
   title: string;
@@ -31,7 +32,7 @@ export const ShopLayout: React.FC<Props> = ({
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href={favicon.src} />
       </Head>
       <main className="min-h-screen bg-slate-950">
         <Navbar />
