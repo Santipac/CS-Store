@@ -48,4 +48,5 @@ Para esta aplicacion utilice varias tecnologias, haciendo especialmente foco en 
 - cvv: 123
 
 
-![CS-store-Argentina](https://github.com/Santipac/CS-Store/assets/92342946/f5d49d69-e153-4b69-af03-6e7c1c6dceb9)
+![CS-Store-Argentina](https://github.com/Santipac/CS-Store/assets/92342946/5d32c912-1daa-4b17-8b17-d5d3b8fe2c5a)
+
