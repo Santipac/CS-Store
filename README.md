@@ -33,11 +33,18 @@ Para esta aplicacion utilice varias tecnologias, haciendo especialmente foco en 
 - Prisma ORM
 - CockRoachDB (SQL)
 
-## Card para completar pagos.
+### Stripe Card
 - titular: cualquier nombre
 - email: cualquier email
 - numbers: 4242 4242 4242 4242
 - expirate date: 12/34
+- cvv: 123
+### Mercado Pago Card
+- titular: APRO
+- DNI 12345678
+- email: cualquier email
+- numbers: 5031 7557 3453 0604	
+- expirate date: 11/25
 - cvv: 123
 
 
