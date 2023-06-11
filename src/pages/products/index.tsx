@@ -11,14 +11,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/primitives/select";
-
 import type { z } from "zod";
 import type { getProductsFilterSchema } from "@/common/validation/product";
 import { CardProductSkeleton } from "@/components/ui/products/CardProductSkeleton";
 import dynamic from "next/dynamic";
+import { motion as m } from "framer-motion";
 const ProductCard = dynamic(
   () => import("@/components/ui/products/ProductCard")
 );
+const container = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
+
 const ProductsPage: NextPage = () => {
   const [filter, setFilter] =
     useState<z.infer<typeof getProductsFilterSchema>>("NEWEST");
@@ -102,13 +122,20 @@ const ProductsPage: NextPage = () => {
           </SelectContent>
         </Select>
       </div>
-      <section className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:gap-8">
+      <m.section
+        className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:gap-8"
+        variants={container}
+        initial="hidden"
+        animate="visible"
+      >
         {products.map((product) => (
-          <NextLink href={`/products/${product.slug}`} key={product.slug}>
-            <ProductCard product={product} />
-          </NextLink>
+          <m.div key={product.slug} variants={item}>
+            <NextLink href={`/products/${product.slug}`}>
+              <ProductCard product={product} />
+            </NextLink>
+          </m.div>
         ))}
-      </section>
+      </m.section>
     </ShopLayout>
   );
 };

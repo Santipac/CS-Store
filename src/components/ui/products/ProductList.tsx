@@ -3,9 +3,28 @@ import NextLink from "next/link";
 import { CardProductSkeleton } from "./CardProductSkeleton";
 import { NoSymbolIcon } from "@heroicons/react/24/outline";
 import { api } from "@/utils/api";
+import { motion as m } from "framer-motion";
 import dynamic from "next/dynamic";
 const ProductCard = dynamic(() => import("./ProductCard"));
+const container = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
 
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
 export default function ProductList() {
   const {
     data: products,
@@ -63,7 +82,12 @@ export default function ProductList() {
           </NextLink>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        <m.div
+          className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
+          variants={container}
+          initial="hidden"
+          animate="visible"
+        >
           {products.length === 0 ? (
             <>
               <div className="bg-slate-950">
@@ -77,13 +101,15 @@ export default function ProductList() {
           ) : (
             <>
               {products.slice(0, 4).map((product) => (
-                <NextLink href={`/products/${product.slug}`} key={product.slug}>
-                  <ProductCard product={product} />
-                </NextLink>
+                <m.div key={product.slug} variants={item}>
+                  <NextLink href={`/products/${product.slug}`}>
+                    <ProductCard product={product} />
+                  </NextLink>
+                </m.div>
               ))}
             </>
           )}
-        </div>
+        </m.div>
       </div>
     </div>
   );
