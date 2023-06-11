@@ -24,8 +24,9 @@ export const Menu: React.FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="outline-none"
+        className="menu-button outline-none"
         type="button"
+        title="menu-button"
         aria-label="Button for auth and navigation actions"
       >
         {sessionData?.user.image ? (
