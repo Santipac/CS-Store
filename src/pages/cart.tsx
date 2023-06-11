@@ -10,22 +10,19 @@ import { ShopLayout } from "@/components/layouts/ShopLayout";
 import { api } from "@/utils/api";
 import { useRouter } from "next/router";
 import { PaymentButtonGroup } from "@/components/ui/PaymentButtonGroup";
+import useStore from "@/store/useStore";
 
 const ProductSummary = dynamic(
   () => import("@/components/cart/ProductSummary")
 );
 
 export default function CartPage() {
+  const items = useStore(useCartStore, (state) => state.items) ?? [];
+  const count = useStore(useCartStore, (state) => state.count) ?? 0;
+  const isEmpty = useStore(useCartStore, (state) => state.isEmpty) ?? true;
+  const total = useStore(useCartStore, (state) => state.total) ?? 0;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { items, isEmpty, total, count } = useCartStore(
-    (cart) => ({
-      items: cart.items,
-      isEmpty: cart.isEmpty,
-      total: cart.total,
-      count: cart.count,
-    }),
-    shallow
-  );
+
   const router = useRouter();
   const { mutateAsync: checkoutWithMercadoPago } =
     api.checkout.checkoutWithMercadoPago.useMutation({

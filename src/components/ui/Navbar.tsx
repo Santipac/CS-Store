@@ -8,12 +8,13 @@ import { classNames } from "./helpers";
 import { useCartStore } from "@/store/cartStore";
 import { Menu } from "./Menu";
 import dynamic from "next/dynamic";
+import useStore from "@/store/useStore";
 const CartPopover = dynamic(() => import("@/components/ui/CartPopover"), {
   ssr: false,
 });
 export const Navbar: React.FC = () => {
-  const count = useCartStore((state) => state.count);
-
+  // const count = useCartStore((state) => state.count);
+  const count = useStore(useCartStore, (state) => state.count) ?? 0;
   return (
     <div className="w-full bg-white">
       <header className="relative z-50 bg-slate-900">

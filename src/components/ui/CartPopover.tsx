@@ -10,15 +10,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/primitives/popover";
 import { Button } from "./primitives/button";
+import useStore from "@/store/useStore";
 
 export const CartPopover: React.FC = () => {
-  const items = useCartStore((state) => state.items);
+  const items = useStore(useCartStore, (state) => state.items) ?? [];
+  const count = useStore(useCartStore, (state) => state.count) ?? 0;
+  const isEmpty = useStore(useCartStore, (state) => state.isEmpty) ?? true;
+  const total = useStore(useCartStore, (state) => state.total) ?? 0;
+
   const remove = useCartStore((state) => state.remove);
-  const computed = useCartStore((state) => ({
-    count: state.count,
-    isEmpty: state.isEmpty,
-    total: state.total,
-  }));
+
   return (
     <Popover>
       <PopoverTrigger>
@@ -28,16 +29,16 @@ export const CartPopover: React.FC = () => {
             aria-hidden="true"
           />
           <span className="absolute -right-3 top-0 z-20 rounded-full bg-zinc-700 px-1 text-xs font-medium text-white">
-            {computed.count}
+            {count}
           </span>
         </span>
       </PopoverTrigger>
       <PopoverContent className="w-80 border-slate-800 bg-slate-900 sm:w-96">
-        {computed.isEmpty ? (
+        {isEmpty ? (
           <span className="flex justify-center text-gray-400"> Empty Cart</span>
         ) : (
           <>
-            {items.map((item) => (
+            {items?.map((item) => (
               <div key={item.id} className="  border-b border-gray-200 p-1">
                 <div className="flex">
                   <Image
@@ -74,7 +75,7 @@ export const CartPopover: React.FC = () => {
             <div className="flex w-full items-center justify-between  p-2">
               <p className="text-sm font-medium text-gray-300">Total</p>
               <p className="text-sm font-medium text-gray-300">
-                {formatPriceToActualCurrency(computed.total)}
+                {formatPriceToActualCurrency(total)}
               </p>
             </div>
             <NextLink href="/cart">

@@ -3,7 +3,7 @@ import { Spinner } from "../ui";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import NextLink from "next/link";
-const Navbar = dynamic(() => import("@/components/ui/Navbar"), { ssr: false });
+const Navbar = dynamic(() => import("@/components/ui/Navbar"));
 import favicon from "../../../public/favicon.png";
 interface Props {
   children: JSX.Element | JSX.Element[];

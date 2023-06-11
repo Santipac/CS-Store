@@ -10,11 +10,10 @@ interface Props {
 }
 
 const ProductSummary: React.FC<Props> = ({ item }) => {
-  const { increase, decrease, remove } = useCartStore((cart) => ({
-    increase: cart.increase,
-    decrease: cart.decrease,
-    remove: cart.remove,
-  }));
+  const increase = useCartStore((state) => state.increase);
+  const decrease = useCartStore((state) => state.decrease);
+  const remove = useCartStore((state) => state.remove);
+
   return (
     <article
       key={item.id}
