@@ -19,7 +19,7 @@ export const Navbar: React.FC = () => {
     <div className="w-full bg-white">
       <header className="relative z-50 bg-slate-900">
         <p className="flex h-10 items-center justify-center bg-gradient-to-r from-sky-400 to-blue-500 px-2 text-center text-sm font-medium text-white sm:px-6 lg:px-8">
-          This isn&apos;t a real ecommerce for CSGO Skins.
+          This is not a real ecommerce for CSGO Skins.
         </p>
 
         <nav aria-label="Top" className="mx-auto max-w-7xl">
