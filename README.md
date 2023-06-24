@@ -48,6 +48,8 @@ Para esta aplicacion utilice varias tecnologias, haciendo especialmente foco en 
 - cvv: 123
 
 
-![Cover CSGO](https://github.com/Santipac/CS-Store/assets/92342946/edfd9737-933d-4212-af9e-144bf1250cf3)
+![Cover CSGO](https://github.com/Santipac/CS-Store/assets/92342946/edff2b29-ca95-42fb-a4e2-4746788a9958)
+
+
 
 
