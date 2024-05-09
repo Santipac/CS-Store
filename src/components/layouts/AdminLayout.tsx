@@ -32,16 +32,10 @@ export const AdminLayout: React.FC<Props> = ({
 }) => {
   const { pathname } = useRouter();
   const navigation = [
-    { name: "Dashboard", href: "/admin/", current: pathname === "/admin/" },
     {
       name: "Products",
       href: "/admin/products",
       current: pathname === "/admin/products",
-    },
-    {
-      name: "Users",
-      href: "/admin/users",
-      current: pathname === "/admin/users",
     },
     {
       name: "Orders",
@@ -106,11 +100,11 @@ export const AdminLayout: React.FC<Props> = ({
                             />
                           )}
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="mr-8">
+                        <DropdownMenuContent className="mr-8 bg-slate-900">
                           <DropdownMenuItem>
                             <NextLink
                               href="/"
-                              className="-m-2 block p-2 font-medium text-gray-900"
+                              className="-m-2 block p-2 font-medium text-gray-300"
                             >
                               Home
                             </NextLink>

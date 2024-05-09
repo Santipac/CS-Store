@@ -60,14 +60,6 @@ const AdminActions = ({ clearCart }: { clearCart: () => void }) => (
     <DropdownMenuSeparator className="bg-gray-600" />
     <DropdownMenuItem className="focus:bg-slate-800">
       <NextLink
-        href="/admin"
-        className="-m-2 block  w-full  px-2 py-3 font-medium text-gray-400"
-      >
-        Dashboard
-      </NextLink>
-    </DropdownMenuItem>
-    <DropdownMenuItem className="focus:bg-slate-800">
-      <NextLink
         href="/admin/orders"
         className="-m-2 block  w-full px-2 py-3 font-medium text-gray-400"
       >
@@ -81,15 +73,6 @@ const AdminActions = ({ clearCart }: { clearCart: () => void }) => (
         className="-m-2 block  w-full px-2 py-3 font-medium text-gray-400"
       >
         Products
-      </NextLink>
-    </DropdownMenuItem>
-    <DropdownMenuItem className="focus:bg-slate-800">
-      {" "}
-      <NextLink
-        href="/admin/users"
-        className="-m-2 block  w-full px-2 py-3 font-medium text-gray-400"
-      >
-        Users
       </NextLink>
     </DropdownMenuItem>
     <DropdownMenuItem
