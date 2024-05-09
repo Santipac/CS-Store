@@ -23,7 +23,9 @@ const SignIn = () => {
     resolver: zodResolver(loginSchema),
   });
   const signInWithGoogle = useCallback(async () => {
+    setIsLoading(true);
     await signIn("google");
+    setIsLoading(false);
   }, []);
 
   const onSubmit = useCallback(async (data: ILogin) => {
@@ -31,6 +33,7 @@ const SignIn = () => {
     await signIn("credentials", data);
     setIsLoading(false);
   }, []);
+
   return (
     <div
       className="grid h-screen place-content-center bg-slate-200"
