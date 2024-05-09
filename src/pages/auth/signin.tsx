@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/primitives/button";
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingGoogle, setIsLoadingGoogle] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -23,9 +24,9 @@ const SignIn = () => {
     resolver: zodResolver(loginSchema),
   });
   const signInWithGoogle = useCallback(async () => {
-    setIsLoading(true);
+    setIsLoadingGoogle(true);
     await signIn("google");
-    setIsLoading(false);
+    setIsLoadingGoogle(false);
   }, []);
 
   const onSubmit = useCallback(async (data: ILogin) => {
@@ -104,8 +105,19 @@ const SignIn = () => {
           className="bg-slate-100 text-gray-500 hover:bg-slate-200 "
           onClick={signInWithGoogle}
         >
-          <FcGoogle className="mr-2" size="24px" />
-          Sign in With Google
+          {isLoadingGoogle ? (
+            <Spinner
+              width="w-8"
+              height="h-8"
+              colorText="text-arg"
+              fill="fill-gray-200"
+            />
+          ) : (
+            <>
+              <FcGoogle className="mr-2" size="24px" />
+              Sign in With Google
+            </>
+          )}
         </Button>
         <NextLink
           className="text-end text-sm font-normal text-gray-600 underline"
